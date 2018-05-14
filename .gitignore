@@ -2,3 +2,4 @@ vendor/
 
 MAMP.conf
 *.swp
+.DS_Store

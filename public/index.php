@@ -15,7 +15,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $container['view'] = new \Slim\Views\PhpRenderer('../public/views');
 
-$app->get('/hello', function (Request $request, Response $response, array $args) {
+$app->get('/', function (Request $request, Response $response, array $args) {
 	return $this->view->render($response, 'index.html');
 });
 
