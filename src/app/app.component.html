@@ -1,9 +1,9 @@
-<mat-sidenav-container (window:resize)="onResizez($event)">
+<!-- <mat-sidenav-container (window:resize)="onResizez($event)">
 	<mat-sidenav class="sidenav" #sidenav>
 		<ul class="sidenav">
 			<li><a mat-button routerLink="." class="sidenav__button">Home</a></li>
 			<li><a mat-button routerLink="." class="sidenav__button">Login</a></li>
-			<li><a mat-button routerLink="." class="sidenav__button">Register</a></li>
+			<li><a mat-button routerLink="signup" class="sidenav__button">Signup</a></li>
 		</ul>
 	</mat-sidenav>
 	<mat-sidenav-content>
@@ -11,25 +11,22 @@
 			<div class="container">
 				<a href="#" class="brand-logo">Matcha</a>
 				<a
-					*ngIf="windowWidth <= 992"
-					(click)="sidenav.toggle()"
-					mat-button
-					routerLink=".">
-					<i class="material-icons humburger-icon">menu</i>
-				</a>
-				<ul class="right hide-on-med-and-down">
-					<li><a href="#">Home</a></li>
-					<li><a href="#">Login</a></li>
-					<li><a href="#">Register</a></li>
-				</ul>
-			</div>
-		</nav>
-		<div class="section  cyan lighten-4" style="height: 40em">
-			<div class="row container">
-				<h2 id="h2" class="header">Parallax</h2>
-				<p class="grey-text text-darken-3 lighten-3">Parallax is an effect where the background content or image in this case, is moved at a different speed than the foreground content while scrolling.</p>
-			</div>
+				*ngIf="windowWidth <= 992"
+				(click)="sidenav.toggle()"
+				mat-button
+				routerLink=".">
+				<i class="material-icons humburger-icon">menu</i>
+			</a>
+			<ul class="right hide-on-med-and-down">
+				<li><a routerLink=".">Home</a></li>
+				<li><a routerLink=".">Login</a></li>
+				<li><a routerLink="signup">Register</a></li>
+			</ul>
 		</div>
-		<app-footer></app-footer>
-	</mat-sidenav-content>
-</mat-sidenav-container>
+	</nav>
+	<app-body></app-body>
+	<app-footer></app-footer>
+</mat-sidenav-content>
+</mat-sidenav-container> -->
+<!-- <app-home></app-home> -->
+<router-outlet></router-outlet>
