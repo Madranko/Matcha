@@ -11,6 +11,7 @@ import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { MaterialModule } from './material-module/material.module';
 import { LoginComponent } from './login/login.component';
+
 @NgModule({
 	declarations: [
 		AppComponent,

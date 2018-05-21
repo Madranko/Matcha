@@ -31,7 +31,7 @@ export class SignupComponent implements OnInit {
             }
         }
     }
-    OnSubmit(form : NgForm) {
+    OnSubmit(form: NgForm) {
         if (this.patterns.emailPattern.test(this.user.Email) &&
         this.patterns.loginPattern.test(this.user.Login) &&
         this.patterns.passwordPattern.test(this.user.Password) &&
