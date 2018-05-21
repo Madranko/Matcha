@@ -2,8 +2,6 @@
 
 define('ROOT', __DIR__ . "/../");
 
-use \Psr\Http\Message\ServerRequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
 use Jenssegers\Blade\Blade;
 
 require ROOT . '/vendor/autoload.php';

@@ -11,4 +11,5 @@ $container['database'] = function($container) {
 $pdo = $container['database'];
 $dbName = $container->get('settings')['db']['db_name'];
 $pdo->query("CREATE DATABASE IF NOT EXISTS `$dbName`");
+$pdo->query("USE `$dbName`");
 ?>
