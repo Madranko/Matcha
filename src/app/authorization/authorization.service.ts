@@ -19,6 +19,12 @@ export class AuthorizationService {
 	}
 
 	postTest(): void {
-		this.http.post('http://localhost:8100/test', {login: 'bla', pass: 'alsdk'});
+		this.http.post(
+			'http://localhost:8100/test',
+			{
+				login: 'basdfl',
+				pass: 'alsdk'
+			}
+		).subscribe();
 	}
 }
