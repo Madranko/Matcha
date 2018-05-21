@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Authorization } from '../authorization/authorization.model';
+import { Patterns } from '../authorization/patterns.model';
 
 @Component({
     selector: 'app-signup',
@@ -9,17 +10,13 @@ import { Authorization } from '../authorization/authorization.model';
 })
 export class SignupComponent implements OnInit {
     user : Authorization;
-
-    emailPattern = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
-    loginPattern = new RegExp("[a-zA-Z0-9_-]{3,15}$");
-    passwordPattern = new RegExp("^(?=.*[A-Z])(?=.*[0-9]).{6,32}$");
-    firstnamePattern = new RegExp("^[a-zA-Z-]{2,30}$");
-    lastnamePattern = new RegExp("^[a-zA-Z-]{2,30}$");
+    patterns : Patterns;
 
     constructor() {
     }
     ngOnInit() {
         this.user = new Authorization();
+        this.patterns = new Patterns();
         this.resetForm();
     }
     resetForm(form? : NgForm) {
@@ -35,11 +32,11 @@ export class SignupComponent implements OnInit {
         }
     }
     OnSubmit(form : NgForm) {
-        if (this.emailPattern.test(this.user.Email) &&
-        this.loginPattern.test(this.user.Login) &&
-        this.passwordPattern.test(this.user.Password) &&
-        this.firstnamePattern.test(this.user.FirstName) &&
-        this.lastnamePattern.test(this.user.LastName)) {
+        if (this.patterns.emailPattern.test(this.user.Email) &&
+        this.patterns.loginPattern.test(this.user.Login) &&
+        this.patterns.passwordPattern.test(this.user.Password) &&
+        this.patterns.firstnamePattern.test(this.user.FirstName) &&
+        this.patterns.lastnamePattern.test(this.user.LastName)) {
             console.log('OK');
         } else {
             console.log('ERROR');
