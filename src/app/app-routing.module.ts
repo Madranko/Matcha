@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { BodyComponent } from './body/body.component';
 import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
@@ -10,7 +9,7 @@ const routes: Routes = [
     {
         path: '',
         redirectTo: '/index',
-        pathMatch: 'full';
+        pathMatch: 'full'
     },
     {
         path: 'index',
@@ -29,7 +28,7 @@ const routes: Routes = [
     ],
     exports: [
         RouterModule
-    ]
+    ],
     declarations: []
 })
 export class AppRoutingModule { }
