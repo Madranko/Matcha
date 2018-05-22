@@ -20,6 +20,8 @@ $app->get('/', function (Request $request, Response $response, array $args) use 
 //		'pass' => 'bar'
 //	]);
 //});
+//
+$app->post('/signup', 'AuthenticationController:signUp');
 
 $app->post('/test', function (Request $request, Response $response, array $args) use($pdo){
 	$statement = "INSERT INTO `test` (`login`, `password`)
