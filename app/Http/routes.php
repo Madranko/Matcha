@@ -1,5 +1,4 @@
 <?php
-
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
@@ -14,20 +13,7 @@ $app->get('/', function (Request $request, Response $response, array $args) use 
 	]);
 });
 
-//$app->get('/test', function (Request $request, Response $response, array $args) {
-//	return json_encode([
-//		'login' => 'foo',
-//		'pass' => 'bar'
-//	]);
-//});
-
-$app->post('/test', function (Request $request, Response $response, array $args) use($pdo){
-	$statement = "INSERT INTO `test` (`login`, `password`)
-		VALUES (?, ?)";
-	$preparedStatement = $pdo->prepare($statement);
-	$preparedStatement->execute([$request->getParams()['login'], $request->getParams()['pass']]);
+$app->post('/signup', function (Request $request, Response $response, array $args) use($pdo){
+	$data = $request->getParams();
 });
-
-
-
 ?>
