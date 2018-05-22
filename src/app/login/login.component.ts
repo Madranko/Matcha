@@ -26,31 +26,45 @@ export class LoginComponent implements OnInit {
 		if (form != null) {
 			form.reset();
 			this.user = {
+				FirstName: '',
+				LastName: '',
 				Login: '',
+				Email: '',
 				Password: ''
 			}
 		}
 	}
 
 	OnSubmit(form: NgForm) {
-		if (this.patterns.loginPattern.test(this.user.Login) &&
-			this.patterns.passwordPattern.test(this.user.Password)) {
+		if (this.checkForm()) {
 			console.log('OK');
 		} else {
 			console.log('ERROR');
-			this.getTest();
 		}
 	}
 
-	getTest(): void {
-		this.authorizationService.getTest().subscribe((data) => {
-			this.test = data;
-		console.log(this.test);
-		});
+	checkForm() {
+		if (this.patterns.loginPattern.test(this.user.Login) &&
+		this.patterns.passwordPattern.test(this.user.Password)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
-	postTest(): void {
-		console.log('hello');
-		this.authorizationService.postTest();
+	checkPattern(pattern, field) {
+		if (this.user[field]) {
+			if (this.patterns[pattern].test(this.user[field])) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	getErrorMessage(name, field) {
+		if (this.user[field]) {
+			return ("Not a valid " + name);
+		}
 	}
 }

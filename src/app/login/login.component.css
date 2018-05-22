@@ -1,4 +1,12 @@
 #buttons {
-    display: flex;
-    justify-content: space-around;
+	display: flex;
+	justify-content: space-around;
+}
+
+.input-field > input {
+	margin-bottom: 0;
+}
+
+.input-field > mat-error {
+	font-size: 10px;
 }

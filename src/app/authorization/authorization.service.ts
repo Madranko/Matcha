@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 
-import { HttpClient HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -12,19 +12,9 @@ export class AuthorizationService {
 
 	constructor(private http: HttpClient) { }
 
-	test: string;
-
-	getTest(): Observable {
-		return this.http.get('http://localhost:8100/test');
-	}
-
-	postTest(): void {
-		this.http.post(
-			'http://localhost:8100/test',
-			{
-				login: 'basdfl',
-				pass: 'alsdk'
-			}
-		).subscribe();
+	putData(route, data): Observable<any> {
+		console.log(route);
+		console.log(data);
+		return this.http.post('http://localhost:8100/' + route, data);
 	}
 }

@@ -4,6 +4,4 @@ export class Authorization {
 	Login: string;
 	Email: string;
 	Password: string;
-	Submit: string;
-	Forgot: string;
 }

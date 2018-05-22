@@ -1,1 +1,10 @@
+.input-field > mat-error {
+	font-size: 10px;
+}
+.input-field > input {
+	margin-bottom: 10px;
+}
 
+.input-field > mat-error > div {
+	height: 10px;
+}
