@@ -1,0 +1,13 @@
+<?php
+$pdo->query("CREATE TABLE IF NOT EXISTS `users` (
+	`id` INT (6) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	`login` VARCHAR(32) NOT NULL UNIQUE,
+	`email` VARCHAR(255) NOT NULL UNIQUE,
+	`password` VARCHAR(255) NOT NULL,
+	`firstName` VARCHAR(255) NOT NULL,
+	`lastName` VARCHAR(255) NOT NULL,
+	`activation` VARCHAR(255) NOT NULL UNIQUE,
+	`restore` VARCHAR(255) NOT NULL DEFAULT '0',
+	`status` ENUM('0','1') NOT NULL DEFAULT '0',
+	`notification` ENUM('0','1') NOT NULL DEFAULT '1')");
+?>
