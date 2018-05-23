@@ -11,8 +11,9 @@ import { AuthorizationService } from '../authorization/authorization.service';
 	styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-	user : Authorization;
-	patterns : Patterns;
+	user: Authorization;
+	patterns: Patterns;
+	error: string;
 
 	constructor(private authorizationService: AuthorizationService) { }
 
@@ -21,31 +22,32 @@ export class SignupComponent implements OnInit {
 		this.patterns = new Patterns();
 		this.resetForm();
 	}
+
 	resetForm(form? : NgForm) {
 		if (form != null) {
 			form.reset();
 			this.user = {
-				FirstName: '',
-				LastName: '',
-				Login: '',
-				Email: '',
-				Password: ''
+				firstName: '',
+				lastName: '',
+				login: '',
+				email: '',
+				password: ''
 			}
 		}
 	}
+
 	OnSubmit(form: NgForm) {
 		if (this.checkForm()) {
 			this.saveUserData();
-			console.log("OKOKOKOK");
 		}
 	}
 
 	checkForm() {
-		if (this.patterns.emailPattern.test(this.user.Email) &&
-		this.patterns.loginPattern.test(this.user.Login) &&
-		this.patterns.passwordPattern.test(this.user.Password) &&
-		this.patterns.firstnamePattern.test(this.user.FirstName) &&
-		this.patterns.lastnamePattern.test(this.user.LastName)) {
+		if (this.patterns.emailPattern.test(this.user.email) &&
+			this.patterns.loginPattern.test(this.user.login) &&
+			this.patterns.passwordPattern.test(this.user.password) &&
+			this.patterns.firstnamePattern.test(this.user.firstName) &&
+			this.patterns.lastnamePattern.test(this.user.lastName)) {
 			return true;
 		} else {
 			return false;
@@ -75,7 +77,7 @@ export class SignupComponent implements OnInit {
 				console.log(data);
 			},
 			(error) => {
-				console.log(error);
+				this.error = error.error.exception[0].message;
 			});
-		}
 	}
+}

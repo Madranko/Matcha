@@ -1,20 +1,34 @@
 <div class="row">
-	<form class="col s12" #RegistrationForm="ngForm" (ngSubmit)="OnSubmit(RegistrationForm)">
+	<form class="col s12"
+		#RegistrationForm="ngForm"
+		(ngSubmit)="OnSubmit(RegistrationForm)">
 		<div class="row">
 			<div class="input-field col s6">
-				<input matInput id="first_name" type="text" class="validate" name="FirstName" #FirstName="ngModel" [(ngModel)]="user.FirstName">
-				<mat-error *ngIf="!checkPattern('firstnamePattern', 'FirstName')">
+				<input matInput
+				id="first_name"
+				type="text"
+				class="validate"
+				name="firstName"
+				#firstName="ngModel"
+				[(ngModel)]="user.firstName">
+				<mat-error *ngIf="!checkPattern('firstnamePattern', 'firstName')">
 					<div>
-						{{ getErrorMessage("first name", 'FirstName') }}
+						{{ getErrorMessage("first name", 'firstName') }}
 					</div>
 				</mat-error>
 				<label for="first_name">First Name</label>
 			</div>
 			<div class="input-field col s6">
-				<input matInput id="last_name" type="text" class="validate" name="LastName" #LastName="ngModel" [(ngModel)]="user.LastName">
-				<mat-error *ngIf="!checkPattern('lastnamePattern', 'LastName')">
+				<input matInput
+				id="last_name"
+				type="text"
+				class="validate"
+				name="lastName"
+				#LastName="ngModel"
+				[(ngModel)]="user.lastName">
+				<mat-error *ngIf="!checkPattern('lastnamePattern', 'lastName')">
 					<div>
-						{{ getErrorMessage("last name", 'LastName') }}
+						{{ getErrorMessage("last name", 'lastName') }}
 					</div>
 				</mat-error>
 				<label for="last_name">Last Name</label>
@@ -22,19 +36,31 @@
 		</div>
 		<div class="row">
 			<div class="input-field col s6">
-				<input matInput id="disabled" type="text" class="validate" name="Login" #Login="ngModel" [(ngModel)]="user.Login">
-				<mat-error *ngIf="!checkPattern('loginPattern', 'Login')">
+				<input matInput
+				id="disabled"
+				type="text"
+				class="validate"
+				name="login"
+				#login="ngModel"
+				[(ngModel)]="user.login">
+				<mat-error *ngIf="!checkPattern('loginPattern', 'login')">
 					<div>
-						{{ getErrorMessage("login", 'Login') }}
+						{{ getErrorMessage("login", 'login') }}
 					</div>
 				</mat-error>
 				<label for="disabled">Login</label>
 			</div>
 			<div class="input-field col s6">
-				<input matInput id="email" type="text" class="validate" name="Email" #Email="ngModel" [(ngModel)]="user.Email">
-				<mat-error *ngIf="!checkPattern('emailPattern', 'Email')">
+				<input matInput
+				id="email"
+				type="text"
+				class="validate"
+				name="email"
+				#Email="ngModel"
+				[(ngModel)]="user.email">
+				<mat-error *ngIf="!checkPattern('emailPattern', 'email')">
 					<div>
-						{{ getErrorMessage("email", 'Email') }}
+						{{ getErrorMessage("email", 'email') }}
 					</div>
 				</mat-error>
 				<label for="email">Email</label>
@@ -42,18 +68,31 @@
 		</div>
 		<div class="row">
 			<div class="input-field col s12">
-				<input matInput id="password" type="password" class="validate" name="Password" #Password="ngModel" [(ngModel)]="user.Password">
-				<mat-error *ngIf="!checkPattern('passwordPattern', 'Password')">
+				<input matInput
+				id="password"
+				type="password"
+				class="validate"
+				name="password"
+				#Password="ngModel"
+				[(ngModel)]="user.password">
+				<mat-error *ngIf="!checkPattern('passwordPattern', 'password')">
 					<div>
-						{{ getErrorMessage("password", 'Password') }}
+						{{ getErrorMessage("password", 'password') }}
 					</div>
 				</mat-error>
 				<label for="password">Password</label>
 			</div>
 		</div>
-		<button class="btn waves-effect waves-light" type="submit" name="action">Submit
+		<button class="btn waves-effect waves-light"
+			type="submit"
+			name="action">Submit
 			<i class="material-icons right">send</i>
 		</button>
+		<mat-error *ngIf="error">
+			<div>
+				{{ error }}
+			</div>
+		</mat-error>
 		<!-- <label for="password">Password</label> -->
 	</form>
 </div>

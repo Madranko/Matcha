@@ -13,8 +13,6 @@ export class AuthorizationService {
 	constructor(private http: HttpClient) { }
 
 	putData(route, data): Observable<any> {
-		console.log(route);
-		console.log(data);
 		return this.http.post('http://localhost:8100/' + route, data);
 	}
 }
