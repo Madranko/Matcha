@@ -2,12 +2,13 @@
 
 namespace App\Http\controllers;
 
-use App\Http\models\AuthenticationModel as AuthenticationModel;
+use \App\Http\models\AuthenticationModel as AuthenticationModel;
 
 class Controller {
-	protected function model($model) {
-		require_once('../models/' . $model . '.php');
-		return new $model();
+	protected function model($model, $pdo) {
+		$modelClass = '\\App\\Http\\models\\' . $model;
+
+		return new $modelClass($pdo);
 	}
 }
 

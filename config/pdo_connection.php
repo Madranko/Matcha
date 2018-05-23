@@ -13,5 +13,5 @@ $dbName = $container->get('settings')['db']['db_name'];
 $pdo->query("CREATE DATABASE IF NOT EXISTS `$dbName`");
 $pdo->query("USE `$dbName`");
 $pdo->query("CREATE DATABASE IF NOT EXISTS `$dbName`");
-require_once('tables.php');
+require_once(__DIR__ . '/tables.php');
 ?>

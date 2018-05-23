@@ -2,24 +2,34 @@
 
 namespace App\Http\controllers;
 
-use App\Http\controllers\Controller as Controller;
-use App\Http\models\AuthenticationModel as AuthenticationModel;
+use \App\Http\controllers\Controller;
+use \App\Http\models\AuthenticationModel;
 
 class AuthenticationController extends Controller {
-
-	private $authModel = $this->model('AuthenticationModel');
-
-	public function signUp($request, $response) {
-		$data = $request->getParams();
-
-		if ($this->authModel->isUserExists($data['login'], $data['pass'])) {
-			throw new Exception('User is already exists');
-		}
-		$this->authModel->indertUserToDb
+	private $authModel;
+	private $pdo;
+	
+	public function __construct($pdo) {
+		$this->authModel = $this->model('AuthenticationModel', $pdo);
+		$this->pdo = $pdo;
 	}
 
-	public function login() {
+	public function signUp($data) {
+		if (
+			$this->authModel->isUserExists($data['login']) ||
+			$this->authModel->isEmailExists($data['email'])
+		) {
+			throw new \Exception('Login or Email is already in use');
+		}
+		$this->authModel->insertUserToDb($data);
+	}
 
+	public function login($login, $password) {
+		if ($this->authModel->isLoginPassMatch($login, $password)) {
+			return json_encode('user can login');
+		} else {
+			throw new \Exception('Something went wrong');
+		}
 	}
 }
 
