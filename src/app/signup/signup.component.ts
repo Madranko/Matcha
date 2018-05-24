@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Authorization } from '../authorization/authorization.model';
 import { Patterns } from '../authorization/patterns.model';
 import { AuthorizationService } from '../authorization/authorization.service';
@@ -15,7 +16,10 @@ export class SignupComponent implements OnInit {
 	patterns: Patterns;
 	error: string;
 
-	constructor(private authorizationService: AuthorizationService) { }
+	constructor(
+		private authorizationService: AuthorizationService,
+		private router: Router
+	) { }
 
 	ngOnInit() {
 		this.user = new Authorization();
@@ -72,12 +76,27 @@ export class SignupComponent implements OnInit {
 
 	saveUserData(): void {
 		this.authorizationService.putData('signup', this.user)
-		.subscribe(
+		.toPromise()
+		.then(
 			(data) => {
 				console.log(data);
+				this.error = '';
+				this.router.navigate(['/home/congrats']);
 			},
 			(error) => {
 				this.error = error.error.exception[0].message;
 			});
 	}
+
+	//saveUserData(): void {
+	//	this.authorizationService.putData('signup', this.user)
+	//	.subscribe(
+	//		(data) => {
+	//			console.log(data);
+	//		},
+	//		(error) => {
+	//			this.error = error.error.exception[0].message;
+	//			console.log(this.error);
+	//		});
+	//}
 }

@@ -1,6 +1,7 @@
 #buttons {
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
+	flex-wrap: wrap;
 }
 
 .input-field > input {
@@ -9,4 +10,8 @@
 
 .input-field > mat-error {
 	font-size: 10px;
+}
+
+#buttons > button:first-child {
+	margin-bottom: 20px;
 }

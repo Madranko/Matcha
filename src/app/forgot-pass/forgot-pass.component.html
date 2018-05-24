@@ -1,0 +1,29 @@
+<div class="row">
+	<h4>Please enter your email so we can sent you new password</h4>
+	<form class="col s12"
+		#forgotEmailForm="ngForm"
+		(ngSubmit)="OnSubmit(forgotEmailForm)">
+		<div class="row">
+			<div class="input-field col s12">
+				<input matInput
+				id="email"
+				type="text"
+				class="validate"
+				name="email"
+				#email="ngModel"
+				[(ngModel)]="user.email">
+				<mat-error *ngIf="!checkPattern('emailPattern', 'email')">
+					<div>
+						{{ getErrorMessage("email", 'email') }}
+					</div>
+				</mat-error>
+				<label for="email">Email</label>
+			</div>
+		</div>
+		<button class="btn waves-effect waves-light"
+			type="submit"
+			name="action">send
+			<i class="material-icons right">send</i>
+		</button>
+	</form>
+</div>

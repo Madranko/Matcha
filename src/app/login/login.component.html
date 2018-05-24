@@ -34,22 +34,23 @@
 				<label for="password">Password</label>
 			</div>
 		</div>
-		<div id="buttons" class="row">
+		<div id="buttons">
 			<button class="btn waves-effect waves-light"
 				type="submit"
 				name="Submit">Login
 				<i class="material-icons right">send</i>
 			</button>
-			<mat-error *ngIf="error">
-				<div>
-					{{ error }}
-				</div>
-			</mat-error>
+			<button class="btn waves-effect waves-light"
+				type="button"
+				name="forgot"
+				routerLink="/home/forgot-pass"> Forgot password
+				<i class="material-icons right">help_outline</i>
+			</button>
 		</div>
+		<mat-error *ngIf="error">
+			<div>
+				{{ error }}
+			</div>
+		</mat-error>
 	</form>
-	<button class="btn waves-effect waves-light"
-		name="Forgot"
-		(click)="postTest()"> Forgot password
-		<i class="material-icons right">help_outline</i>
-	</button>
 </div>

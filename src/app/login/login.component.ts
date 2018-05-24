@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Authorization } from '../authorization/authorization.model';
 import { Patterns } from '../authorization/patterns.model';
-import { toPromise } from 'rxjs/add/operator/toPromise';
+import { toPromise } from 'rxjs/add/operator';
+import { Router } from '@angular/router';
 
 import { AuthorizationService } from '../authorization/authorization.service';
 
@@ -16,7 +17,10 @@ export class LoginComponent implements OnInit {
 	patterns: Patterns;
 	error: string;
 
-	constructor(private authorizationService: AuthorizationService) { }
+	constructor(
+		private authorizationService: AuthorizationService,
+		private router: Router
+	) { }
 
 	ngOnInit() {
 		this.user = new Authorization();
@@ -28,8 +32,11 @@ export class LoginComponent implements OnInit {
 		if (form != null) {
 			form.reset();
 			this.user = {
-				Login: '',
-				Password: ''
+				firstName: '',
+				lastName: '',
+				login: '',
+				email: '',
+				password: ''
 			}
 		}
 	}

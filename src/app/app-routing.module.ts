@@ -4,20 +4,29 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
+import { CongratsComponent } from './congrats/congrats.component';
+import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 
 const routes: Routes = [
 	{
-		path: '',
-		redirectTo: '/index',
-		pathMatch: 'full'
-	},
-	{
-		path: 'index',
+		path: 'home',
 		component: HomeComponent,
 		children: [
 			{ path: 'signup', component: SignupComponent },
-			{ path: 'login', component: LoginComponent }
+			{ path: 'login', component: LoginComponent },
+			{ path: 'congrats', component: CongratsComponent }
+			{ path: 'forgot-pass', component: ForgotPassComponent }
 		],
+	},
+	{
+		path: '',
+		redirectTo: '/home',
+		pathMatch: 'full'
+	},
+	{
+		path: '**',
+		redirectTo: '/home',
+		pathMatch: 'full'
 	}
 ];
 
@@ -32,3 +41,6 @@ const routes: Routes = [
 	declarations: []
 })
 export class AppRoutingModule { }
+export const routingComponents = [
+	SignupComponent, LoginComponent, CongratsComponent, ForgotPassComponent
+];
