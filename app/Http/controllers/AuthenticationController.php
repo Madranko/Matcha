@@ -16,8 +16,8 @@ class AuthenticationController extends Controller {
 
 	public function signUp($data) {
 		if (
-			$this->authModel->isUserExists($data['login']) ||
-			$this->authModel->isEmailExists($data['email'])
+			$this->authModel->isUserExists(strtolower($data['login'])) ||
+			$this->authModel->isEmailExists(strtolower($data['email']))
 		) {
 			throw new \Exception('Login or Email is already in use');
 		}
@@ -25,7 +25,9 @@ class AuthenticationController extends Controller {
 	}
 
 	public function login($login, $password) {
-		if ($this->authModel->isLoginPassMatch($login, $password)) {
+		if ($this->authModel->isLoginPassMatch(
+			strtolower($login), hash('sha256', $password)
+		)) {
 			return json_encode('user can login');
 		} else {
 			throw new \Exception('Something went wrong');

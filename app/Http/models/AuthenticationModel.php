@@ -13,7 +13,15 @@ class AuthenticationModel
 		$statement = "INSERT INTO `users` (`login`, `email`, `password`, `firstName`, `lastName`, `activation`, `restore`)
 			VALUES (?, ?, ?, ?, ?, ?, ?)";
 		$preparedStatement = $this->pdo->prepare($statement);
-		$preparedStatement->execute([$data['login'],  $data['email'], $data['password'], $data['firstName'], $data['lastName'], 'activation_string', 'restore_string']);
+		$preparedStatement->execute([
+			strtolower($data['login']),
+			strtolower($data['email']),
+			hash('sha256', $data['password']),
+			ucfirst(strtolower($data['firstName'])),
+			ucfirst(strtolower($data['lastName'])),
+			'activation_string',
+			'restore_string'
+		]);
 	}
 
 	public function isUserExists($login) {
