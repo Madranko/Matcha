@@ -12,6 +12,8 @@ import { MaterialModule } from './material-module/material.module';
 import { CongratsComponent } from './user/congrats/congrats.component';
 import { ForgotPassComponent } from './user/forgot-pass/forgot-pass.component';
 
+import { CookieService } from 'ngx-cookie-service';
+
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -29,7 +31,9 @@ import { ForgotPassComponent } from './user/forgot-pass/forgot-pass.component';
 		HttpClientModule,
 		FormsModule
 	],
-	providers: [],
+	providers: [
+		CookieService
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -5,8 +5,7 @@ import { Patterns } from '../authorization/patterns.model';
 import { toPromise } from 'rxjs/add/operator';
 import { Router } from '@angular/router';
 import { AuthorizationService } from '../authorization/authorization.service';
-// import 'rxjs/add/operator/map';
-// import 'rxjs/add/operator/toPromise';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
 	selector: 'app-login',
@@ -17,16 +16,20 @@ export class LoginComponent implements OnInit {
 	user: Authorization;
 	patterns: Patterns;
 	error: string;
+	cookieValue = 'UNKNOWN';
 
 	constructor(
 		private authorizationService: AuthorizationService,
-		private router: Router
+		private router: Router,
+		private cookieService: CookieService
 	) { }
 
 	ngOnInit() {
 		this.user = new Authorization();
 		this.patterns = new Patterns();
 		this.resetForm();
+		this.cookieService.set('Test', 'Hello World');
+		//this.cookieValue = this.cookieService.get('Test');
 	}
 
 	resetForm(form? : NgForm) {
