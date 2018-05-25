@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Authorization } from '../authorization/authorization.model';
 import { Patterns } from '../authorization/patterns.model';
+import { NgForm } from '@angular/forms';
 
 @Component({
 	selector: 'app-forgot-pass',

@@ -9,8 +9,8 @@ import { FooterComponent } from './footer/footer.component';
 import { AppRoutingModule, routingComponents } from './/app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { MaterialModule } from './material-module/material.module';
-import { CongratsComponent } from './congrats/congrats.component';
-import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
+import { CongratsComponent } from './user/congrats/congrats.component';
+import { ForgotPassComponent } from './user/forgot-pass/forgot-pass.component';
 
 @NgModule({
 	declarations: [

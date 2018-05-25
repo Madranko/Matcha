@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Authorization } from '../authorization/authorization.model';
 import { Patterns } from '../authorization/patterns.model';
+import { toPromise } from 'rxjs/add/operator';
+import { Router } from '@angular/router';
 import { AuthorizationService } from '../authorization/authorization.service';
+// import 'rxjs/add/operator/map';
+// import 'rxjs/add/operator/toPromise';
 
 @Component({
-	selector: 'app-signup',
-	templateUrl: './signup.component.html',
-	styleUrls: ['./signup.component.css']
+	selector: 'app-login',
+	templateUrl: './login.component.html',
+	styleUrls: ['./login.component.css']
 })
-export class SignupComponent implements OnInit {
+export class LoginComponent implements OnInit {
 	user: Authorization;
 	patterns: Patterns;
 	error: string;
@@ -42,16 +44,13 @@ export class SignupComponent implements OnInit {
 
 	OnSubmit(form: NgForm) {
 		if (this.checkForm()) {
-			this.saveUserData();
+			this.loginToProfile();
 		}
 	}
 
 	checkForm() {
-		if (this.patterns.emailPattern.test(this.user.email) &&
-			this.patterns.loginPattern.test(this.user.login) &&
-			this.patterns.passwordPattern.test(this.user.password) &&
-			this.patterns.firstnamePattern.test(this.user.firstName) &&
-			this.patterns.lastnamePattern.test(this.user.lastName)) {
+		if (this.patterns.loginPattern.test(this.user.login) &&
+		this.patterns.passwordPattern.test(this.user.password)) {
 			return true;
 		} else {
 			return false;
@@ -74,22 +73,47 @@ export class SignupComponent implements OnInit {
 		}
 	}
 
-	saveUserData(): void {
-		this.authorizationService.putData('signup', this.user)
+	loginToProfile(): void {
+		this.authorizationService.putData('login', this.user)
 		.toPromise()
 		.then(
 			(data) => {
 				console.log(data);
 				this.error = '';
-				this.router.navigate(['/home/congrats']);
+				this.openUserProfilePage();
 			},
 			(error) => {
 				this.error = error.error.exception[0].message;
-			});
+			}
+		);
 	}
 
-	//saveUserData(): void {
-	//	this.authorizationService.putData('signup', this.user)
+	//loginToProfile(): Promise {
+	//	let promise = new Promise((resolve, reject) => {
+	//		let testData;
+	//		this.authorizationService.putData('login', this.user)
+	//			.subscribe(
+	//				(data) => {
+	//					testData = data;
+	//					console.log(testData);
+	//				},
+	//				(error) => {
+	//					this.error = error.error.exception[0].message;
+	//					console.log(this.error);
+	//				}
+	//			);
+	//		if (this.error) {
+	//			reject();
+	//		} else {
+	//			resolve();
+	//		}
+	//	});
+	//	console.log('promise');
+	//	return promise;
+	//}
+
+	//loginToProfile(): void {
+	//	this.authorizationService.putData('login', this.user)
 	//	.subscribe(
 	//		(data) => {
 	//			console.log(data);
@@ -99,4 +123,10 @@ export class SignupComponent implements OnInit {
 	//			console.log(this.error);
 	//		});
 	//}
+
+	openUserProfilePage(): void {
+		if (!this.error) {
+			window.open('/user-profile', '_self');
+		}
+	}
 }

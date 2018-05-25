@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { SignupComponent } from './signup/signup.component';
-import { LoginComponent } from './login/login.component';
-import { CongratsComponent } from './congrats/congrats.component';
-import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
+import { SignupComponent } from './user/signup/signup.component';
+import { LoginComponent } from './user/login/login.component';
+import { CongratsComponent } from './user/congrats/congrats.component';
+import { ForgotPassComponent } from './user/forgot-pass/forgot-pass.component';
 
 const routes: Routes = [
 	{
@@ -14,7 +14,7 @@ const routes: Routes = [
 		children: [
 			{ path: 'signup', component: SignupComponent },
 			{ path: 'login', component: LoginComponent },
-			{ path: 'congrats', component: CongratsComponent }
+			{ path: 'congrats', component: CongratsComponent },
 			{ path: 'forgot-pass', component: ForgotPassComponent }
 		],
 	},
