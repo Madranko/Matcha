@@ -10,8 +10,8 @@ class AuthenticationModel
 	}
 
 	public function insertUserToDb($data) {
-		$statement = "INSERT INTO `users` (`login`, `email`, `password`, `firstName`, `lastName`, `activation`, `restore`)
-			VALUES (?, ?, ?, ?, ?, ?, ?)";
+		$statement = "INSERT INTO `users` (`login`, `email`, `password`, `first_name`, `last_name`, `activation_link`)
+			VALUES (?, ?, ?, ?, ?, ?)";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([
 			strtolower($data['login']),
@@ -19,8 +19,7 @@ class AuthenticationModel
 			hash('sha256', $data['password']),
 			ucfirst(strtolower($data['firstName'])),
 			ucfirst(strtolower($data['lastName'])),
-			'activation_string',
-			'restore_string'
+			'activation_string'
 		]);
 	}
 
@@ -58,6 +57,14 @@ class AuthenticationModel
 		} else {
 			return false;
 		}
+	}
+	//$property is a string "login" or "email" and $value is a value of property so we can get data by login or email, $need is a name of parameter you need to get,
+	public function getUserData($property, $value, $need) {
+		$statement = "SELECT `$need` FROM `users` WHERE `$property`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$value]);
+		$result =  $preparedStatement->fetch();
+		return $result[$need];
 	}
 }
 

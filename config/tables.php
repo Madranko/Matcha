@@ -4,9 +4,9 @@ $pdo->query("CREATE TABLE IF NOT EXISTS `users` (
 	`login` VARCHAR(32) NOT NULL UNIQUE,
 	`email` VARCHAR(255) NOT NULL UNIQUE,
 	`password` VARCHAR(255) NOT NULL,
-	`firstName` VARCHAR(255) NOT NULL,
-	`lastName` VARCHAR(255) NOT NULL,
-	`activation` VARCHAR(255) NOT NULL UNIQUE,
-	`restore` VARCHAR(255) NOT NULL,
-	`status` ENUM('0','1') NOT NULL DEFAULT '0')");
+	`first_name` VARCHAR(255) NOT NULL,
+	`last_name` VARCHAR(255) NOT NULL,
+	`refresh_token` VARCHAR(255),
+	`activation_link` VARCHAR(255) NOT NULL UNIQUE,
+	`is_activated` ENUM('0','1') NOT NULL DEFAULT '0')");
 ?>
