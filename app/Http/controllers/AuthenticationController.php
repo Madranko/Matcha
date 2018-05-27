@@ -8,6 +8,7 @@ use \App\Http\models\JwtModel;
 
 class AuthenticationController extends Controller {
 	private $authModel;
+	// private $JwtModel;
 	private $pdo;
 
 	public function __construct($pdo) {
@@ -29,8 +30,15 @@ class AuthenticationController extends Controller {
 		if ($this->authModel->isLoginPassMatch(
 			strtolower($login), hash('sha256', $password)
 		)) {
-			// return json_encode($this->authModel->getUserData("login", $login, "id"));
-			return json_encode('user can login');
+			$accessTokenExpireTime = json_encode(JwtModel::getAccessTokenExpireTime());
+			$uid = $this->authModel->getUserData("login", $login, "id");
+			$accessToken = JwtModel::createAccessToken($uid, $accessTokenExpireTime);
+			$refreshToken = JwtModel::createRefreshToken($uid, time() + 3600);
+			return json_encode([
+				'accessToken' => $accessToken,
+				'refreshToken' => $refreshToken,
+				'expire_time' => $accessTokenExpireTime
+			]);
 		} else {
 			throw new \Exception('Something went wrong');
 		}

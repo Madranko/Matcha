@@ -1,25 +1,36 @@
 <?php
-	namespace App\Http\models;
-	use Lcobucci\JWT\Builder;
+namespace App\Http\models;
 
-	class JwtModel
-	{
-		private $token;
+use \Firebase\JWT\JWT;
 
-		function __construct($data)
-		{
-			$this->token = new Builder();
-			// $this->token->setIssuer('http://localhost:8100');
-			// $this->token->setAudience('http://localhost:4200');
-			$this->token->setIssuedAt(time());
-			$this->token->setNotBefore(time() + 60);
-			$this->token->setExpiration(time() + 3600);
-			$this->token->set('uid', );
-		}
-
-		public function createTokenForUser() {
-
-		}
+class JwtModel
+{
+	public static function getAccessTokenExpireTime() {
+		return time() + 1800;
 	}
+
+	public static function createAccessToken($uid, $accessTokenExpireTime) {
+		$key = "example_key";
+		$token = array(
+			"iss" => "http://localhost:8100/",
+			"uid" => $uid,
+			"exp" => $accessTokenExpireTime
+		);
+
+		$jwt = JWT::encode($token, $key, 'HS512');
+		return $jwt;
+	}
+
+	public static function createRefreshToken($uid, $refreshTokenExpireTime) {
+		$key = "example_key";
+		$token = array(
+			"uid" => $uid,
+			"exp" => $refreshTokenExpireTime
+		);
+
+		$jwt = JWT::encode($token, $key, 'HS512');
+		return $jwt;
+	}
+}
 
 ?>
