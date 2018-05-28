@@ -105,4 +105,23 @@ export class AuthorizationService {
 		};
 		return this.sendData('checkTokens', cookies);
 	}
+
+	isTokensExists() {
+		if (this.cookieService.get('AccessToken')
+		&& this.cookieService.get('RefreshToken')
+		&& this.cookieService.get('ExpireTime')) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	checkIfTokensValid() {
+		let cookies = {
+			'accessToken': this.cookieService.get('AccessToken'),
+			'refreshToken': this.cookieService.get('RefreshToken'),
+			'expireTime': this.cookieService.get('ExpireTime')
+		};
+		return this.sendData('checkTokens', cookies);
+	}
 }
