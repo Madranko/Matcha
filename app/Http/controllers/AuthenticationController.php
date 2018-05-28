@@ -62,5 +62,9 @@ class AuthenticationController extends Controller {
 			return json_encode($newTokens);
 		}
 	}
+
+	public function deleteRefreshTokenFromDb($refreshToken) {
+		$this->jwtModel->deleteRefreshTokenFromDb($refreshToken);
+	}
 }
 ?>

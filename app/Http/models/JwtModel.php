@@ -43,9 +43,20 @@ class JwtModel
 
 	public function storeRefreshTokenInDb($token) {
 		$id = $this->getUidFromToken($token);
-		$statement = "UPDATE `users` SET `refresh_token`=? WHERE `id`='$id'";
+		$statement = "UPDATE `users` SET `refresh_token`=? WHERE `id`=?";
 		$preparedStatement = $this->pdo->prepare($statement);
-		$preparedStatement->execute([$token]);
+		$preparedStatement->execute([$token, $id]);
+	}
+
+	public function deleteRefreshTokenFromDb($token) {
+		$id = $this->getUidFromToken($token);
+		$statement = "UPDATE `users` SET `refresh_token`=? WHERE `id`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([null, $id]);
+	}
+
+	public function getSomething($something) {
+		return $something;
 	}
 
 	public static function isRefreshTokenValid($refreshToken, $tokenFromDb) {

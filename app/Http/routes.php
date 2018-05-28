@@ -28,11 +28,20 @@ $app->post(
 );
 
 $app->post(
-	'/api/checkTokens',
-	function (Request $request, Response $response, array $args) use ($pdo) {		
+	'/api/check-tokens',
+	function (Request $request, Response $response, array $args) use ($pdo) {
 		$authController = new AuthenticationController($pdo);
 		$data = $request->getParams();
 		return $authController->checkTokens($data['refreshToken'], $data['accessToken'], $data['expireTime']);
+	}
+);
+
+$app->delete(
+	'/api/delete-refresh-token',
+	function (Request $request, Response $response, array $args) use ($pdo) {
+		$authController = new AuthenticationController($pdo);
+		$data = $request->getParams();
+		return $authController->deleteRefreshTokenFromDb($data['refreshToken']);
 	}
 );
 
