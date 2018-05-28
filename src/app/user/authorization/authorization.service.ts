@@ -65,19 +65,10 @@ export class AuthorizationService {
 	}
 
 	deleteTokens(): Observable<any> {
+		this.deleteCookieTokens();
 		this.http.get('http://localhost:8100/deleteTokens', data);
 	}
 
-	isTokensExists() {
-		if (this.cookieService.get('AccessToken')
-		&& this.cookieService.get('RefreshToken')
-		&& this.cookieService.get('ExpireTime')) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	checkIfTokensValid() {
 		let cookies = {
 			'accessToken': this.cookieService.get('AccessToken'),
@@ -86,43 +77,6 @@ export class AuthorizationService {
 		};
 		return this.sendData('checkTokens', cookies);
 	}
-
-	isTokensExists() {
-		if (this.cookieService.get('AccessToken')
-		&& this.cookieService.get('RefreshToken')
-		&& this.cookieService.get('ExpireTime')) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	checkIfTokensValid() {
-		let cookies = {
-			'accessToken': this.cookieService.get('AccessToken'),
-			'refreshToken': this.cookieService.get('RefreshToken'),
-			'expireTime': this.cookieService.get('ExpireTime')
-		};
-		return this.sendData('checkTokens', cookies);
-	}
-
-	isTokensExists() {
-		if (this.cookieService.get('AccessToken')
-		&& this.cookieService.get('RefreshToken')
-		&& this.cookieService.get('ExpireTime')) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	checkIfTokensValid() {
-		let cookies = {
-			'accessToken': this.cookieService.get('AccessToken'),
-			'refreshToken': this.cookieService.get('RefreshToken'),
-			'expireTime': this.cookieService.get('ExpireTime')
-		};
-		return this.sendData('checkTokens', cookies);
 
 	deleteCookieTokens(): void {
 		this.cookieService.delete('AccessToken');

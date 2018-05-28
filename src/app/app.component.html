@@ -1,4 +1,4 @@
-<mat-sidenav-container *ngIf="!isUserLoggedIn()"
+<mat-sidenav-container
 	(window:resize)="onResizez($event)">
 	<mat-sidenav class="sidenav" #sidenav>
 		<ul class="sidenav">
@@ -33,4 +33,4 @@
 	</mat-sidenav-content>
 </mat-sidenav-container>
 
-<router-outlet *ngIf="isUserLoggedIn()"></router-outlet>
+<!-- <router-outlet *ngIf="isUserLoggedIn()"></router-outlet> -->

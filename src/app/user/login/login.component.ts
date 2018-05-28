@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
 				// console.log(data);
 				this.error = '';
 				this.authorizationService.setTokensInCookie(data);
-				this.openUserProfilePage();
+				// this.openUserProfilePage();
 			},
 			(error) => {
 				console.log("ERROR");
