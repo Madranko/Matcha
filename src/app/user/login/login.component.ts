@@ -16,12 +16,10 @@ export class LoginComponent implements OnInit {
 	user: Authorization;
 	patterns: Patterns;
 	error: string;
-	cookieValue = 'UNKNOWN';
 
 	constructor(
 		private authorizationService: AuthorizationService,
-		private router: Router,
-		private cookieService: CookieService
+		private router: Router
 	) { }
 
 	ngOnInit() {
@@ -75,10 +73,11 @@ export class LoginComponent implements OnInit {
 	}
 
 	loginToProfile(): void {
-		this.authorizationService.putData('api/login', this.user)
+		this.authorizationService.sendData('api/login', this.user)
 		.toPromise()
 		.then(
 			(data) => {
+				// console.log(data);
 				this.error = '';
 				this.authorizationService.setTokensInCookie(data);
 			},

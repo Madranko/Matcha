@@ -19,7 +19,7 @@ export class AuthorizationService {
 		private cookieService: CookieService
 	) { }
 
-	putData(route, data): Observable<any> {
+	sendData(route, data): Observable<any> {
 		return this.http.post('http://localhost:8100/' + route, data);
 	}
 
@@ -27,5 +27,63 @@ export class AuthorizationService {
 		this.cookieService.set('AccessToken', data['accessToken']);
 		this.cookieService.set('RefreshToken', data['refreshToken']);
 		this.cookieService.set('ExpireTime', data['expireTime']);
+	}
+
+	isTokensExists() {
+		if (this.cookieService.get('AccessToken')
+		&& this.cookieService.get('RefreshToken')
+		&& this.cookieService.get('ExpireTime')) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	loginIfTokensValid() {
+		let cookies = {
+			'accessToken': this.cookieService.get('AccessToken'),
+			'refreshToken': this.cookieService.get('RefreshToken'),
+			'expireTime': this.cookieService.get('ExpireTime')
+		};
+		let res;
+		this.sendData('api/checkTokens', cookies)
+		.toPromise()
+		.then(
+			(data) => {
+				this.error = '';
+				this.setTokensInCookie(data);
+				console.log(data);
+				// this.openUserProfilePage();
+			},
+			(error) => {
+				// this.router.navigate(['/home']);
+				console.log(error);
+
+				// this.error = error.error.exception[0].message;
+			}
+		);
+	}
+
+	deleteTokens(): Observable<any> {
+		this.http.get('http://localhost:8100/deleteTokens', data);
+	}
+
+	isTokensExists() {
+		if (this.cookieService.get('AccessToken')
+		&& this.cookieService.get('RefreshToken')
+		&& this.cookieService.get('ExpireTime')) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	checkIfTokensValid() {
+		let cookies = {
+			'accessToken': this.cookieService.get('AccessToken'),
+			'refreshToken': this.cookieService.get('RefreshToken'),
+			'expireTime': this.cookieService.get('ExpireTime')
+		};
+		return this.sendData('checkTokens', cookies);
 	}
 }
