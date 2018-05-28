@@ -11,7 +11,7 @@ header('Access-Control-Allow-Origin: *');
 
 
 $app->post(
-	'/signup',
+	'/api/signup',
 	function (Request $request, Response $response, array $args) use ($pdo) {
 		$authController = new AuthenticationController($pdo);
 		return $authController->signUp($request->getParams());
@@ -19,15 +19,13 @@ $app->post(
 );
 
 $app->post(
-	'/login',
+	'/api/login',
 	function (Request $request, Response $response, array $args) use ($pdo) {
 		$authController = new AuthenticationController($pdo);
 		$data = $request->getParams();
 		return $authController->login($data['login'], $data['password']);
 	}
 );
-
-//$app->post('/signup', 'AuthenticationController:signUp') use ($pdo);
 
 $app->get('/', function (Request $request, Response $response, array $args) use ($blade) {
 	echo $blade->make('index', [
