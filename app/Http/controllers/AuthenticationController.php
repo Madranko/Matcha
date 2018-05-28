@@ -32,20 +32,35 @@ class AuthenticationController extends Controller {
 		if ($this->authModel->isLoginPassMatch(
 			strtolower($login), hash('sha256', $password)
 		)) {
-			$accessTokenExpireTime = json_encode(JwtModel::getAccessTokenExpireTime());
 			$uid = $this->authModel->getUserData("login", $login, "id");
-			$accessToken = JwtModel::createAccessToken($uid, $accessTokenExpireTime);
-			$refreshToken = JwtModel::createRefreshToken($uid, time() + 3600);
-			$this->jwtModel->storeRefreshTokenInDb($refreshToken);
-			return json_encode([
-				'accessToken' => $accessToken,
-				'refreshToken' => $refreshToken,
-				'expireTime' => $accessTokenExpireTime
-			]);
+			$newTokens = JwtModel::refreshToken($uid);
+			$this->jwtModel->storeRefreshTokenInDb($newTokens['refreshToken']);
+			return json_encode($newTokens);
 		} else {
 			throw new \Exception('Something went wrong');
 		}
 	}
-}
 
+	public function checkTokens($refreshToken, $accessToken, $accessTokenExpireTime) {
+		if ($accessTokenExpireTime > time()) {
+			if ($id = JwtModel::getUidFromToken($refreshToken)) {
+				$tokenFromDb = $this->authModel->getUserData("id", $id, "refresh_token");
+				if (JwtModel::isRefreshTokenValid($refreshToken, $tokenFromDb) && JwtModel::isAccessTokenValid($accessToken)) {
+					$newTokens = JwtModel::refreshToken($id);
+					$this->jwtModel->storeRefreshTokenInDb($newTokens['refreshToken']);
+					return json_encode($newTokens);
+				} else {
+					throw new \Exception("Invalid token");
+				}
+			} else {
+				throw new \Exception("No id in RefreshToken");
+			}
+		} else {
+			$id = JwtModel::getUidFromToken($refreshToken);
+			$newTokens = JwtModel::refreshToken($id);
+			$this->jwtModel->storeRefreshTokenInDb($newTokens['refreshToken']);
+			return json_encode($newTokens);
+		}
+	}
+}
 ?>

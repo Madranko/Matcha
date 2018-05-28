@@ -64,7 +64,7 @@ class AuthenticationModel
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$value]);
 		$result =  $preparedStatement->fetch();
-		return $result[0][0];
+		return $result[0];
 	}
 }
 

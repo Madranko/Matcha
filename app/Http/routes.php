@@ -27,6 +27,17 @@ $app->post(
 	}
 );
 
+$app->post(
+	'/api/checkTokens',
+	function (Request $request, Response $response, array $args) use ($pdo) {		
+		$authController = new AuthenticationController($pdo);
+		$data = $request->getParams();
+		return $authController->checkTokens($data['refreshToken'], $data['accessToken'], $data['expireTime']);
+	}
+);
+
+//$app->post('/signup', 'AuthenticationController:signUp') use ($pdo);
+
 $app->get('/', function (Request $request, Response $response, array $args) use ($blade) {
 	echo $blade->make('index', [
 		'name' => 'John Doe',
