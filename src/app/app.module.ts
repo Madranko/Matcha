@@ -13,6 +13,7 @@ import { CongratsComponent } from './user/congrats/congrats.component';
 import { ForgotPassComponent } from './user/forgot-pass/forgot-pass.component';
 
 import { CookieService } from 'ngx-cookie-service';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
 	declarations: [
@@ -21,7 +22,8 @@ import { CookieService } from 'ngx-cookie-service';
 		HomeComponent,
 		routingComponents,
 		CongratsComponent,
-		ForgotPassComponent
+		ForgotPassComponent,
+		ProfileComponent
 	],
 	imports: [
 		BrowserModule,

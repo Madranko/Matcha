@@ -80,6 +80,7 @@ export class LoginComponent implements OnInit {
 				// console.log(data);
 				this.error = '';
 				this.authorizationService.setTokensInCookie(data);
+				this.openUserProfilePage();
 			},
 			(error) => {
 				console.log("ERROR");
@@ -90,7 +91,7 @@ export class LoginComponent implements OnInit {
 
 	openUserProfilePage(): void {
 		if (!this.error) {
-			window.open('/user-profile', '_self');
+			window.open('/profile', '_self');
 		}
 	}
 }

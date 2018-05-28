@@ -6,6 +6,7 @@ import { SignupComponent } from './user/signup/signup.component';
 import { LoginComponent } from './user/login/login.component';
 import { CongratsComponent } from './user/congrats/congrats.component';
 import { ForgotPassComponent } from './user/forgot-pass/forgot-pass.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
 	{
@@ -23,6 +24,10 @@ const routes: Routes = [
 	{
 		path: 'signup',
 		component: SignupComponent
+	},
+	{
+		path: 'profile',
+		component: ProfileComponent
 	},
 	{
 		path: '',

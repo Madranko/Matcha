@@ -23,7 +23,7 @@ export class AuthorizationService {
 		return this.http.post('http://localhost:8100/' + route, data);
 	}
 
-	setTokensInCookie(data) {
+	setTokensInCookie(data): void {
 		this.cookieService.set('AccessToken', data['accessToken']);
 		this.cookieService.set('RefreshToken', data['refreshToken']);
 		this.cookieService.set('ExpireTime', data['expireTime']);
@@ -123,5 +123,10 @@ export class AuthorizationService {
 			'expireTime': this.cookieService.get('ExpireTime')
 		};
 		return this.sendData('checkTokens', cookies);
+
+	deleteCookieTokens(): void {
+		this.cookieService.delete('AccessToken');
+		this.cookieService.delete('RefreshToken');
+		this.cookieService.delete('ExpireTime');
 	}
 }
