@@ -25,11 +25,10 @@ export class LoginComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		// if (this.)
 		this.user = new Authorization();
 		this.patterns = new Patterns();
 		this.resetForm();
-		this.cookieService.set('Test', 'Hello World');
-		//this.cookieValue = this.cookieService.get('Test');
 	}
 
 	resetForm(form? : NgForm) {
@@ -81,51 +80,18 @@ export class LoginComponent implements OnInit {
 		.toPromise()
 		.then(
 			(data) => {
-				console.log(data);
 				this.error = '';
-				this.openUserProfilePage();
+				this.authorizationService.setTokensInCookie(data);
+
+				// this.openUserProfilePage();
 			},
 			(error) => {
+				console.log("ERROR");
+				// this.router.navigate(['/home']);
 				this.error = error.error.exception[0].message;
 			}
 		);
 	}
-
-	//loginToProfile(): Promise {
-	//	let promise = new Promise((resolve, reject) => {
-	//		let testData;
-	//		this.authorizationService.putData('login', this.user)
-	//			.subscribe(
-	//				(data) => {
-	//					testData = data;
-	//					console.log(testData);
-	//				},
-	//				(error) => {
-	//					this.error = error.error.exception[0].message;
-	//					console.log(this.error);
-	//				}
-	//			);
-	//		if (this.error) {
-	//			reject();
-	//		} else {
-	//			resolve();
-	//		}
-	//	});
-	//	console.log('promise');
-	//	return promise;
-	//}
-
-	//loginToProfile(): void {
-	//	this.authorizationService.putData('login', this.user)
-	//	.subscribe(
-	//		(data) => {
-	//			console.log(data);
-	//		},
-	//		(error) => {
-	//			this.error = error.error.exception[0].message;
-	//			console.log(this.error);
-	//		});
-	//}
 
 	openUserProfilePage(): void {
 		if (!this.error) {
