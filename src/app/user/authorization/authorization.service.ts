@@ -46,7 +46,7 @@ export class AuthorizationService {
 			'expireTime': this.cookieService.get('ExpireTime')
 		};
 		let res;
-		this.sendData('api/checkTokens', cookies)
+		this.sendData('api/check-tokens', cookies)
 		.toPromise()
 		.then(
 			(data) => {
@@ -64,9 +64,9 @@ export class AuthorizationService {
 		);
 	}
 
-	deleteTokens(): Observable<any> {
+	deleteTokens(data): Observable<any> {
 		this.deleteCookieTokens();
-		this.http.get('http://localhost:8100/deleteTokens', data);
+		this.http.delete('http://localhost:8100/api/delete-refresh-token', data);
 	}
 
 	checkIfTokensValid() {
