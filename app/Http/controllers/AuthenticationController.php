@@ -8,11 +8,13 @@ use \App\Http\models\JwtModel;
 
 class AuthenticationController extends Controller {
 	private $authModel;
+	private $jwtModel;
 	// private $JwtModel;
 	private $pdo;
 
 	public function __construct($pdo) {
 		$this->authModel = $this->model('AuthenticationModel', $pdo);
+		$this->jwtModel = $this->model('JwtModel', $pdo);
 		$this->pdo = $pdo;
 	}
 
@@ -30,18 +32,16 @@ class AuthenticationController extends Controller {
 		if ($this->authModel->isLoginPassMatch(
 			strtolower($login), hash('sha256', $password)
 		)) {
-			//$accessTokenExpireTime = json_encode(JwtModel::getAccessTokenExpireTime());
+			$accessTokenExpireTime = json_encode(JwtModel::getAccessTokenExpireTime());
 			$uid = $this->authModel->getUserData("login", $login, "id");
-			//$accessToken = JwtModel::createAccessToken($uid, $accessTokenExpireTime);
+			$accessToken = JwtModel::createAccessToken($uid, $accessTokenExpireTime);
 			$refreshToken = JwtModel::createRefreshToken($uid, time() + 3600);
-			//return json_encode([
-			//	'accessToken' => $accessToken,
-			//	'refreshToken' => $refreshToken,
-			//	'expire_time' => $accessTokenExpireTime
-			//]);
-			$jwt = new JwtModel();
-			$decoded = $jwt->storeRefreshTokenToDb($refreshToken);
-			return json_encode($decoded['exp']);
+			$this->jwtModel->storeRefreshTokenInDb($refreshToken);
+			return json_encode([
+				'accessToken' => $accessToken,
+				'refreshToken' => $refreshToken,
+				'expireTime' => $accessTokenExpireTime
+			]);
 		} else {
 			throw new \Exception('Something went wrong');
 		}

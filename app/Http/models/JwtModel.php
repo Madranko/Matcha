@@ -5,11 +5,11 @@ use \Firebase\JWT\JWT;
 
 class JwtModel
 {
-	//private $pdo;
+	private $pdo;
 
-	//public function __construct($pdo) {
-	//	$this->pdo = $pdo;
-	//}
+	public function __construct($pdo) {
+		$this->pdo = $pdo;
+	}
 
 	public static function getAccessTokenExpireTime() {
 		return time() + 1800;
@@ -31,19 +31,20 @@ class JwtModel
 			"uid" => $uid,
 			"exp" => $refreshTokenExpireTime
 		);
-
 		$jwt = JWT::encode($token, getenv('MATCHA_SECRET_KEY'), 'HS512');
 		return $jwt;
 	}
 
-	public function storeRefreshTokenToDb($refreshToken) {
-		//$statement = "SELECT * FROM `users`";
-		//$preparedStatement = $this->pdo->prepare($statement);
-		//$preparedStatement->execute();
-		//$result = $preparedStatement->fetchAll();
-		//return $result;
-		$decoded = JWT::decode($refreshToken, getenv('MATCHA_SECRET_KEY'), array('HS512'));
-		return $decoded;
+	public function getUidFromToken($token) {
+		$decodedToken = JWT::decode($token, getenv('MATCHA_SECRET_KEY'), array('HS512'));
+		return $decodedToken->uid;
+	}
+
+	public function storeRefreshTokenInDb($token) {
+		$id = $this->getUidFromToken($token);
+		$statement = "UPDATE `users` SET `refresh_token`=? WHERE `id`='$id'";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$token]);
 	}
 }
 
