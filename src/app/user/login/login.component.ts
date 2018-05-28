@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		// if (this.)
 		this.user = new Authorization();
 		this.patterns = new Patterns();
 		this.resetForm();
@@ -76,18 +75,15 @@ export class LoginComponent implements OnInit {
 	}
 
 	loginToProfile(): void {
-		this.authorizationService.putData('login', this.user)
+		this.authorizationService.putData('api/login', this.user)
 		.toPromise()
 		.then(
 			(data) => {
 				this.error = '';
 				this.authorizationService.setTokensInCookie(data);
-
-				// this.openUserProfilePage();
 			},
 			(error) => {
 				console.log("ERROR");
-				// this.router.navigate(['/home']);
 				this.error = error.error.exception[0].message;
 			}
 		);

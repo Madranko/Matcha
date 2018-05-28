@@ -27,7 +27,5 @@ export class AuthorizationService {
 		this.cookieService.set('AccessToken', data['accessToken']);
 		this.cookieService.set('RefreshToken', data['refreshToken']);
 		this.cookieService.set('ExpireTime', data['expireTime']);
-		// this.cookieAccessTokenValue = this.cookieService.get('AccessToken');
-		// console.log(this.cookieAccessTokenValue);
 	}
 }

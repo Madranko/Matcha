@@ -5,11 +5,7 @@ import { Component, OnInit } from '@angular/core';
 	styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-	windowWidth = window.innerWidth;
 
-	onResizez(event) {
-		this.windowWidth = event.target.innerWidth;
-	}
 	constructor() { }
 	
 	ngOnInit() {

@@ -12,11 +12,17 @@ const routes: Routes = [
 		path: 'home',
 		component: HomeComponent,
 		children: [
-			{ path: 'signup', component: SignupComponent },
-			{ path: 'login', component: LoginComponent },
 			{ path: 'congrats', component: CongratsComponent },
 			{ path: 'forgot-pass', component: ForgotPassComponent }
 		],
+	},
+	{
+		path: 'login',
+		component: LoginComponent
+	},
+	{
+		path: 'signup',
+		component: SignupComponent
 	},
 	{
 		path: '',
