@@ -13,6 +13,7 @@ export class AuthorizationService {
 	cookieRefreshTokenValue = 'UNKNOWN';
 	cookieAccessTokenValue = 'UNKNOWN';
 	cookieExpireTimeValue = 'UNKNOWN';
+	error: string;
 
 	constructor(
 		private http: HttpClient,
@@ -40,33 +41,30 @@ export class AuthorizationService {
 	}
 
 	loginIfTokensValid() {
-		let cookies = {
-			'accessToken': this.cookieService.get('AccessToken'),
-			'refreshToken': this.cookieService.get('RefreshToken'),
-			'expireTime': this.cookieService.get('ExpireTime')
-		};
-		let res;
-		this.sendData('api/check-tokens', cookies)
-		.toPromise()
-		.then(
-			(data) => {
-				this.error = '';
-				this.setTokensInCookie(data);
-				console.log(data);
-				// this.openUserProfilePage();
-			},
-			(error) => {
-				// this.router.navigate(['/home']);
-				console.log(error);
+		if (this.isTokensExists()) {
+			let cookies = {
+				'accessToken': this.cookieService.get('AccessToken'),
+				'refreshToken': this.cookieService.get('RefreshToken'),
+				'expireTime': this.cookieService.get('ExpireTime')
+			};
+			this.sendData('api/check-tokens', cookies)
+			.toPromise()
+			.then(
+				(data) => {
+					this.error = '';
+					this.setTokensInCookie(data);
+					console.log(data);
+					this.openUserProfilePage(data['firstTimeLogin']);
+				},
+				(error) => {
+					// this.router.navigate(['/home']);
+					this.deleteTokens();
+					console.log(error);
 
-				// this.error = error.error.exception[0].message;
-			}
-		);
-	}
-
-	deleteTokens(data): Observable<any> {
-		this.deleteCookieTokens();
-		this.http.delete('http://localhost:8100/api/delete-refresh-token', data);
+					// this.error = error.error.exception[0].message;
+				}
+			);
+		}
 	}
 
 	checkIfTokensValid() {
@@ -78,9 +76,28 @@ export class AuthorizationService {
 		return this.sendData('checkTokens', cookies);
 	}
 
-	deleteCookieTokens(): void {
-		this.cookieService.delete('AccessToken');
-		this.cookieService.delete('RefreshToken');
-		this.cookieService.delete('ExpireTime');
+	deleteTokens() {
+		let token = { 'refreshToken': this.cookieService.get('RefreshToken') };
+		this.http.post('http://localhost:8100/api/delete-refresh-token', token)
+		.toPromise()
+		.then(
+			(data) => {
+				this.cookieService.delete('AccessToken');
+				this.cookieService.delete('RefreshToken');
+				this.cookieService.delete('ExpireTime');
+			}
+		);
+	}
+
+	openUserProfilePage(firstTimeLogin): void {
+		if (!this.error) {
+			if (firstTimeLogin === '0') {
+				console.log("First Login 0");
+				window.open('/profile', '_self');
+			} else {
+				console.log("First Login 1");
+				window.open('/user-info', '_self');
+			}
+		}
 	}
 }

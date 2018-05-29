@@ -77,21 +77,15 @@ export class LoginComponent implements OnInit {
 		.toPromise()
 		.then(
 			(data) => {
-				// console.log(data);
+				console.log(data);
 				this.error = '';
 				this.authorizationService.setTokensInCookie(data);
-				// this.openUserProfilePage();
+				this.authorizationService.openUserProfilePage(data['firstTimeLogin']);
 			},
 			(error) => {
 				console.log("ERROR");
 				this.error = error.error.exception[0].message;
 			}
 		);
-	}
-
-	openUserProfilePage(): void {
-		if (!this.error) {
-			window.open('/profile', '_self');
-		}
 	}
 }

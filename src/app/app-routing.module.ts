@@ -7,32 +7,38 @@ import { LoginComponent } from './user/login/login.component';
 import { CongratsComponent } from './user/congrats/congrats.component';
 import { ForgotPassComponent } from './user/forgot-pass/forgot-pass.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UserInfoComponent } from './profile/user-info/user-info.component';
 
 const routes: Routes = [
+	{
+		path: '',
+		redirectTo: '/home',
+		pathMatch: 'full'
+	},
+
 	{
 		path: 'home',
 		component: HomeComponent,
 		children: [
 			{ path: 'congrats', component: CongratsComponent },
-			{ path: 'forgot-pass', component: ForgotPassComponent }
+			{ path: 'forgot-pass', component: ForgotPassComponent },
+			{ path: 'login', component: LoginComponent },
+			{ path: 'signup', component: SignupComponent }
 		],
 	},
-	{
-		path: 'login',
-		component: LoginComponent
-	},
-	{
-		path: 'signup',
-		component: SignupComponent
-	},
+	// {
+	// 	path: 'login', component: LoginComponent
+	// },
+	// {
+	// 	path: 'signup', component: SignupComponent
+	// },
 	{
 		path: 'profile',
 		component: ProfileComponent
 	},
 	{
-		path: '',
-		redirectTo: '/home',
-		pathMatch: 'full'
+		path: 'user-info',
+		component: UserInfoComponent
 	},
 	{
 		path: '**',
@@ -53,5 +59,5 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 export const routingComponents = [
-	SignupComponent, LoginComponent, CongratsComponent, ForgotPassComponent
+	SignupComponent, LoginComponent, CongratsComponent, ForgotPassComponent, ProfileComponent
 ];

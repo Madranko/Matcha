@@ -14,6 +14,10 @@ import { ForgotPassComponent } from './user/forgot-pass/forgot-pass.component';
 
 import { CookieService } from 'ngx-cookie-service';
 import { ProfileComponent } from './profile/profile.component';
+import { UserInfoComponent } from './profile/user-info/user-info.component';
+import { GenderAndPreferencesComponent } from './profile/user-info/gender-and-preferences/gender-and-preferences.component';
+import { BirthdateComponent } from './profile/user-info/birthdate/birthdate.component';
+import { CityComponent } from './profile/user-info/city/city.component';
 
 @NgModule({
 	declarations: [
@@ -23,7 +27,11 @@ import { ProfileComponent } from './profile/profile.component';
 		routingComponents,
 		CongratsComponent,
 		ForgotPassComponent,
-		ProfileComponent
+		ProfileComponent,
+		UserInfoComponent,
+		GenderAndPreferencesComponent,
+		BirthdateComponent,
+		CityComponent
 	],
 	imports: [
 		BrowserModule,

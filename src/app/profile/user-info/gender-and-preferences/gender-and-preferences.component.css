@@ -1,0 +1,13 @@
+#box {
+	display: flex;
+	justify-content: space-around;
+}
+
+.radio-group {
+	display: inline-flex;
+	flex-direction: column;
+}
+
+.radio-group-button {
+	 margin: 5px;
+}

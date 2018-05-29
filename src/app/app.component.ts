@@ -18,14 +18,14 @@ export class AppComponent {
 		this.windowWidth = event.target.innerWidth;
 	}
 
-	isUserLoggedIn(): boolean {
-		if (
-			this.cookieService.check('AccessToken') &&
-			this.cookieService.check('RefreshToken') &&
-			this.cookieService.check('ExpireTime')
-		) {
-			return true;
-		}
-		return false;
-	}
+	// isUserLoggedIn(): boolean {
+	// 	if (
+	// 		this.cookieService.check('AccessToken') &&
+	// 		this.cookieService.check('RefreshToken') &&
+	// 		this.cookieService.check('ExpireTime')
+	// 	) {
+	// 		return true;
+	// 	}
+	// 	return false;
+	// }
 }
