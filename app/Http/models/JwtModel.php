@@ -16,11 +16,12 @@ class JwtModel
 		return time() + 1800;
 	}
 
-	public static function createAccessToken($uid, $accessTokenExpireTime) {
+	public static function createAccessToken($uid, $accessTokenExpireTime, $firsTimeLogin) {
 		$token = array(
 			"iss" => "http://localhost:8100/",
 			"uid" => $uid,
-			"exp" => $accessTokenExpireTime
+			"exp" => $accessTokenExpireTime,
+			"firstTimeLogin" => $firsTimeLogin
 		);
 
 		$jwt = JWT::encode($token, getenv('MATCHA_SECRET_KEY'), 'HS512');
@@ -39,6 +40,11 @@ class JwtModel
 	public static function getUidFromToken($token) {
 		$decodedToken = JWT::decode($token, getenv('MATCHA_SECRET_KEY'), array('HS512'));
 		return $decodedToken->uid;
+	}
+
+	public static function getFirstAccessFromToken($token) {
+		$decodedToken = JWT::decode($token, getenv('MATCHA_SECRET_KEY'), array('HS512'));
+		return $decodedToken->firstTimeLogin;
 	}
 
 	public function storeRefreshTokenInDb($token) {
@@ -75,14 +81,15 @@ class JwtModel
 		}
 	}
 
-	public static function refreshToken($id) {
+	public static function refreshToken($id, $firsTimeLogin) {
 		$newAccessTokenExpireTime = self::getAccessTokenExpireTime();
-		$newAccessToken = self::createAccessToken($id, $newAccessTokenExpireTime);
+		$newAccessToken = self::createAccessToken($id, $newAccessTokenExpireTime, $firsTimeLogin);
 		$newRefreshToken = self::createRefreshToken($id, time() + 3600);
 		return [
 			'accessToken' => $newAccessToken,
 			'refreshToken' => $newRefreshToken,
-			'expireTime' => $newAccessTokenExpireTime
+			'expireTime' => $newAccessTokenExpireTime,
+			'firstTimeLogin' => $firsTimeLogin
 		];
 	}
 }

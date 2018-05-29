@@ -36,7 +36,7 @@ $app->post(
 	}
 );
 
-$app->delete(
+$app->post(
 	'/api/delete-refresh-token',
 	function (Request $request, Response $response, array $args) use ($pdo) {
 		$authController = new AuthenticationController($pdo);

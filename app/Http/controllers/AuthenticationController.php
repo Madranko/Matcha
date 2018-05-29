@@ -33,7 +33,8 @@ class AuthenticationController extends Controller {
 			strtolower($login), hash('sha256', $password)
 		)) {
 			$uid = $this->authModel->getUserData("login", $login, "id");
-			$newTokens = JwtModel::refreshToken($uid);
+			$firsTimeLogin = $this->authModel->getUserData("login", $login, "first_time_login");
+			$newTokens = JwtModel::refreshToken($uid, $firsTimeLogin);
 			$this->jwtModel->storeRefreshTokenInDb($newTokens['refreshToken']);
 			return json_encode($newTokens);
 		} else {
@@ -46,7 +47,8 @@ class AuthenticationController extends Controller {
 			if ($id = JwtModel::getUidFromToken($refreshToken)) {
 				$tokenFromDb = $this->authModel->getUserData("id", $id, "refresh_token");
 				if (JwtModel::isRefreshTokenValid($refreshToken, $tokenFromDb) && JwtModel::isAccessTokenValid($accessToken)) {
-					$newTokens = JwtModel::refreshToken($id);
+					$firsTimeLogin = $this->authModel->getUserData("id", $id, "first_time_login");
+					$newTokens = JwtModel::refreshToken($id, $firsTimeLogin);
 					$this->jwtModel->storeRefreshTokenInDb($newTokens['refreshToken']);
 					return json_encode($newTokens);
 				} else {
@@ -57,7 +59,8 @@ class AuthenticationController extends Controller {
 			}
 		} else {
 			$id = JwtModel::getUidFromToken($refreshToken);
-			$newTokens = JwtModel::refreshToken($id);
+			$firsTimeLogin = $this->authModel->getUserData("id", $id, "first_time_login");
+			$newTokens = JwtModel::refreshToken($id, $firsTimeLogin);
 			$this->jwtModel->storeRefreshTokenInDb($newTokens['refreshToken']);
 			return json_encode($newTokens);
 		}
