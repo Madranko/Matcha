@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../user/authorization/authorization.service';
 import { Router } from '@angular/router';
-import { toPromise } from 'rxjs/add/operator';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({

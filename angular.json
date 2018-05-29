@@ -24,6 +24,7 @@
 												],
 												"styles": [
 														"src/styles.css",
+														"src/theme.scss",
 														"node_modules/materialize-css/dist/css/materialize.min.css"
 												],
 												"scripts": [

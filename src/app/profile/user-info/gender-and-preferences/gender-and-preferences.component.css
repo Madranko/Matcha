@@ -11,3 +11,16 @@
 .radio-group-button {
 	 margin: 5px;
 }
+
+.mat-radio-container > .mat-radio-outer-circle {
+
+	color: red;
+}
+
+.mat-radio-container > .mat-radio-inner-circle {
+
+	color: red;
+}
+mat-radio-button.mat-accent > .mat-radio-inner-circle {
+	color: red;
+}

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Authorization } from '../authorization/authorization.model';
 import { Patterns } from '../authorization/patterns.model';
-import { toPromise } from 'rxjs/add/operator';
 import { Router } from '@angular/router';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { CookieService } from 'ngx-cookie-service';
