@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../user/authorization/authorization.service';
 import { Router } from '@angular/router';
+<<<<<<< HEAD
+// import { toPromise } from 'rxjs/add/operator';
+||||||| merged common ancestors
+import { toPromise } from 'rxjs/add/operator';
+=======
+>>>>>>> 0f3fc3d6c7e1e710040152caa268d0d8625d77fb
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
