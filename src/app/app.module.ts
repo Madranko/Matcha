@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 // import { FormControl } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -22,6 +23,7 @@ import { BirthdateComponent } from './profile/user-info/birthdate/birthdate.comp
 import { InterestsComponent } from './profile/user-info/interests/interests.component';
 import { GenderComponent } from './profile/user-info/gender/gender.component';
 import { PreferencesComponent } from './profile/user-info/preferences/preferences.component';
+// import { DefaultInterestsComponent } from './profile/user-info/interests/default-interests/default-interests.component';
 // import { InterestsComponent } from './profile/user-info/interests/interests.component';
 
 @NgModule({
@@ -39,7 +41,9 @@ import { PreferencesComponent } from './profile/user-info/preferences/preference
 		// CityComponent,
 		InterestsComponent,
 		GenderComponent,
-		PreferencesComponent
+		PreferencesComponent,
+		// DefaultInterestsComponent
+		// ReactiveFormsModule
 		// InterestsComponent
 	],
 	imports: [
@@ -48,7 +52,8 @@ import { PreferencesComponent } from './profile/user-info/preferences/preference
 		MaterialModule,
 		AppRoutingModule,
 		HttpClientModule,
-		FormsModule
+		FormsModule,
+		ReactiveFormsModule
 	],
 	providers: [
 		CookieService

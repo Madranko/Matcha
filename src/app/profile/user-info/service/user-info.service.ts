@@ -16,4 +16,8 @@ export class UserInfoService {
 	getData(route): Observable<any> {
 		return this.http.get('http://localhost:8100/api/user-info/' + route);
 	}
+
+	getLocation() {
+		
+	}
 }

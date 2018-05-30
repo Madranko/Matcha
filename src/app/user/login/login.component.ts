@@ -2,12 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Authorization } from '../authorization/authorization.model';
 import { Patterns } from '../authorization/patterns.model';
-<<<<<<< HEAD
-// import { toPromise } from 'rxjs/add/operator';
-||||||| merged common ancestors
-import { toPromise } from 'rxjs/add/operator';
-=======
->>>>>>> 0f3fc3d6c7e1e710040152caa268d0d8625d77fb
+
 import { Router } from '@angular/router';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { CookieService } from 'ngx-cookie-service';
