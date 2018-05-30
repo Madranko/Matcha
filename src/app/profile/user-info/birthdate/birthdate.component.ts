@@ -3,7 +3,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
 	selector: 'app-birthdate',
 	templateUrl: './birthdate.component.html',
-	styleUrls: ['./birthdate.component.css']
+	styleUrls: [
+		'./birthdate.component.css',
+		'../user-info.component.css'
+	]
 })
 export class BirthdateComponent implements OnInit {
 	minDate = new Date(1900, 0, 1);

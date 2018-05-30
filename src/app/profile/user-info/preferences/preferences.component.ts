@@ -3,7 +3,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
 	selector: 'app-preferences',
 	templateUrl: './preferences.component.html',
-	styleUrls: ['./preferences.component.css']
+	styleUrls: [
+		'./preferences.component.css',
+		'../user-info.component.css'
+	]
 })
 export class PreferencesComponent implements OnInit {
 	preferences = [
@@ -17,9 +20,11 @@ export class PreferencesComponent implements OnInit {
 		},
 		{
 			value: 'bi',
-			viewValue: 'Biosexual'
+			viewValue: 'Bisexual'
 		}
 	];
+
+	selected: string = this.preferences[2].viewValue;
 
 	constructor() { }
 

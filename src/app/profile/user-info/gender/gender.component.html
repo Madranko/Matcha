@@ -1,8 +1,10 @@
-	<mat-icon><i class="fas fa-transgender-alt"></i></mat-icon>
-<mat-form-field>
-	<mat-select placeholder="Gender">
-		<mat-option *ngFor="let gender of genders" [value]="gender.value">
-			{{ gender.viewValue }}
-		</mat-option>
-	</mat-select>
-</mat-form-field>
+<div class="user-info-field">
+	<mat-icon class="user-info-field__mat-icon"><i class="fas fa-transgender"></i></mat-icon>
+	<mat-form-field class="user-info-field__form-field">
+		<mat-select placeholder="Gender">
+			<mat-option *ngFor="let gender of genders" [value]="gender.value">
+				{{ gender.viewValue }}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+</div>

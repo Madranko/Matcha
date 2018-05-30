@@ -10,7 +10,10 @@ import { UserInfoService } from '../service/user-info.service';
 @Component({
 	selector: 'app-interests',
 	templateUrl: './interests.component.html',
-	styleUrls: ['./interests.component.css']
+	styleUrls: [
+		'./interests.component.css',
+		'../user-info.component.css'
+	]
 })
 export class InterestsComponent implements OnInit {
 	visible: boolean = true;

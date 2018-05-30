@@ -22,7 +22,3 @@ input:not([type]):focus:not([readonly]) {
 	border-bottom: none;
 	box-shadow: none;
 }
-
-mat-form-field {
-	width: 75%;
-}
