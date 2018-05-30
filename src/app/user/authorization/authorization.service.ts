@@ -21,7 +21,7 @@ export class AuthorizationService {
 	) { }
 
 	sendData(route, data): Observable<any> {
-		return this.http.post('http://localhost:8100/' + route, data);
+		return this.http.post('http://localhost:8100/api/authorization/' + route, data);
 	}
 
 	setTokensInCookie(data): void {
@@ -47,7 +47,7 @@ export class AuthorizationService {
 				'refreshToken': this.cookieService.get('RefreshToken'),
 				'expireTime': this.cookieService.get('ExpireTime')
 			};
-			this.sendData('api/check-tokens', cookies)
+			this.sendData('checkTokens', cookies)
 			.toPromise()
 			.then(
 				(data) => {
@@ -78,7 +78,7 @@ export class AuthorizationService {
 
 	deleteTokens() {
 		let token = { 'refreshToken': this.cookieService.get('RefreshToken') };
-		this.http.post('http://localhost:8100/api/delete-refresh-token', token)
+		this.http.post('http://localhost:8100/api/authorization/deleteRefreshTokenFromDb', token)
 		.toPromise()
 		.then(
 			(data) => {

@@ -10,6 +10,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 
 @NgModule({
 	imports: [
@@ -22,7 +26,10 @@ import { MatSelectModule } from '@angular/material/select';
 		MatCardModule,
 		MatDatepickerModule,
 		MatNativeDateModule,
-		MatSelectModule
+		MatSelectModule,
+		MatGridListModule,
+		MatChipsModule,
+		MatAutocompleteModule
 	],
 	exports: [
 		MatButtonModule,
@@ -34,7 +41,10 @@ import { MatSelectModule } from '@angular/material/select';
 		MatCardModule,
 		MatDatepickerModule,
 		MatNativeDateModule,
-		MatSelectModule
+		MatSelectModule,
+		MatGridListModule,
+		MatChipsModule,
+		MatAutocompleteModule
 	],
 })
 export class MaterialModule { }

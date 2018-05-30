@@ -1,3 +1,11 @@
 .user-info-container {
 	color: black;
 }
+mat-grid-tile {
+  background: lightblue;
+}
+
+#box {
+	display: flex;
+	justify-content: space-around;
+}

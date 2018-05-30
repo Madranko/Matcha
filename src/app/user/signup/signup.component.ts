@@ -75,7 +75,7 @@ export class SignupComponent implements OnInit {
 	}
 
 	saveUserData(): void {
-		this.authorizationService.sendData('api/signup', this.user)
+		this.authorizationService.sendData('signUp', this.user)
 		.toPromise()
 		.then(
 			(data) => {

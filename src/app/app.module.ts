@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import { FormControl } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
@@ -15,9 +16,13 @@ import { ForgotPassComponent } from './user/forgot-pass/forgot-pass.component';
 import { CookieService } from 'ngx-cookie-service';
 import { ProfileComponent } from './profile/profile.component';
 import { UserInfoComponent } from './profile/user-info/user-info.component';
-import { GenderAndPreferencesComponent } from './profile/user-info/gender-and-preferences/gender-and-preferences.component';
+// import { GenderAndPreferencesComponent } from './profile/user-info/gender-and-preferences/gender-and-preferences.component';
 import { BirthdateComponent } from './profile/user-info/birthdate/birthdate.component';
-import { CityComponent } from './profile/user-info/city/city.component';
+// import { CityComponent } from './profile/user-info/city/city.component';
+import { InterestsComponent } from './profile/user-info/interests/interests.component';
+import { GenderComponent } from './profile/user-info/gender/gender.component';
+import { PreferencesComponent } from './profile/user-info/preferences/preferences.component';
+// import { InterestsComponent } from './profile/user-info/interests/interests.component';
 
 @NgModule({
 	declarations: [
@@ -29,9 +34,13 @@ import { CityComponent } from './profile/user-info/city/city.component';
 		ForgotPassComponent,
 		ProfileComponent,
 		UserInfoComponent,
-		GenderAndPreferencesComponent,
+		// GenderAndPreferencesComponent,
 		BirthdateComponent,
-		CityComponent
+		// CityComponent,
+		InterestsComponent,
+		GenderComponent,
+		PreferencesComponent
+		// InterestsComponent
 	],
 	imports: [
 		BrowserModule,
@@ -43,6 +52,7 @@ import { CityComponent } from './profile/user-info/city/city.component';
 	],
 	providers: [
 		CookieService
+		// FormControl
 	],
 	bootstrap: [AppComponent]
 })

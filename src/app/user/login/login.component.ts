@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Authorization } from '../authorization/authorization.model';
 import { Patterns } from '../authorization/patterns.model';
-import { toPromise } from 'rxjs/add/operator';
+// import { toPromise } from 'rxjs/add/operator';
 import { Router } from '@angular/router';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -73,7 +73,7 @@ export class LoginComponent implements OnInit {
 	}
 
 	loginToProfile(): void {
-		this.authorizationService.sendData('api/login', this.user)
+		this.authorizationService.sendData('login', this.user)
 		.toPromise()
 		.then(
 			(data) => {
