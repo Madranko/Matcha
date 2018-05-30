@@ -28,7 +28,9 @@ class AuthenticationController extends Controller {
 		$this->authModel->insertUserToDb($data);
 	}
 
-	public function login($login, $password) {
+	public function login($data) {
+		$login = $data['login'];
+		$password = $data['password'];
 		if ($this->authModel->isLoginPassMatch(
 			strtolower($login), hash('sha256', $password)
 		)) {
@@ -43,6 +45,10 @@ class AuthenticationController extends Controller {
 	}
 
 	public function checkTokens($refreshToken, $accessToken, $accessTokenExpireTime) {
+		$refreshToken = $data['refreshToken'];
+		$accessToken = $data['accessToken'];
+		$accessTokenExpireTime = $data['expireTime'];
+
 		if ($accessTokenExpireTime > time()) {
 			if ($id = JwtModel::getUidFromToken($refreshToken)) {
 				$tokenFromDb = $this->authModel->getUserData("id", $id, "refresh_token");
@@ -66,7 +72,8 @@ class AuthenticationController extends Controller {
 		}
 	}
 
-	public function deleteRefreshTokenFromDb($refreshToken) {
+	public function deleteRefreshTokenFromDb($data) {
+		$refreshToken = $data['refreshToken'];
 		$this->jwtModel->deleteRefreshTokenFromDb($refreshToken);
 	}
 }

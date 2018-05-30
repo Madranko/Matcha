@@ -10,4 +10,7 @@ $pdo->query("CREATE TABLE IF NOT EXISTS `users` (
 	`activation_link` VARCHAR(255) NOT NULL UNIQUE,
 	`is_activated` ENUM('0','1') NOT NULL DEFAULT '0',
 	`first_time_login` ENUM('0','1') NOT NULL DEFAULT '1')");
+
+$pdo->query("CREATE TABLE IF NOT EXISTS `interests` (
+	`tag` VARCHAR(32) NOT NULL UNIQUE)");
 ?>
