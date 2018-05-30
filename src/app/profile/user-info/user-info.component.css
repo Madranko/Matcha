@@ -1,11 +1,19 @@
-.user-info-container {
-	color: black;
-}
-mat-grid-tile {
-  background: lightblue;
+body {
+	font-family: Roboto, sans-serif;
 }
 
-#box {
+.user-info-container {
+	margin-top: 15px;
 	display: flex;
-	justify-content: space-around;
+	flex-direction: column;
+}
+
+.user-info-title {
+	font-size: 24px;
+	font-weight: 300;
+}
+
+.user-info-toolbar {
+	box-shadow: 0px 1px 0.1in 0px rgba(0,0,0,0.75);
+	padding: 0;
 }

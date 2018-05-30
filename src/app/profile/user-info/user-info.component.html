@@ -1,8 +1,13 @@
-<div class="row">
-	<mat-grid-list cols="4" rowHeight="2:2">
-		<mat-grid-tile colspan="2"><app-gender></app-gender></mat-grid-tile>
-		<mat-grid-tile colspan="2"><app-preferences></app-preferences></mat-grid-tile>
-		<mat-grid-tile colspan="4"><app-birthdate></app-birthdate></mat-grid-tile>
-		<mat-grid-tile colspan="4"><app-interests></app-interests></mat-grid-tile>
-	</mat-grid-list>
+<mat-toolbar color="accent" class="user-info-toolbar">
+	<div class="container">
+		<h3 class="user-info-title">Your info</h3>
+	</div>
+</mat-toolbar>
+<div class="container user-info-container">
+	<app-gender></app-gender>
+	<app-preferences></app-preferences>
+	<app-birthdate></app-birthdate>
+	<app-interests></app-interests>
 </div>
+<mat-divider></mat-divider>
+<button mat-raised-button color="accent">Save</button>

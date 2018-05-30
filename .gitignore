@@ -39,5 +39,6 @@ testem.log
 Thumbs.db
 
 *.swp
+*.orig
 vendor/
 MAMP.conf

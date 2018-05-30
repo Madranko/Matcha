@@ -12,3 +12,17 @@ mat-grid-tile {
 .demo-chip-list {
   width: 100%;
 }
+
+input:not([type]) {
+	border-bottom: none;
+	height: 15px;
+	margin: 0;
+}
+input:not([type]):focus:not([readonly]) {
+	border-bottom: none;
+	box-shadow: none;
+}
+
+mat-form-field {
+	width: 75%;
+}

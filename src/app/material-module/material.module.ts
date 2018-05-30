@@ -9,13 +9,13 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
-// import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatToolbarModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
 	imports: [
@@ -28,13 +28,13 @@ import { MatSelectModule } from '@angular/material/select';
 		MatCardModule,
 		MatDatepickerModule,
 		MatNativeDateModule,
-		// MatSelectModule,
 		MatGridListModule,
 		MatChipsModule,
 		MatAutocompleteModule,
 		MatToolbarModule,
 		MatBadgeModule,
-		MatSelectModule
+		MatSelectModule,
+		MatDividerModule
 	],
 	exports: [
 		MatButtonModule,
@@ -46,13 +46,13 @@ import { MatSelectModule } from '@angular/material/select';
 		MatCardModule,
 		MatDatepickerModule,
 		MatNativeDateModule,
-		// MatSelectModule,
 		MatGridListModule,
 		MatChipsModule,
 		MatAutocompleteModule,
 		MatToolbarModule,
 		MatBadgeModule,
-		MatSelectModule
+		MatSelectModule,
+		MatDividerModule
 	],
 })
 export class MaterialModule { }
