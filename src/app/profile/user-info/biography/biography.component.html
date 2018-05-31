@@ -1,6 +1,11 @@
 <div class="user-info-field">
 	<!-- <mat-icon class="user-info-field__mat-icon">assignment</mat-icon> -->
-	<mat-form-field class="user-info-field__form-field">
-		<textarea matInput placeholder="Biography"></textarea>
+	<mat-form-field ngModelGroup="biography" class="user-info-field__form-field">
+		<textarea
+		matInput
+		matTextareaAutosize
+		placeholder="Biography"
+		name="biography"
+		ngModel></textarea>
 	</mat-form-field>
 </div>

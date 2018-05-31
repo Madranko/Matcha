@@ -3,13 +3,16 @@
 		<h3 class="user-info-title">Your info</h3>
 	</div>
 </mat-toolbar>
-<div class="container user-info-container">
-	<app-profile-photo></app-profile-photo>
-	<app-gender></app-gender>
-	<app-preferences></app-preferences>
-	<app-birthdate></app-birthdate>
-	<app-interests></app-interests>
-	<app-biography></app-biography>
-</div>
-<mat-divider></mat-divider>
-<button mat-raised-button color="accent">Save</button>
+<form #AddUserInfoForm="ngForm" (ngSubmit)="onSubmit(AddUserInfoForm)">
+	<div class="container user-info-container">
+		<app-profile-photo></app-profile-photo>
+		<app-gender></app-gender>
+		<app-preferences></app-preferences>
+		<app-birthdate></app-birthdate>
+		<app-interests></app-interests>
+		<app-biography></app-biography>
+	</div>
+	<mat-divider></mat-divider>
+	<button mat-raised-button color="accent" type="submit" name="submit">Save</button>
+</form>
+<!-- <pre>{{ AddUserInfoForm.value | json }}</pre> -->
