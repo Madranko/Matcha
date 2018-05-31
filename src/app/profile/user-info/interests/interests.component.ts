@@ -1,11 +1,12 @@
 import { OnInit } from '@angular/core';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {Component, ElementRef, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { UserInfoService } from '../service/user-info.service';
+import { ControlContainer, NgForm } from '@angular/forms';
 
 @Component({
 	selector: 'app-interests',
@@ -13,7 +14,8 @@ import { UserInfoService } from '../service/user-info.service';
 	styleUrls: [
 		'./interests.component.css',
 		'../user-info.component.css'
-	]
+	],
+	viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ]
 })
 export class InterestsComponent implements OnInit {
 	visible: boolean = true;
@@ -22,7 +24,7 @@ export class InterestsComponent implements OnInit {
 	addOnBlur: boolean = false;
 	error: string;
 	counter = 0;
-
+	// tagsToStore: UserTags;
 	separatorKeysCodes = [ENTER, COMMA];
 	tagCtrl = new FormControl();
 	filteredTags: Observable<any[]>;
@@ -61,6 +63,8 @@ export class InterestsComponent implements OnInit {
 			if ((value || '').trim() && this.checkIfExists(value)) {
 				this.tags.push(value.trim());
 				this.counter = this.tags.length;
+				console.log(this.tags);
+				// this.tagsToStore.tags = this.tags;
 			}
 		}
 		if (input) {

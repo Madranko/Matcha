@@ -1,7 +1,7 @@
 <div class="user-info-field">
 	<mat-icon class="user-info-field__mat-icon"><i class="fas fa-venus-mars"></i></mat-icon>
-	<mat-form-field class="user-info-field__form-field">
-		<mat-select placeholder="Sexual preferences">
+	<mat-form-field ngModelGroup="preferences" class="user-info-field__form-field">
+		<mat-select name="preferences" ngModel placeholder="Sexual preferences">
 			<mat-option *ngFor="let preference of preferences" [value]="preference.value">
 				{{ preference.viewValue }}
 			</mat-option>
