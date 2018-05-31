@@ -4,7 +4,10 @@ import { CookieService } from 'ngx-cookie-service';
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.css']
+	styleUrls: [
+		'./app.component.css'
+		// './fontawesome/css/fontawesome-all.min.css'
+	]
 })
 export class AppComponent {
 

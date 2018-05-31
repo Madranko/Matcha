@@ -6,7 +6,7 @@ import { NgForm } from '@angular/forms';
 	styleUrls: ['./profile-photo.component.css']
 })
 export class ProfilePhotoComponent implements OnInit {
-	imageUrl: string = "https://www.metatube.com/assets/metatube/video/img/Upload.svg";
+	imageUrl: string = "assets/upload.svg";
 	fileToUpload: File = null;
 	constructor() { }
 
