@@ -13,15 +13,15 @@ import { ControlContainer, NgForm } from '@angular/forms';
 export class PreferencesComponent implements OnInit {
 	preferences = [
 		{
-			value: 'hetero',
+			value: 'heterosexual',
 			viewValue: 'Heterosexual'
 		},
 		{
-			value: 'gay',
+			value: 'homosexual',
 			viewValue: 'Homosexual'
 		},
 		{
-			value: 'bi',
+			value: 'bisexual',
 			viewValue: 'Bisexual'
 		}
 	];

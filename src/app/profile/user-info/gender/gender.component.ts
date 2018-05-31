@@ -21,7 +21,7 @@ export class GenderComponent implements OnInit {
 			viewValue: 'Female'
 		},
 		{
-			value: 'Transgender',
+			value: 'transgender',
 			viewValue: 'Transgender'
 		}
 	];

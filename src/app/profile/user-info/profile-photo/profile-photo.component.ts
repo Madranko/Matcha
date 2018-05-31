@@ -8,7 +8,7 @@ import { ControlContainer, NgForm } from '@angular/forms';
 	viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ]
 })
 export class ProfilePhotoComponent implements OnInit {
-	imageUrl: string = "https://www.metatube.com/assets/metatube/video/img/Upload.svg";
+	imageUrl: string = "assets/Upload.svg";
 	fileToUpload: File = null;
 	constructor() { }
 

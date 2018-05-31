@@ -13,6 +13,13 @@
 		<app-biography></app-biography>
 	</div>
 	<mat-divider></mat-divider>
-	<button mat-raised-button color="accent" type="submit" name="submit">Save</button>
+	<div class="row under-divider">
+		<button mat-raised-button color="accent" type="submit" name="submit">Save</button>
+		<mat-error *ngIf="error">
+			<div>
+				{{ error }}
+			</div>
+		</mat-error>
+	</div>
 </form>
 <!-- <pre>{{ AddUserInfoForm.value | json }}</pre> -->
