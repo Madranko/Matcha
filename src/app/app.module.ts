@@ -23,6 +23,8 @@ import { BirthdateComponent } from './profile/user-info/birthdate/birthdate.comp
 import { InterestsComponent } from './profile/user-info/interests/interests.component';
 import { GenderComponent } from './profile/user-info/gender/gender.component';
 import { PreferencesComponent } from './profile/user-info/preferences/preferences.component';
+import { BiographyComponent } from './profile/user-info/biography/biography.component';
+import { ProfilePhotoComponent } from './profile/user-info/profile-photo/profile-photo.component';
 // import { DefaultInterestsComponent } from './profile/user-info/interests/default-interests/default-interests.component';
 // import { InterestsComponent } from './profile/user-info/interests/interests.component';
 
@@ -42,6 +44,8 @@ import { PreferencesComponent } from './profile/user-info/preferences/preference
 		InterestsComponent,
 		GenderComponent,
 		PreferencesComponent,
+		BiographyComponent,
+		ProfilePhotoComponent,
 		// DefaultInterestsComponent
 		// ReactiveFormsModule
 		// InterestsComponent

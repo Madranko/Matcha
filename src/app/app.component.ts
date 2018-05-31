@@ -12,11 +12,11 @@ export class AppComponent {
 		private cookieService: CookieService
 	) { }
 
-	windowWidth = window.innerWidth;
+	// windowWidth = window.innerWidth;
 
-	onResizez(event) {
-		this.windowWidth = event.target.innerWidth;
-	}
+	// onResizez(event) {
+	// 	this.windowWidth = event.target.innerWidth;
+	// }
 
 	// isUserLoggedIn(): boolean {
 	// 	if (

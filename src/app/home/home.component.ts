@@ -10,7 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class HomeComponent implements OnInit {
 	error: string;
-
+	windowWidth = window.innerWidth;
 	constructor(
 		private cookieService: CookieService,
 		private authorizationService: AuthorizationService,
@@ -28,6 +28,10 @@ export class HomeComponent implements OnInit {
 		} else {
 			return false;
 		}
+	}
+
+	onResizez(event) {
+		this.windowWidth = event.target.innerWidth;
 	}
 
 	isUserLoggedIn(): boolean {
