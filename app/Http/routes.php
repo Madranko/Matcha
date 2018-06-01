@@ -18,7 +18,15 @@ $app->group('/api', function () use ($app, $pdo) {
 
 				$authController = new AuthenticationController($pdo);
 				$method = $args['method'];
-				// return json_encode($method);
+				return $authController->$method($request->getParams());
+			}
+		);
+		$app->get(
+			'/{method}',
+			function (Request $request, Response $response, array $args) use ($pdo) {
+
+				$authController = new AuthenticationController($pdo);
+				$method = $args['method'];
 				return $authController->$method($request->getParams());
 			}
 		);
@@ -28,13 +36,9 @@ $app->group('/api', function () use ($app, $pdo) {
 		$app->get(
 			'/{method}',
 			function (Request $request, Response $response, array $args) use ($pdo) {
-				// return json_encode($args['method']);
-				// return json_encode(var_export($pdo, true));
 				$userInfoController = new UserInfoController($pdo);
 				$method = $args['method'];
-				// return json_encode($method);
 				return $userInfoController->$method();
-				// return json_encode($method);
 			}
 		);
 		$app->post(
@@ -42,7 +46,6 @@ $app->group('/api', function () use ($app, $pdo) {
 			function (Request $request, Response $response, array $args) use ($pdo) {
 				$userInfoController = new UserInfoController($pdo);
 				$method = $args['method'];
-				// return json_encode($method);
 				return $userInfoController->$method($request->getParams());
 			}
 		);

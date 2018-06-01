@@ -18,6 +18,12 @@ class AuthenticationController extends Controller {
 		$this->pdo = $pdo;
 	}
 
+	public function verify($data)
+	{
+		$this->authModel->activateAccount($data['email'], $data['hash']);
+		// return json_encode($data);
+	}
+
 	public function signUp($data) {
 		if (
 			$this->authModel->isUserExists(strtolower($data['login'])) ||
@@ -25,22 +31,27 @@ class AuthenticationController extends Controller {
 		) {
 			throw new \Exception('Login or Email is already in use');
 		}
-		$this->authModel->insertUserToDb($data);
+		return ($this->authModel->insertUserToDb($data));
 	}
 
 	public function login($data) {
-		$login = $data['login'];
-		$password = $data['password'];
-		if ($this->authModel->isLoginPassMatch(
-			strtolower($login), hash('sha256', $password)
-		)) {
-			$uid = $this->authModel->getUserData("login", $login, "id");
-			$firsTimeLogin = $this->authModel->getUserData("login", $login, "first_time_login");
-			$newTokens = JwtModel::refreshToken($uid, $firsTimeLogin);
-			$this->jwtModel->storeRefreshTokenInDb($newTokens['refreshToken']);
-			return json_encode($newTokens);
+		if ($this->authModel->isAccountActivated($data['login'])) {
+			$login = $data['login'];
+			$password = $data['password'];
+			if ($this->authModel->isLoginPassMatch(
+				strtolower($login), hash('sha256', $password)
+			)) {
+				$uid = $this->authModel->getUserData("login", $login, "id");
+				$firsTimeLogin = $this->authModel->getUserData("login", $login, "first_time_login");
+				$newTokens = JwtModel::refreshToken($uid, $firsTimeLogin);
+				$this->jwtModel->storeRefreshTokenInDb($newTokens['refreshToken']);
+				return json_encode($newTokens);
+			} else {
+				throw new \Exception('Something went wrong');
+			}
 		} else {
-			throw new \Exception('Something went wrong');
+			$this->authModel->sendLinkOnEmail("login", $data['login']);
+			throw new \Exception('You have to activate your account with activation link. Check your mail!');
 		}
 	}
 
