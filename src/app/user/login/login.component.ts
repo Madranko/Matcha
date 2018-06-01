@@ -4,7 +4,6 @@ import { Authorization } from '../authorization/authorization.model';
 import { Patterns } from '../authorization/patterns.model';
 import { Router } from '@angular/router';
 import { AuthorizationService } from '../authorization/authorization.service';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
 	selector: 'app-login',
@@ -83,6 +82,7 @@ export class LoginComponent implements OnInit {
 			},
 			(error) => {
 				console.log("ERROR");
+				this.authorizationService.deleteTokens();
 				this.error = error.error.exception[0].message;
 			}
 		);

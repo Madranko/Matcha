@@ -5,6 +5,8 @@ import { ViewChild, AfterViewInit } from '@angular/core';
 import { InterestsComponent } from "./interests/interests.component";
 import { ProfilePhotoComponent } from "./profile-photo/profile-photo.component";
 import { UserInfoService } from "./service/user-info.service";
+import { AuthorizationService } from '../../user/authorization/authorization.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
 	selector: 'app-user-info',
@@ -15,7 +17,9 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 	error: string;
 	constructor(
 		private userInfoService: UserInfoService,
-		private router: Router
+		private authorizationService: AuthorizationService,
+		private router: Router,
+		private cookieService: CookieService
 	) { }
 
 	ngAfterViewInit() {
@@ -42,13 +46,15 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 			preferences: preferences,
 			birthdate: birthdate,
 			biography: biography,
-			id: 0
+			refreshToken: this.cookieService.get('RefreshToken'),
+			accessToken: this.cookieService.get('AccessToken'),
+			expireTime: this.cookieService.get('ExpireTime')
 		}
-		console.log(data['birthdate'])
+		console.log(data)
 		if(this.isValid(data)) {
 			data['preferences'] = this.checkPreferences(data['preferences']);
 			//SEND DATA ON SERVER
-			this.userInfoService.storeUserInfo(data);
+			this.userInfoService.sendData('storeUserInfo', data);
 		} else {
 			console.log("NOT OK");
 		}

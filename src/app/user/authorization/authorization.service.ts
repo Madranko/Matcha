@@ -28,7 +28,6 @@ export class AuthorizationService {
 		this.cookieService.set('AccessToken', data['accessToken']);
 		this.cookieService.set('RefreshToken', data['refreshToken']);
 		this.cookieService.set('ExpireTime', data['expireTime']);
-		this.cookieService.set('id', data['id']);
 	}
 
 	isTokensExists() {
