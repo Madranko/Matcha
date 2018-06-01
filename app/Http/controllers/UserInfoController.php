@@ -2,15 +2,22 @@
 namespace App\Http\controllers;
 
 use \App\Http\controllers\Controller;
+use \App\Http\controllers\AuthenticationController;
 use \App\Http\models\UserInfoModel;
+use \App\Http\models\JwtModel;
+use \App\Http\models\AuthenticationModel;
 
 class UserInfoController extends Controller {
 
 	private $pdo;
+	private $userInfoModel;
+	private $authController;
+	// private $jwtModel;
+	// private $authModel;
 
 	public function __construct($pdo) {
 		$this->userInfoModel = $this->model('UserInfoModel', $pdo);
-		// $this->jwtModel = $this->model('JwtModel', $pdo);
+		$this->authController = new AuthenticationController($pdo);
 		$this->pdo = $pdo;
 	}
 
@@ -19,8 +26,11 @@ class UserInfoController extends Controller {
 	}
 
 	public function storeUserInfo($data) {
-		$this->userInfoModel->storeInterests($data['tags'], $data['id']);
-		return json_encode($this->userInfoModel->storeInfo($data));
+		$tokens = $this->authController->checkTokens($data);
+		$id = JwtModel::getUidFromToken($data['refreshToken']);
+		$this->userInfoModel->storeInterests($data['tags'], $id);
+		$this->userInfoModel->storeInfo($data, $id);
+		return $tokens;
 	}
 }
 ?>

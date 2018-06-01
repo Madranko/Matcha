@@ -51,7 +51,7 @@ class UserInfoModel {
 	}
 
 	public function checkIfAlreadyExists($id) {
-		$statement = "SELECT * FROM `user_info` WHERE `id`=?";
+		$statement = "SELECT * FROM `user_info` WHERE `uid`=?";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$id]);
 		$fetch = $preparedStatement->fetch();
@@ -62,18 +62,22 @@ class UserInfoModel {
 		}
 	}
 
-	public function storeInfo($data) {
+	public function storeInfo($data, $id) {
 		// $birthdate = date("Y-m-d", $data['birthdate']);
 		$unix_date = strtotime($data['birthdate']);
 		$birthdate = date("Y-m-d", $unix_date);
 		// return $birthdate;
-		if ($this->checkIfAlreadyExists($data['id'])) {
-			$statement = "UPDATE `user_info` SET `uid`=?, `gender`=?, `preferences`=?, `birthdate`=?, `biography`=?";
+		// return json_encode($this->checkIfAlreadyExists($id));
+		if ($this->checkIfAlreadyExists($id)) {
+			$statement = "UPDATE `user_info` SET `gender`=?, `preferences`=?, `birthdate`=?, `biography`=? WHERE `uid`=?";
+			$preparedStatement = $this->pdo->prepare($statement);
+			$preparedStatement->execute([$data['gender'], $data['preferences'], $birthdate, $data['biography'], $id]);
 		} else {
 			$statement = "INSERT INTO `user_info` (`uid`, `gender`, `preferences`, `birthdate`, `biography`) VALUE (?, ?, ?, ?, ?)";
+			$preparedStatement = $this->pdo->prepare($statement);
+			$preparedStatement->execute([$id, $data['gender'], $data['preferences'], $birthdate, $data['biography']]);
 		}
-		$preparedStatement = $this->pdo->prepare($statement);
-		$preparedStatement->execute([$data['id'], $data['gender'], $data['preferences'], $birthdate, $data['biography']]);
+
 	}
 }
 ?>

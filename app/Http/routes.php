@@ -28,6 +28,7 @@ $app->group('/api', function () use ($app, $pdo) {
 		$app->get(
 			'/{method}',
 			function (Request $request, Response $response, array $args) use ($pdo) {
+				// return json_encode($args['method']);
 				// return json_encode(var_export($pdo, true));
 				$userInfoController = new UserInfoController($pdo);
 				$method = $args['method'];
