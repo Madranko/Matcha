@@ -22,7 +22,7 @@ export class ProfilePhotoComponent implements OnInit {
 		var reader = new FileReader();
 		reader.onload = (event:any) => {
 			this.imageUrl = event.target.result;
-			console.log(this.imageUrl);
+			// console.log(this.imageUrl);
 		}
 		reader.readAsDataURL(this.fileToUpload);
 	}

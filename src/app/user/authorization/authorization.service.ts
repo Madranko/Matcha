@@ -28,6 +28,7 @@ export class AuthorizationService {
 		this.cookieService.set('AccessToken', data['accessToken']);
 		this.cookieService.set('RefreshToken', data['refreshToken']);
 		this.cookieService.set('ExpireTime', data['expireTime']);
+		this.cookieService.set('id', data['id']);
 	}
 
 	isTokensExists() {
@@ -42,12 +43,7 @@ export class AuthorizationService {
 
 	loginIfTokensValid() {
 		if (this.isTokensExists()) {
-			let cookies = {
-				'accessToken': this.cookieService.get('AccessToken'),
-				'refreshToken': this.cookieService.get('RefreshToken'),
-				'expireTime': this.cookieService.get('ExpireTime')
-			};
-			this.sendData('checkTokens', cookies)
+			this.checkIfTokensValid()
 			.toPromise()
 			.then(
 				(data) => {
@@ -85,6 +81,7 @@ export class AuthorizationService {
 				this.cookieService.delete('AccessToken');
 				this.cookieService.delete('RefreshToken');
 				this.cookieService.delete('ExpireTime');
+				this.cookieService.delete('id');
 			}
 		);
 	}

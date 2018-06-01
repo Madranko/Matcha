@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ViewChild, AfterViewInit } from '@angular/core';
 import { InterestsComponent } from "./interests/interests.component";
 import { ProfilePhotoComponent } from "./profile-photo/profile-photo.component";
+import { UserInfoService } from "./service/user-info.service";
 
 @Component({
 	selector: 'app-user-info',
@@ -13,6 +14,7 @@ import { ProfilePhotoComponent } from "./profile-photo/profile-photo.component";
 export class UserInfoComponent implements OnInit, AfterViewInit {
 	error: string;
 	constructor(
+		private userInfoService: UserInfoService,
 		private router: Router
 	) { }
 
@@ -39,12 +41,14 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 			gender: gender,
 			preferences: preferences,
 			birthdate: birthdate,
-			biography: biography
+			biography: biography,
+			id: 0
 		}
+		console.log(data['birthdate'])
 		if(this.isValid(data)) {
 			data['preferences'] = this.checkPreferences(data['preferences']);
 			//SEND DATA ON SERVER
-			console.log(data['preferences']);
+			this.userInfoService.storeUserInfo(data);
 		} else {
 			console.log("NOT OK");
 		}
