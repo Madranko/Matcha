@@ -16,6 +16,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatToolbarModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
 	imports: [
@@ -34,7 +36,9 @@ import { MatDividerModule } from '@angular/material/divider';
 		MatToolbarModule,
 		MatBadgeModule,
 		MatSelectModule,
-		MatDividerModule
+		MatDividerModule,
+		MatMenuModule,
+		MatTabsModule
 	],
 	exports: [
 		MatButtonModule,
@@ -52,7 +56,9 @@ import { MatDividerModule } from '@angular/material/divider';
 		MatToolbarModule,
 		MatBadgeModule,
 		MatSelectModule,
-		MatDividerModule
+		MatDividerModule,
+		MatMenuModule,
+		MatTabsModule
 	],
 })
 export class MaterialModule { }

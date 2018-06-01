@@ -1,0 +1,31 @@
+<mat-toolbar color="accent">
+	<div class="container nav-bar">
+		<h2>Welcome to Matcha</h2>
+		<div>
+			<button mat-icon-button [matMenuTriggerFor]="menu" class="nav-bar__profile-picture__button">
+				<div class="nav-bar__profile-picture"></div>
+			</button>
+			<mat-menu #menu="matMenu">
+				<button mat-menu-item>
+					<mat-icon>subdirectory_arrow_right</mat-icon>
+					<span>Log Out</span>
+				</button>
+			</mat-menu>
+		</div>
+	</div>
+</mat-toolbar>
+<div
+	mat-tab-nav-bar
+	(window:resize)="onResizez($event)"
+	[ngClass]="{'container': windowWidth <= 599 ? false : true, 'tab-container': true}">
+	<a mat-tab-link
+		*ngFor="let link of navLinks"
+		[routerLink]="link.path"
+		routerLinkActive #rla="routerLinkActive"
+		[active]="rla.isActive"
+		class="tab-container__link">
+		<mat-icon>{{ link.icon }}</mat-icon>
+		{{ link.label }}
+	</a>
+</div>
+<router-outlet></router-outlet>

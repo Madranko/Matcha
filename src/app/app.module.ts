@@ -25,6 +25,11 @@ import { GenderComponent } from './profile/user-info/gender/gender.component';
 import { PreferencesComponent } from './profile/user-info/preferences/preferences.component';
 import { BiographyComponent } from './profile/user-info/biography/biography.component';
 import { ProfilePhotoComponent } from './profile/user-info/profile-photo/profile-photo.component';
+import { MainPageComponent } from './main-page/main-page.component';
+import { SearchComponent } from './main-page/search/search.component';
+import { ChatComponent } from './main-page/chat/chat.component';
+import { FavoritesComponent } from './main-page/favorites/favorites.component';
+import { SettingsComponent } from './main-page/settings/settings.component';
 // import { DefaultInterestsComponent } from './profile/user-info/interests/default-interests/default-interests.component';
 // import { InterestsComponent } from './profile/user-info/interests/interests.component';
 
@@ -46,6 +51,11 @@ import { ProfilePhotoComponent } from './profile/user-info/profile-photo/profile
 		PreferencesComponent,
 		BiographyComponent,
 		ProfilePhotoComponent,
+		MainPageComponent,
+		SearchComponent,
+		ChatComponent,
+		FavoritesComponent,
+		SettingsComponent,
 		// DefaultInterestsComponent
 		// ReactiveFormsModule
 		// InterestsComponent
