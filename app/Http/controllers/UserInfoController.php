@@ -17,5 +17,10 @@ class UserInfoController extends Controller {
 	public function getInterests() {
 		return json_encode($this->userInfoModel->getAllInterests());
 	}
+
+	public function storeUserInfo($data) {
+		$this->userInfoModel->storeInterests($data['tags'], $data['id']);
+		return json_encode($this->userInfoModel->storeInfo($data));
+	}
 }
 ?>

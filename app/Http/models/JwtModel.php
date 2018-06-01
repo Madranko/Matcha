@@ -89,7 +89,8 @@ class JwtModel
 			'accessToken' => $newAccessToken,
 			'refreshToken' => $newRefreshToken,
 			'expireTime' => $newAccessTokenExpireTime,
-			'firstTimeLogin' => $firsTimeLogin
+			'firstTimeLogin' => $firsTimeLogin,
+			'id' => $id
 		];
 	}
 }

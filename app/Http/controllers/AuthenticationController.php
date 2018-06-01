@@ -44,7 +44,7 @@ class AuthenticationController extends Controller {
 		}
 	}
 
-	public function checkTokens($refreshToken, $accessToken, $accessTokenExpireTime) {
+	public function checkTokens($data) {
 		$refreshToken = $data['refreshToken'];
 		$accessToken = $data['accessToken'];
 		$accessTokenExpireTime = $data['expireTime'];

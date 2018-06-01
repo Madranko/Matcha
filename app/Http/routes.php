@@ -15,6 +15,7 @@ $app->group('/api', function () use ($app, $pdo) {
 		$app->post(
 			'/{method}',
 			function (Request $request, Response $response, array $args) use ($pdo) {
+
 				$authController = new AuthenticationController($pdo);
 				$method = $args['method'];
 				// return json_encode($method);
@@ -33,6 +34,15 @@ $app->group('/api', function () use ($app, $pdo) {
 				// return json_encode($method);
 				return $userInfoController->$method();
 				// return json_encode($method);
+			}
+		);
+		$app->post(
+			'/{method}',
+			function (Request $request, Response $response, array $args) use ($pdo) {
+				$userInfoController = new UserInfoController($pdo);
+				$method = $args['method'];
+				// return json_encode($method);
+				return $userInfoController->$method($request->getParams());
 			}
 		);
 	});

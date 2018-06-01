@@ -10,7 +10,7 @@ class UserInfoModel {
 
 	public function getAllInterests() {
 		$result = array();
-		$statement = "SELECT * FROM `interests`";
+		$statement = "SELECT `tag` FROM `interests`";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute();
 		$fetch =  $preparedStatement->fetchAll();
@@ -18,6 +18,62 @@ class UserInfoModel {
 			$result[] = $value[0];
 		}
 		return $result;
+	}
+
+	public function putNewInterestsToBase($interests) {
+		foreach ($interests as $tag) {
+			$statement = "SELECT `tag` FROM `interests` WHERE `tag`=?";
+			$preparedStatement = $this->pdo->prepare($statement);
+			$preparedStatement->execute([$tag]);
+			$fetch =  $preparedStatement->fetch();
+			if (!$fetch[0]) {
+				$statement = "INSERT INTO `interests` (`tag`) VALUE (?)";
+				$preparedStatement = $this->pdo->prepare($statement);
+				$preparedStatement->execute([$tag]);
+			}
+		}
+	}
+
+	public function storeUserInterests($interests, $uid) {
+		$statement = "DELETE FROM `all_user_interests` WHERE `uid`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$uid]);
+		foreach ($interests as $tag) {
+			$statement = "INSERT INTO `all_user_interests` (`uid`, `tag`) VALUE (?, ?)";
+			$preparedStatement = $this->pdo->prepare($statement);
+			$preparedStatement->execute([$uid, $tag]);
+		}
+	}
+
+	public function storeInterests($allTags, $uid) {
+		$this->putNewInterestsToBase($allTags);
+		$this->storeUserInterests($allTags, $uid);
+	}
+
+	public function checkIfAlreadyExists($id) {
+		$statement = "SELECT * FROM `user_info` WHERE `id`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$id]);
+		$fetch = $preparedStatement->fetch();
+		if ($fetch[0]) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function storeInfo($data) {
+		// $birthdate = date("Y-m-d", $data['birthdate']);
+		$unix_date = strtotime($data['birthdate']);
+		$birthdate = date("Y-m-d", $unix_date);
+		// return $birthdate;
+		if ($this->checkIfAlreadyExists($data['id'])) {
+			$statement = "UPDATE `user_info` SET `uid`=?, `gender`=?, `preferences`=?, `birthdate`=?, `biography`=?";
+		} else {
+			$statement = "INSERT INTO `user_info` (`uid`, `gender`, `preferences`, `birthdate`, `biography`) VALUE (?, ?, ?, ?, ?)";
+		}
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$data['id'], $data['gender'], $data['preferences'], $birthdate, $data['biography']]);
 	}
 }
 ?>

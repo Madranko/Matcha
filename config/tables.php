@@ -12,5 +12,19 @@ $pdo->query("CREATE TABLE IF NOT EXISTS `users` (
 	`first_time_login` ENUM('0','1') NOT NULL DEFAULT '1')");
 
 $pdo->query("CREATE TABLE IF NOT EXISTS `interests` (
+	`id` INT (6) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
 	`tag` VARCHAR(32) NOT NULL UNIQUE)");
+
+$pdo->query("CREATE TABLE IF NOT EXISTS `all_user_interests` (
+	`id` INT (6) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	`uid` INT (6) UNSIGNED NOT NULL,
+	`tag` VARCHAR(32) NOT NULL)");
+
+$pdo->query("CREATE TABLE IF NOT EXISTS `user_info` (
+	`id` INT (6) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	`uid` INT (6) UNSIGNED NOT NULL UNIQUE,
+	`gender` VARCHAR(32) NOT NULL,
+	`preferences` VARCHAR(32) NOT NULL,
+	`birthdate` DATE NOT NULL,
+	`biography` TEXT NOT NULL)");
 ?>
