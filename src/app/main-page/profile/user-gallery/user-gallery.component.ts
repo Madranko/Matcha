@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserInfoService } from '../../../profile/user-info/service/user-info.service';
+import { AuthorizationService } from '../../../user/authorization/authorization.service';
 
 @Component({
 	selector: 'app-user-gallery',
@@ -12,9 +14,18 @@ export class UserGalleryComponent implements OnInit {
 	windowWidth = window.innerWidth;
 	fileToUpload: File = null;
 	imageUrl: string = "assets/upload.svg";
-	constructor() { }
+	constructor(
+		private userInfoService: UserInfoService,
+		private authorizationService: AuthorizationService
+	) { }
 
 	ngOnInit() {
+		this.getGalleryPhotos();
+	}
+
+	getGalleryPhotos() {
+		let cookies = this.authorizationService.getTokensFromCookie();
+		this.userInfoService.sendRequest('getGalleryPhotos', cookies);
 	}
 
 	handleFileInput(file: FileList) {

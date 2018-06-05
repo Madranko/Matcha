@@ -65,6 +65,12 @@ export class AuthorizationService {
 			);
 		}
 	}
+
+	checkIfTokensValid() {
+		let cookies = this.getTokensFromCookie();
+		return this.sendData('checkTokens', cookies);
+	}
+
 	getTokensFromCookie() {
 		return {
 			'accessToken': this.cookieService.get('AccessToken'),
@@ -73,14 +79,14 @@ export class AuthorizationService {
 		};
 	}
 	deleteTokensFromCookie(): void {
-		this.cookieService.delete('AccessToken');
-		this.cookieService.delete('RefreshToken');
-		this.cookieService.delete('ExpireTime');
-	}
-
-	checkIfTokensValid() {
-		let cookies = this.getTokensFromCookie();
-		return this.sendData('checkTokens', cookies);
+		// this.cookieService.delete('AccessToken', '/');
+		// this.cookieService.delete('RefreshToken', '/');
+		// this.cookieService.delete('ExpireTime', '/');
+		// this.cookieService.delete('AccessToken', '/main');
+		// this.cookieService.delete('RefreshToken', '/main');
+		// this.cookieService.delete('ExpireTime', '/main');
+		this.cookieService.deleteAll('/');
+		this.cookieService.deleteAll('/main');
 	}
 
 	deleteTokensAndLogout() {
@@ -106,23 +112,27 @@ export class AuthorizationService {
 		.then(
 			(data) => {
 				this.deleteTokensFromCookie();
+				console.log(this.getTokensFromCookie());
 				this.setTokensInCookie(data);
+				console.log(this.getTokensFromCookie());
 			},
 			(error) => {
 				console.log(error);
-				// this.deleteTokensAndLogout();
+				this.deleteTokensAndLogout();
 			}
 		);
+		console.log("test2");
 	}
 
 	openUserProfilePage(firstTimeLogin): void {
 		if (!this.error) {
 			if (firstTimeLogin === '0') {
 				console.log("First Login 0");
-				window.open('/main', '_self');
+				window.open('/main/profile', '_self');
 			} else {
 				console.log("First Login 1");
 				window.open('/user-info', '_self');
+
 			}
 		}
 	}

@@ -20,6 +20,8 @@ export class ProfileComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		// console.log("PROFILE REFRESH");
+		// this.authorizationService.refreshTokens();
 	}
 
 	onResizez(event) {

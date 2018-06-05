@@ -50,7 +50,9 @@ export class MainPageComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+
 		this.authorizationService.refreshTokens();
+		console.log("MAIN REFRESH");
 	}
 
 	logout() {

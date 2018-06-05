@@ -2,18 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../../user/authorization/authorization.service';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
+	selector: 'app-settings',
+	templateUrl: './settings.component.html',
+	styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
 
-  constructor(
-	  private authorizationService: AuthorizationService
-  ) { }
+	constructor(
+		private authorizationService: AuthorizationService
+	) { }
 
-  ngOnInit() {
-	  this.authorizationService.refreshTokens();
-  }
+	ngOnInit() {
 
+		// this.authorizationService.refreshTokens();
+		// console.log("SETINGS REFRESH");
+	}
+
+	onSubmit() {
+		this.authorizationService.refreshTokens();
+	}
 }
