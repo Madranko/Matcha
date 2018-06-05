@@ -13,7 +13,7 @@ class JwtModel
 	}
 
 	public static function getAccessTokenExpireTime() {
-		return time() + 1800;
+		return time() + 300;
 	}
 
 	public static function createAccessToken($uid, $accessTokenExpireTime, $firsTimeLogin) {

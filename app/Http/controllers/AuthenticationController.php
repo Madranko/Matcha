@@ -59,7 +59,6 @@ class AuthenticationController extends Controller {
 		$refreshToken = $data['refreshToken'];
 		$accessToken = $data['accessToken'];
 		$accessTokenExpireTime = $data['expireTime'];
-
 		if ($accessTokenExpireTime > time()) {
 			if ($id = JwtModel::getUidFromToken($refreshToken)) {
 				$tokenFromDb = $this->authModel->getUserData("id", $id, "refresh_token");

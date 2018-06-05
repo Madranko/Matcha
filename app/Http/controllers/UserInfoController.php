@@ -25,12 +25,45 @@ class UserInfoController extends Controller {
 		return json_encode($this->userInfoModel->getAllInterests());
 	}
 
+	public function getProfilePhoto($data) {
+		$id = JwtModel::getUidFromToken($data['refreshToken']);
+		$pathToPhoto = $this->userInfoModel->getProfilePhoto($id);
+		return json_encode($pathToPhoto);
+	}
+
 	public function storeUserInfo($data) {
-		$tokens = $this->authController->checkTokens($data);
+
 		$id = JwtModel::getUidFromToken($data['refreshToken']);
 		$this->userInfoModel->storeInterests($data['tags'], $id);
+		$this->userInfoModel->updateFirstTimeLogin($id);
 		$this->userInfoModel->storeInfo($data, $id);
+		$tokens = $this->authController->checkTokens($data);
 		return $tokens;
+	}
+
+	public function getShortInfo($data) {
+		$id = JwtModel::getUidFromToken($data['refreshToken']);
+		$shortInfo = $this->userInfoModel->getShortInfo($id);
+		return json_encode($shortInfo);
+	}
+
+	public function getMoreInfo($data) {
+		$id = JwtModel::getUidFromToken($data['refreshToken']);
+		$info = $this->userInfoModel->getMoreInfo($id);
+		return json_encode($info);
+	}
+
+	public function getBiography($data) {
+		$id = JwtModel::getUidFromToken($data['refreshToken']);
+		$info = $this->userInfoModel->getUserData('biography', 'user_info', 'id', $id);
+		return json_encode($info);
+	}
+
+	public function storeUserPhoto($data) {
+		$id = JwtModel::getUidFromToken($data['refreshToken']);
+		$path = $this->userInfoModel->putPhotoInFolder($data['photo']);
+		$result = $this->userInfoModel->storePhotoInDb($path, $id);
+		return json_encode($result);
 	}
 }
 ?>

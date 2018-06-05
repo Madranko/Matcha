@@ -26,5 +26,13 @@ $pdo->query("CREATE TABLE IF NOT EXISTS `user_info` (
 	`gender` VARCHAR(32) NOT NULL,
 	`preferences` VARCHAR(32) NOT NULL,
 	`birthdate` DATE NOT NULL,
-	`biography` TEXT NOT NULL)");
+	`biography` TEXT NOT NULL,
+	`profile_photo` TEXT NOT NULL,
+	`rating` INT (6) UNSIGNED NOT NULL DEFAULT '0')");
+
+$pdo->query("CREATE TABLE IF NOT EXISTS `user_photos` (
+	`id` INT (6) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	`uid` INT (6) UNSIGNED NOT NULL,
+	`photo` TEXT NOT NULL,
+	`likes` INT (6) UNSIGNED NOT NULL DEFAULT '0')");
 ?>

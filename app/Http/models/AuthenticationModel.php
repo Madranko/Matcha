@@ -27,7 +27,7 @@ class AuthenticationModel
 
 	public function sendLinkOnEmail($property, $value) {
 		$activationLink = hash('md5', rand(1000, 5000));
-		$email = $this->getUserData("login", $value, "email");
+		$email = $this->getUserData("email", $value, "email");
 		$statement = "UPDATE `users` SET `activation_link`=? WHERE `$property`=?";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$activationLink, $value]);
