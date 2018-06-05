@@ -4,7 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
-
+import { Authorization } from './authorization.model';
+import { Patterns } from './patterns.model';
 @Injectable({
 	providedIn: 'root'
 })
@@ -14,6 +15,8 @@ export class AuthorizationService {
 	cookieAccessTokenValue = 'UNKNOWN';
 	cookieExpireTimeValue = 'UNKNOWN';
 	error: string;
+	user: Authorization;
+	patterns: Patterns;
 
 	constructor(
 		private http: HttpClient,
@@ -31,6 +34,9 @@ export class AuthorizationService {
 	}
 
 	isTokensExists() {
+		console.log(this.cookieService.get('AccessToken'));
+		console.log(this.cookieService.get('RefreshToken'));
+		console.log(this.cookieService.get('ExpireTime'));
 		if (this.cookieService.get('AccessToken')
 		&& this.cookieService.get('RefreshToken')
 		&& this.cookieService.get('ExpireTime')) {
@@ -47,40 +53,64 @@ export class AuthorizationService {
 			.then(
 				(data) => {
 					this.error = '';
-					this.setTokensInCookie(data);
 					console.log(data);
+					this.setTokensInCookie(data);
 					this.openUserProfilePage(data['firstTimeLogin']);
 				},
 				(error) => {
-					// this.router.navigate(['/home']);
-					this.deleteTokens();
-					console.log(error);
-
-					// this.error = error.error.exception[0].message;
+					if (this.cookieService.get('AccessToken')) {
+						this.deleteTokensAndLogout();
+					}
 				}
 			);
 		}
 	}
-
-	checkIfTokensValid() {
-		let cookies = {
+	getTokensFromCookie() {
+		return {
 			'accessToken': this.cookieService.get('AccessToken'),
 			'refreshToken': this.cookieService.get('RefreshToken'),
 			'expireTime': this.cookieService.get('ExpireTime')
 		};
+	}
+	deleteTokensFromCookie(): void {
+		this.cookieService.delete('AccessToken');
+		this.cookieService.delete('RefreshToken');
+		this.cookieService.delete('ExpireTime');
+	}
+
+	checkIfTokensValid() {
+		let cookies = this.getTokensFromCookie();
 		return this.sendData('checkTokens', cookies);
 	}
 
-	deleteTokens() {
+	deleteTokensAndLogout() {
 		let token = { 'refreshToken': this.cookieService.get('RefreshToken') };
 		this.http.post('http://localhost:8100/api/authorization/deleteRefreshTokenFromDb', token)
 		.toPromise()
 		.then(
 			(data) => {
-				this.cookieService.delete('AccessToken');
-				this.cookieService.delete('RefreshToken');
-				this.cookieService.delete('ExpireTime');
-				this.cookieService.delete('id');
+				this.deleteTokensFromCookie();
+				window.open('/home', '_self');
+			},
+			(error) => {
+				this.deleteTokensFromCookie();
+				window.open('/home', '_self');
+			}
+		);
+	}
+
+	refreshTokens(): void {
+		let cookies = this.getTokensFromCookie();
+		this.sendData('checkTokens', cookies)
+		.toPromise()
+		.then(
+			(data) => {
+				this.deleteTokensFromCookie();
+				this.setTokensInCookie(data);
+			},
+			(error) => {
+				console.log(error);
+				// this.deleteTokensAndLogout();
 			}
 		);
 	}
@@ -89,11 +119,27 @@ export class AuthorizationService {
 		if (!this.error) {
 			if (firstTimeLogin === '0') {
 				console.log("First Login 0");
-				window.open('/profile', '_self');
+				window.open('/main', '_self');
 			} else {
 				console.log("First Login 1");
 				window.open('/user-info', '_self');
 			}
+		}
+	}
+
+	checkPattern(pattern, field) {
+		if (this.user[field]) {
+			if (this.patterns[pattern].test(this.user[field])) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	getErrorMessage(name, field) {
+		if (this.user[field]) {
+			return ("Not a valid " + name);
 		}
 	}
 }

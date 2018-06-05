@@ -12,8 +12,6 @@ import { AuthorizationService } from '../authorization/authorization.service';
 	styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-	user: Authorization;
-	patterns: Patterns;
 	error: string;
 
 	constructor(
@@ -22,15 +20,17 @@ export class SignupComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.user = new Authorization();
-		this.patterns = new Patterns();
+		this.authorizationService.user = new Authorization();
+		this.authorizationService.patterns = new Patterns();
+		console.log(this.authorizationService.user);
+		console.log(this.authorizationService.patterns);
 		this.resetForm();
 	}
 
 	resetForm(form? : NgForm) {
 		if (form != null) {
 			form.reset();
-			this.user = {
+			this.authorizationService.user = {
 				firstName: '',
 				lastName: '',
 				login: '',
@@ -47,35 +47,19 @@ export class SignupComponent implements OnInit {
 	}
 
 	checkForm() {
-		if (this.patterns.emailPattern.test(this.user.email) &&
-		this.patterns.loginPattern.test(this.user.login) &&
-		this.patterns.passwordPattern.test(this.user.password) &&
-		this.patterns.firstnamePattern.test(this.user.firstName) &&
-		this.patterns.lastnamePattern.test(this.user.lastName)) {
+		if (this.authorizationService.patterns.emailPattern.test(this.authorizationService.user.email) &&
+		this.authorizationService.patterns.loginPattern.test(this.authorizationService.user.login) &&
+		this.authorizationService.patterns.passwordPattern.test(this.authorizationService.user.password) &&
+		this.authorizationService.patterns.firstnamePattern.test(this.authorizationService.user.firstName) &&
+		this.authorizationService.patterns.lastnamePattern.test(this.authorizationService.user.lastName)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	checkPattern(pattern, field) {
-		if (this.user[field]) {
-			if (this.patterns[pattern].test(this.user[field])) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-	}
-
-	getErrorMessage(name, field) {
-		if (this.user[field]) {
-			return ("Not a valid " + name);
-		}
-	}
-
 	saveUserData(): void {
-		this.authorizationService.sendData('signUp', this.user)
+		this.authorizationService.sendData('signUp', this.authorizationService.user)
 		.toPromise()
 		.then(
 			(data) => {
@@ -87,16 +71,4 @@ export class SignupComponent implements OnInit {
 				this.error = error.error.exception[0].message;
 			});
 		}
-
-		//saveUserData(): void {
-		//	this.authorizationService.putData('signup', this.user)
-		//	.subscribe(
-		//		(data) => {
-		//			console.log(data);
-		//		},
-		//		(error) => {
-		//			this.error = error.error.exception[0].message;
-		//			console.log(this.error);
-		//		});
-		//}
 	}

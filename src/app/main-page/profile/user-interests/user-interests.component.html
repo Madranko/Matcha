@@ -1,0 +1,6 @@
+<mat-chip-list
+	#chipList>
+	<mat-chip *ngFor="let tag of tags">
+		{{tag}}
+		<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+</mat-chip>

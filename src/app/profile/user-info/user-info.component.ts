@@ -29,6 +29,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 	@ViewChild(ProfilePhotoComponent) photo;
 
 	ngOnInit() {
+		this.authorizationService.refreshTokens();
 	}
 
 	onSubmit(form: NgForm) {

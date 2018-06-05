@@ -1,0 +1,26 @@
+<div class="short-info">
+	<mat-divider></mat-divider>
+	<div class="user-info-field">
+		<mat-icon class="user-info-field__mat-icon"><i class="fas fa-user"></i></mat-icon>
+		<h4>{{ this.shortInfo['firstName'] }} {{ this.shortInfo['lastName'] }}</h4>
+		<h5 class="short-info-login">({{ this.shortInfo['login'] }})</h5>
+	</div>
+	<div class="user-info-field">
+		<mat-icon class="user-info-field__mat-icon"><i class="fas fa-map-marker-alt"></i></mat-icon>
+		<h5>Location: </h5>
+	</div>
+	<div class="user-info-field">
+		<mat-icon class="user-info-field__mat-icon"><i class="fas fa-star"></i></mat-icon>
+		<h5>Rating: {{ this.shortInfo['rating'] }}</h5>
+	</div>
+	<div class="user-info-field last-field">
+		<div class="user-info-field-col">
+			<div class="user-info-field">
+				<mat-icon class="user-info-field__mat-icon"><i class="fab fa-slack-hash"></i></mat-icon>
+				<h5>Interests: </h5>
+			</div>
+			<app-user-interests></app-user-interests>
+		</div>
+	</div>
+	<mat-divider></mat-divider>
+</div>

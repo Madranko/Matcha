@@ -4,6 +4,7 @@ import { Authorization } from '../authorization/authorization.model';
 import { Patterns } from '../authorization/patterns.model';
 import { Router } from '@angular/router';
 import { AuthorizationService } from '../authorization/authorization.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
 	selector: 'app-login',
@@ -11,25 +12,24 @@ import { AuthorizationService } from '../authorization/authorization.service';
 	styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-	user: Authorization;
-	patterns: Patterns;
 	error: string;
 
 	constructor(
 		private authorizationService: AuthorizationService,
-		private router: Router
+		private router: Router,
+		private cookieService: CookieService
 	) { }
 
 	ngOnInit() {
-		this.user = new Authorization();
-		this.patterns = new Patterns();
+		this.authorizationService.user = new Authorization();
+		this.authorizationService.patterns = new Patterns();
 		this.resetForm();
 	}
 
 	resetForm(form? : NgForm) {
 		if (form != null) {
 			form.reset();
-			this.user = {
+			this.authorizationService.user = {
 				firstName: '',
 				lastName: '',
 				login: '',
@@ -46,43 +46,28 @@ export class LoginComponent implements OnInit {
 	}
 
 	checkForm() {
-		if (this.patterns.loginPattern.test(this.user.login) &&
-		this.patterns.passwordPattern.test(this.user.password)) {
+		if (this.authorizationService.patterns.loginPattern.test(this.authorizationService.user.login) &&
+		this.authorizationService.patterns.passwordPattern.test(this.authorizationService.user.password)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	checkPattern(pattern, field) {
-		if (this.user[field]) {
-			if (this.patterns[pattern].test(this.user[field])) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-	}
-
-	getErrorMessage(name, field) {
-		if (this.user[field]) {
-			return ("Not a valid " + name);
-		}
-	}
-
 	loginToProfile(): void {
-		this.authorizationService.sendData('login', this.user)
+		this.authorizationService.sendData('login', this.authorizationService.user)
 		.toPromise()
 		.then(
 			(data) => {
-				console.log(data);
 				this.error = '';
 				this.authorizationService.setTokensInCookie(data);
 				this.authorizationService.openUserProfilePage(data['firstTimeLogin']);
 			},
 			(error) => {
-				console.log("ERROR");
-				this.authorizationService.deleteTokens();
+				if (this.cookieService.get('AccessToken')) {
+					this.authorizationService.deleteTokensAndLogout();
+				}
+				console.log(error);
 				this.error = error.error.exception[0].message;
 			}
 		);

@@ -2,17 +2,6 @@ mat-grid-tile {
   background: teal;
 }
 
-#chips-container {
-	/* height: 100%; */
-	/* width: 100%; */
-	background-color: brown;
-}
-
-
-.demo-chip-list {
-  width: 100%;
-}
-
 input:not([type]) {
 	border-bottom: none;
 	height: 15px;

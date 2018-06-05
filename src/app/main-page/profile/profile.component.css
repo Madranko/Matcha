@@ -1,0 +1,44 @@
+mat-grid-tile {
+	background: lightblue;
+}
+
+.info-block-content {
+	margin-left: 15px;
+}
+
+.info-block > ::ng-deep figure {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	align-content: center;
+}
+
+@media (max-width: 599px) {
+	.tab-container__link {
+		min-width: 100px;
+	}
+}
+
+.photo-list {
+	margin-top: 1px;
+}
+
+.upload-btn-wrapper {
+	display: flex;
+	justify-content: center;
+	position: relative;
+	margin-top: 15px;
+	/* overflow: hidden; */
+	/* display: inline-block; */
+}
+
+.upload-btn-wrapper input[type=file] {
+	font-size: 31px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: 0;
+	width: 167px;
+	cursor: pointer;
+}

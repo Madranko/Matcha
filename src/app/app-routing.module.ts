@@ -6,13 +6,14 @@ import { SignupComponent } from './user/signup/signup.component';
 import { LoginComponent } from './user/login/login.component';
 import { CongratsComponent } from './user/congrats/congrats.component';
 import { ForgotPassComponent } from './user/forgot-pass/forgot-pass.component';
-import { ProfileComponent } from './profile/profile.component';
 import { UserInfoComponent } from './profile/user-info/user-info.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { ChatComponent } from './main-page/chat/chat.component';
 import { FavoritesComponent } from './main-page/favorites/favorites.component';
 import { SearchComponent } from './main-page/search/search.component';
 import { SettingsComponent } from './main-page/settings/settings.component';
+// import { HomeComponent } from './main-page/home/home.component';
+import { ProfileComponent } from './main-page/profile/profile.component';
 
 const routes: Routes = [
 	{
@@ -32,10 +33,6 @@ const routes: Routes = [
 		],
 	},
 	{
-		path: 'profile',
-		component: ProfileComponent
-	},
-	{
 		path: 'user-info',
 		component: UserInfoComponent
 	},
@@ -46,7 +43,9 @@ const routes: Routes = [
 			{ path: 'search', component: SearchComponent },
 			{ path: 'chat', component: ChatComponent },
 			{ path: 'favorites', component: FavoritesComponent },
-			{ path: 'settings', component: SettingsComponent }
+			{ path: 'settings', component: SettingsComponent },
+			// { path: 'user', component: HomeComponent },
+			{ path: 'profile', component: ProfileComponent }
 		],
 	},
 	{
@@ -68,5 +67,5 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 export const routingComponents = [
-	SignupComponent, LoginComponent, CongratsComponent, ForgotPassComponent, ProfileComponent
+	SignupComponent, LoginComponent, CongratsComponent, ForgotPassComponent
 ];

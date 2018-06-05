@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
+import { UserInfoService } from '../service/user-info.service';
+import { AuthorizationService } from '../../../user/authorization/authorization.service';
 
 @Component({
 	selector: 'app-profile-photo',
@@ -10,9 +12,31 @@ import { ControlContainer, NgForm } from '@angular/forms';
 export class ProfilePhotoComponent implements OnInit {
 	imageUrl: string = "assets/upload.svg";
 	fileToUpload: File = null;
-	constructor() { }
+	error: string;
+	constructor(
+		private authorizationService: AuthorizationService,
+		private userInfoService: UserInfoService
+	) { }
 
 	ngOnInit() {
+		this.getProfilePhoto();
+	}
+
+	getProfilePhoto() {
+		let cookies = this.authorizationService.getTokensFromCookie();
+		this.userInfoService.sendRequest('getProfilePhoto', cookies)
+		.toPromise()
+		.then(
+			(data) => {
+				this.error = "";
+				if (data) {
+					this.imageUrl = data;
+				}
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
 	}
 
 	handleFileInput(file: FileList) {

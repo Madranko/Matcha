@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		if (this.authorizationService.isTokensExists()) {
+		if (this.isUserLoggedIn()) {
 			this.authorizationService.loginIfTokensValid();
 		}
 	}

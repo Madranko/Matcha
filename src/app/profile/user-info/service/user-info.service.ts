@@ -21,22 +21,25 @@ export class UserInfoService {
 		return this.http.get('http://localhost:8100/api/user-info/' + route);
 	}
 
+	sendRequest(route, data): Observable<any> {
+		return this.http.post('http://localhost:8100/api/user-info/' + route, data);
+	}
+
 	getLocation() {
 
 	}
 
 	sendData(route, data): void {
-		console.log(data['birthdate']);
 		this.http.post('http://localhost:8100/api/user-info/' + route, data)
 		.toPromise()
 		.then(
 			(data) => {
 				this.error = '';
+				this.authorizationService.deleteTokensFromCookie();
 				this.authorizationService.setTokensInCookie(data);
-				console.log(data);
+				window.open('/main', '_self');
 			},
 			(error) => {
-				this.authorizationService.deleteTokens();
 				console.log(error);
 			}
 		);

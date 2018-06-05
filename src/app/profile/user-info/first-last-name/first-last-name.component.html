@@ -1,0 +1,40 @@
+<div class="user-info-field">
+	<mat-icon class="user-info-field__mat-icon"><i class="fas fa-address-card"></i></mat-icon>
+	<div class="input-field">
+		<mat-form-field class="user-info-field__form-field">
+			<input matInput
+			placeholder="First Name"
+			id="first_name"
+			type="text"
+			class="validate"
+			name="firstName"
+			#firstName="ngModel"
+			[(ngModel)]="this.authorizationService.user.firstName">
+		</mat-form-field>
+		<mat-error *ngIf="!this.authorizationService.checkPattern('firstnamePattern', 'firstName')">
+			<div>
+				{{ this.authorizationService.getErrorMessage("first name", 'firstName') }}
+			</div>
+		</mat-error>
+	</div>
+</div>
+<div class="user-info-field">
+	<mat-icon class="user-info-field__mat-icon"><i class="fas fa-address-card"></i></mat-icon>
+	<div class="input-field">
+		<mat-form-field class="user-info-field__form-field">
+			<input matInput
+			placeholder="Last Name"
+			id="last_name"
+			type="text"
+			class="validate"
+			name="lastName"
+			#LastName="ngModel"
+			[(ngModel)]="this.authorizationService.user.lastName">
+		</mat-form-field>
+		<mat-error *ngIf="!this.authorizationService.checkPattern('lastnamePattern', 'lastName')">
+			<div>
+				{{ this.authorizationService.getErrorMessage("last name", 'lastName') }}
+			</div>
+		</mat-error>
+	</div>
+</div>

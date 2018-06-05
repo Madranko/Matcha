@@ -46,7 +46,7 @@ export class InterestsComponent implements OnInit {
 				(data) => {
 					this.error = '';
 					this.allTags = data;
-					console.log(this.allTags);
+					// console.log(this.allTags);
 				},
 				(error) => {
 					console.log("ERROR");

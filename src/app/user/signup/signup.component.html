@@ -10,10 +10,10 @@
 				class="validate"
 				name="firstName"
 				#firstName="ngModel"
-				[(ngModel)]="user.firstName">
-				<mat-error *ngIf="!checkPattern('firstnamePattern', 'firstName')">
+				[(ngModel)]="this.authorizationService.user.firstName">
+				<mat-error *ngIf="!this.authorizationService.checkPattern('firstnamePattern', 'firstName')">
 					<div>
-						{{ getErrorMessage("first name", 'firstName') }}
+						{{ this.authorizationService.getErrorMessage("first name", 'firstName') }}
 					</div>
 				</mat-error>
 				<label for="first_name">First Name</label>
@@ -25,10 +25,10 @@
 				class="validate"
 				name="lastName"
 				#LastName="ngModel"
-				[(ngModel)]="user.lastName">
-				<mat-error *ngIf="!checkPattern('lastnamePattern', 'lastName')">
+				[(ngModel)]="this.authorizationService.user.lastName">
+				<mat-error *ngIf="!this.authorizationService.checkPattern('lastnamePattern', 'lastName')">
 					<div>
-						{{ getErrorMessage("last name", 'lastName') }}
+						{{ this.authorizationService.getErrorMessage("last name", 'lastName') }}
 					</div>
 				</mat-error>
 				<label for="last_name">Last Name</label>
@@ -42,10 +42,10 @@
 				class="validate"
 				name="login"
 				#login="ngModel"
-				[(ngModel)]="user.login">
-				<mat-error *ngIf="!checkPattern('loginPattern', 'login')">
+				[(ngModel)]="this.authorizationService.user.login">
+				<mat-error *ngIf="!this.authorizationService.checkPattern('loginPattern', 'login')">
 					<div>
-						{{ getErrorMessage("login", 'login') }}
+						{{ this.authorizationService.getErrorMessage("login", 'login') }}
 					</div>
 				</mat-error>
 				<label for="disabled">Login</label>
@@ -57,10 +57,10 @@
 				class="validate"
 				name="email"
 				#Email="ngModel"
-				[(ngModel)]="user.email">
-				<mat-error *ngIf="!checkPattern('emailPattern', 'email')">
+				[(ngModel)]="this.authorizationService.user.email">
+				<mat-error *ngIf="!this.authorizationService.checkPattern('emailPattern', 'email')">
 					<div>
-						{{ getErrorMessage("email", 'email') }}
+						{{ this.authorizationService.getErrorMessage("email", 'email') }}
 					</div>
 				</mat-error>
 				<label for="email">Email</label>
@@ -74,10 +74,10 @@
 				class="validate"
 				name="password"
 				#Password="ngModel"
-				[(ngModel)]="user.password">
-				<mat-error *ngIf="!checkPattern('passwordPattern', 'password')">
+				[(ngModel)]="this.authorizationService.user.password">
+				<mat-error *ngIf="!this.authorizationService.checkPattern('passwordPattern', 'password')">
 					<div>
-						{{ getErrorMessage("password", 'password') }}
+						{{ this.authorizationService.getErrorMessage("password", 'password') }}
 					</div>
 				</mat-error>
 				<label for="password">Password</label>

@@ -8,7 +8,7 @@ import { ControlContainer, NgForm } from '@angular/forms';
 	viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ]
 })
 export class BiographyComponent implements OnInit {
-
+	// value: string = "mmotov";
 	constructor() { }
 
 	ngOnInit() {

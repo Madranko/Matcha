@@ -9,10 +9,10 @@
 				class="validate"
 				name="login"
 				#Login="ngModel"
-				[(ngModel)]="user.login">
-				<mat-error *ngIf="!checkPattern('loginPattern', 'login')">
+				[(ngModel)]="this.authorizationService.user.login">
+				<mat-error *ngIf="!this.authorizationService.checkPattern('loginPattern', 'login')">
 					<div>
-						{{ getErrorMessage("login", 'login') }}
+						{{ this.authorizationService.getErrorMessage("login", 'login') }}
 					</div>
 				</mat-error>
 				<label for="first_name">Login</label>
@@ -25,10 +25,10 @@
 				class="validate"
 				name="password"
 				#Password="ngModel"
-				[(ngModel)]="user.password">
-				<mat-error *ngIf="!checkPattern('passwordPattern', 'password')">
+				[(ngModel)]="this.authorizationService.user.password">
+				<mat-error *ngIf="!this.authorizationService.checkPattern('passwordPattern', 'password')">
 					<div>
-						{{ getErrorMessage("password", 'password') }}
+						{{ this.authorizationService.getErrorMessage("password", 'password') }}
 					</div>
 				</mat-error>
 				<label for="password">Password</label>

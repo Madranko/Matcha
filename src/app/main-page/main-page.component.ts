@@ -6,6 +6,8 @@ import { PreferencesComponent } from '../profile/user-info/preferences/preferenc
 import { BirthdateComponent } from '../profile/user-info/birthdate/birthdate.component';
 import { InterestsComponent } from '../profile/user-info/interests/interests.component';
 import { BiographyComponent } from '../profile/user-info/biography/biography.component';
+import { AuthorizationService } from '../user/authorization/authorization.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
 	selector: 'app-main-page',
@@ -14,6 +16,11 @@ import { BiographyComponent } from '../profile/user-info/biography/biography.com
 })
 export class MainPageComponent implements OnInit {
 	navLinks = [
+		{
+			path: 'profile',
+			label: 'HOME',
+			icon: 'home'
+		},
 		{
 			path: 'search',
 			label: 'SEARCH',
@@ -37,9 +44,17 @@ export class MainPageComponent implements OnInit {
 	];
 	windowWidth = window.innerWidth;
 
-	constructor() { }
+	constructor(
+		private authorizationService: AuthorizationService,
+		private cookieService: CookieService
+	) { }
 
 	ngOnInit() {
+		this.authorizationService.refreshTokens();
+	}
+
+	logout() {
+		this.authorizationService.deleteTokensAndLogout();
 	}
 
 	onResizez(event) {
