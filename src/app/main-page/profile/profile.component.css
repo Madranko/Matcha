@@ -1,27 +1,29 @@
 mat-grid-tile {
 	background: lightblue;
 }
-
-.info-block-content {
-	margin-left: 15px;
-}
-
-.info-block > ::ng-deep figure {
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: flex-start;
-	align-content: center;
-}
-
 @media (max-width: 599px) {
 	.tab-container__link {
 		min-width: 100px;
 	}
+	.info-row {
+		display: flex;
+		flex-direction: column;
+	}
 }
 
-.photo-list {
-	margin-top: 1px;
+.upload-img-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
+.upload-img-container {
+	margin: 10px;
+	width: 200px;
+	height: 200px;
+	border: 5px dashed rgba(128, 128, 128, 0.1);
+	display: flex;
+	justify-content: center;
 }
 
 .upload-btn-wrapper {
@@ -29,8 +31,6 @@ mat-grid-tile {
 	justify-content: center;
 	position: relative;
 	margin-top: 15px;
-	/* overflow: hidden; */
-	/* display: inline-block; */
 }
 
 .upload-btn-wrapper input[type=file] {
@@ -41,4 +41,24 @@ mat-grid-tile {
 	opacity: 0;
 	width: 167px;
 	cursor: pointer;
+}
+
+.upload-img {
+	opacity: 0.1;
+	width: 200px;
+}
+.upload-img__user-img {
+	width: 200px;
+	height: 200px;
+	object-fit: scale-down;
+}
+
+.info-row {
+	margin-top: 10px;
+	display: flex;
+}
+
+.upload-div {
+	display: flex;
+	flex-direction: row;
 }

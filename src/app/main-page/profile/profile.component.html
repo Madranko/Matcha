@@ -1,41 +1,21 @@
-<div class="container" (window:resize)="onResizez($event)" *ngIf="windowWidth > 599">
-	<mat-grid-list cols="3">
-		<mat-grid-tile><app-avatar-photo></app-avatar-photo></mat-grid-tile>
-		<mat-grid-tile colspan="2" class="info-block"><app-short-info class="info-block-content"></app-short-info></mat-grid-tile>
-		<mat-grid-tile class="info-block"><app-more-info class="info-block-content"></app-more-info></mat-grid-tile>
-		<mat-grid-tile colspan="2" class="info-block"><app-profile-biography class="info-block-content"></app-profile-biography></mat-grid-tile>
-	</mat-grid-list>
-	<mat-grid-list cols="4" rowHeight="2:3" class="photo-list">
-		<mat-grid-tile colspan="4">
-			<app-user-photos class="info-block-content"></app-user-photos>
-		</mat-grid-tile>
-	</mat-grid-list>
-	<mat-grid-list cols="1" rowHeight="12:1" class="photo-list">
-		<mat-grid-tile>
-			<div class="upload-img-wrapper">
-				<div class="upload-btn-wrapper">
-					<button mat-raised-button color="primary">Upload Photo</button>
-					<input type="file" #Image accept="image/*" (change)="handleFileInput($event.target.files)">
-				</div>
+<div class="container col">
+	<div class="info-row">
+		<app-avatar-photo class="col s5"></app-avatar-photo>
+		<app-short-info class="col s6"></app-short-info>
+	</div>
+	<app-more-info></app-more-info>
+	<app-profile-biography></app-profile-biography>
+	<div class="upload-div">
+		<app-user-gallery *ngFor="let i of [0, 1, 2, 3]"></app-user-gallery>
+		<!-- <div class="upload-img-wrapper">
+			<div class="upload-img-container" [ngStyle]="{'border': imageUrl == 'assets/upload.svg' ? '5px dashed rgba(128, 128, 128, 0.1)' : 'none'}">
+				<img *ngIf="imageUrl != 'assets/upload.svg'" [src]="imageUrl" class="upload-img__user-img">
+				<img *ngIf="imageUrl == 'assets/upload.svg'" [src]="imageUrl" class="upload-img">
 			</div>
-		</mat-grid-tile>
-	</mat-grid-list>
-
-</div>
-<div class="container" (window:resize)="onResizez($event)" *ngIf="windowWidth <= 599" gutterSize="0px">
-	<mat-grid-list cols="1" rowHeight="5:4">
-		<mat-grid-tile><app-avatar-photo></app-avatar-photo></mat-grid-tile>
-	</mat-grid-list>
-	<mat-grid-list cols="1" rowHeight="1:1">
-		<mat-grid-tile class="info-block"><app-short-info class="info-block-content"></app-short-info></mat-grid-tile>
-	</mat-grid-list>
-	<mat-grid-list cols="1" rowHeight="3:1">
-		<mat-grid-tile class="info-block"><app-more-info class="info-block-content"></app-more-info></mat-grid-tile>
-	</mat-grid-list>
-	<mat-grid-list cols="1" rowHeight="1:1">
-		<mat-grid-tile class="info-block"><app-profile-biography class="info-block-content"></app-profile-biography></mat-grid-tile>
-	</mat-grid-list>
-	<mat-grid-list cols="1" rowHeight="6:7">
-		<mat-grid-tile></mat-grid-tile>
-	</mat-grid-list>
+			<div class="upload-btn-wrapper">
+				<button mat-raised-button color="primary">Upload profile picture</button>
+				<input type="file" #Image accept="image/*" (change)="handleFileInput($event.target.files)">
+			</div>
+		</div> -->
+	</div>
 </div>

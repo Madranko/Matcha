@@ -9,9 +9,9 @@ import { CookieService } from 'ngx-cookie-service';
 	styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-	windowWidth = window.innerWidth;
-	fileToUpload: File = null;
-	imageUrl: string;
+	// windowWidth = window.innerWidth;
+	// fileToUpload: File = null;
+	// imageUrl: string = "assets/upload.svg";
 
 	constructor(
 		private authorizationService: AuthorizationService,
@@ -26,31 +26,15 @@ export class ProfileComponent implements OnInit {
 		this.windowWidth = event.target.innerWidth;
 	}
 
-	handleFileInput(file: FileList) {
-		this.fileToUpload = file.item(0);
-
-		//Show image preview
-		var reader = new FileReader();
-		reader.onload = (event:any) => {
-			this.imageUrl = event.target.result;
-			let data = {
-				photo: this.imageUrl,
-				refreshToken: this.cookieService.get('RefreshToken')
-			};
-			console.log(data);
-			this.userInfoService.sendRequest('storeUserPhoto', data)
-			.toPromise()
-			.then(
-				(data) => {
-					console.log(data);
-				},
-				(error) => {
-					console.log(error);
-				}
-			);
-			// console.log(this.imageUrl);
-		}
-		reader.readAsDataURL(this.fileToUpload);
-	}
-
+	// handleFileInput(file: FileList) {
+	// 	this.fileToUpload = file.item(0);
+	// 	// console.log(id);
+	// 	//Show image preview
+	// 	var reader = new FileReader();
+	// 	reader.onload = (event:any) => {
+	// 		this.imageUrl = event.target.result;
+	// 		// console.log(this.uploadImg);
+	// 	}
+	// 	reader.readAsDataURL(this.fileToUpload);
+	// }
 }

@@ -38,7 +38,7 @@ import { ShortInfoComponent } from './main-page/profile/short-info/short-info.co
 import { UserInterestsComponent } from './main-page/profile/user-interests/user-interests.component';
 import { MoreInfoComponent } from './main-page/profile/more-info/more-info.component';
 import { ProfileBiographyComponent } from './main-page/profile/profile-biography/profile-biography.component';
-import { UserPhotosComponent } from './main-page/profile/user-photos/user-photos.component';
+import { UserGalleryComponent } from './main-page/profile/user-gallery/user-gallery.component';
 // import { DefaultInterestsComponent } from './profile/user-info/interests/default-interests/default-interests.component';
 // import { InterestsComponent } from './profile/user-info/interests/interests.component';
 
@@ -71,7 +71,7 @@ import { UserPhotosComponent } from './main-page/profile/user-photos/user-photos
 		UserInterestsComponent,
 		MoreInfoComponent,
 		ProfileBiographyComponent,
-		UserPhotosComponent
+		UserGalleryComponent
 	],
 	imports: [
 		BrowserModule,

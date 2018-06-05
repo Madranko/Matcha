@@ -31,6 +31,7 @@ export class ProfilePhotoComponent implements OnInit {
 				this.error = "";
 				if (data) {
 					this.imageUrl = data;
+					// console.log(this.imageUrl);
 				}
 			},
 			(error) => {

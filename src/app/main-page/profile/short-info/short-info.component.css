@@ -9,17 +9,8 @@
 	margin-right: 16px;
 }
 
-.short-info-login {
-	margin-left: 10px;
-}
-
-
-.user-info-field-col {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	justify-content: flex-start;
-	align-items: center;
+.short-info {
+	margin-left: 20px;
 }
 
 .last-field {

@@ -1,19 +1,4 @@
-.upload-img__user-img {
-	width: 300px;
-	height: 300px;
-	object-fit: scale-down;
-}
-
-.upload-img-wrapper {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 350px;
-	height: 350px;
-}
-.upload-img-container {
-	width: 250px;
-	height: 250px;
-	display: flex;
-	justify-content: center;
+.photo-container {
+	width: 320px;
+	height: 240px;
 }
