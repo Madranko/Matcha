@@ -55,7 +55,7 @@ class UserInfoController extends Controller {
 
 	public function getBiography($data) {
 		$id = JwtModel::getUidFromToken($data['refreshToken']);
-		$info = $this->userInfoModel->getUserData('biography', 'user_info', 'id', $id);
+		$info = $this->userInfoModel->getUserData('biography', 'user_info', 'uid', $id);
 		return json_encode($info);
 	}
 
@@ -75,6 +75,25 @@ class UserInfoController extends Controller {
 	public function userLocation($data) {
 		$id = JwtModel::getUidFromToken($data['refreshToken']);
 		$this->userInfoModel->storeUserLocation($data, $id);
+	}
+
+	public function getSearchParams($data) {
+		$id = JwtModel::getUidFromToken($data['refreshToken']);
+		$tags = $this->userInfoModel->getUserTags($id);
+		$userInfo = $this->userInfoModel->getSearchParams($id);
+		$age = $this->userInfoModel->getUserAge($userInfo['birthdate']);
+		$params = [
+			'ageMin' => $age - 5,
+			'ageMax' => $age + 5,
+			'distance' => 0,
+			'gender' => $userInfo['gender'],
+			'latitude' => $userInfo['latitude'],
+			'longtitude' => $userInfo['longtitude'],
+			'preferences' => $userInfo['preferences'],
+			'rating' => $userInfo['rating'],
+			'tags' => $tags
+		];
+		return json_encode($params);
 	}
 }
 ?>

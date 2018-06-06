@@ -203,10 +203,28 @@ class UserInfoModel {
 			$preparedStatement = $this->pdo->prepare($statement);
 			$preparedStatement->execute([$data['city'], $data['country'], $data['longtitude'], $data['latitude'], $id]);
 		} else {
-			$statement = "INSERT INTO `user_location` (`uid`, `country`, `city`, `longtitude`, `latitude`) VALUE (?, ?, ?, ?, ?)";
+			$statement = "INSERT INTO `user_location` (`uid`, `city`, `country`, `longtitude`, `latitude`) VALUE (?, ?, ?, ?, ?)";
 			$preparedStatement = $this->pdo->prepare($statement);
 			$preparedStatement->execute([$id, $data['city'], $data['country'], $data['longtitude'], $data['latitude']]);
 		}
+	}
+
+	public function getSearchParams($id) {
+		$statement = "SELECT
+			`user_info`.`gender`,
+			`user_info`.`preferences`,
+			`user_info`.`birthdate`,
+			`user_info`.`rating`,
+			`user_location`.`latitude`,
+			`user_location`.`longtitude`
+			FROM `user_info`
+			INNER JOIN
+			`user_location` ON `user_info`.`uid`=`user_location`.`uid`
+			WHERE `user_info`.`uid`=?;";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$id]);
+		$result =  $preparedStatement->fetchAll();
+		return $result[0];
 	}
 
 	// SELECT $need FROM $table WHERE $property = $value
@@ -216,6 +234,20 @@ class UserInfoModel {
 		$preparedStatement->execute([$value]);
 		$result =  $preparedStatement->fetch();
 		return $result[0];
+	}
+
+	public function getUserAge($birthDate) {
+		$birthDate = explode("-", $birthDate);
+		$age = (date(
+			"md", date(
+				"U", mktime(
+					0, 0, 0, $birthDate[1], $birthDate[2], $birthDate[0]
+				)
+			)
+		) > date("md")
+			? ((date("Y") - $birthDate[0]) - 1)
+			: (date("Y") - $birthDate[0]));
+		return $age;
 	}
 }
 ?>

@@ -3,6 +3,7 @@
 use PHPUnit\Framework\TestCase;
 
 use App\Http\models\JwtModel;
+use App\Http\models\UserInfoModel;
 
 class JwtModelTest extends TestCase {
 
@@ -27,6 +28,12 @@ class JwtModelTest extends TestCase {
 		$jwt = new JwtModel(self::$pdo);
 
 		$this->assertEquals("something", $jwt->getSomething('something'));
+	}
+
+	public function testGetUserAge() {
+		$um = new UserInfoModel(self::$pdo);
+
+		$this->assertEquals(19, $um->getUserAge('1999-01-28'));
 	}
 
 }
