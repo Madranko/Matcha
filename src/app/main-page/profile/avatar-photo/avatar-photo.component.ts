@@ -28,7 +28,7 @@ export class AvatarPhotoComponent implements OnInit {
 		.then(
 			(data) => {
 				if (data) {
-					this.imageUrl = data;
+					this.imageUrl = "http://localhost:8100/" + data;
 				}
 			},
 			(error) => {

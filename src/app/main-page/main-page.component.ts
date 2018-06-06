@@ -16,7 +16,7 @@ import { CookieService } from 'ngx-cookie-service';
 	styleUrls: ['./main-page.component.css']
 })
 export class MainPageComponent implements OnInit {
-
+	profileImg: string = "";
 	navLinks = [
 		{
 			path: 'profile',
@@ -55,10 +55,19 @@ export class MainPageComponent implements OnInit {
 	ngOnInit() {
 		this.authorizationService.refreshTokens();
 		this.userInfoService.getLocation();
-		// this.getJsLocation();
-		// this.ipLookUp();
-		// this.findUserLocation();
-		console.log("MAIN REFRESH");
+		let data = {
+			'refreshToken': this.cookieService.get('RefreshToken')
+		}
+		this.userInfoService.sendRequest('getProfilePhoto', data)
+		.toPromise()
+		.then(
+			(data) => {
+				this.profileImg = "http://localhost:8100/" + data;
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
 	}
 
 	logout() {

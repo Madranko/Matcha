@@ -42,7 +42,7 @@ export class UserInfoService {
 				.toPromise()
 				.then(
 					(data) => {
-						console.log(data);
+						
 					},
 					(error) => {
 						console.log(error);
