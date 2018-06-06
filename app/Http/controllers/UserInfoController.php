@@ -65,5 +65,16 @@ class UserInfoController extends Controller {
 		$result = $this->userInfoModel->storePhotoInDb($path, $id);
 		return json_encode($result);
 	}
+
+	public function getGalleryPhotos($data) {
+		$id = JwtModel::getUidFromToken($data['refreshToken']);
+		$result = $this->userInfoModel->getAllUserPhotos($id);
+		return json_encode($result);
+	}
+
+	public function userLocation($data) {
+		$id = JwtModel::getUidFromToken($data['refreshToken']);
+		$this->userInfoModel->storeUserLocation($data, $id);
+	}
 }
 ?>

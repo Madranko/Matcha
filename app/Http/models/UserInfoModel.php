@@ -50,8 +50,8 @@ class UserInfoModel {
 		$this->storeUserInterests($allTags, $uid);
 	}
 
-	public function checkIfAlreadyExists($id) {
-		$statement = "SELECT * FROM `user_info` WHERE `uid`=?";
+	public function checkIfAlreadyExists($table, $id) {
+		$statement = "SELECT * FROM `$table` WHERE `uid`=?";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$id]);
 		$fetch = $preparedStatement->fetch();
@@ -70,10 +70,14 @@ class UserInfoModel {
 
 	public function putPhotoInFolder($imgCoded) {
 		$image_folder = "images/";
-		$img = str_replace('data:image/png;base64,', '', $imgCoded);
+		// $img = str_replace('data:image/png;base64,', '', $imgCoded);
+		$img = str_replace('data:image/', '', $imgCoded);
+		$exploded = explode(";", $img);
+		$format = $exploded[0];
+		$img = str_replace($format . ';base64,', '', $img);
 		$img = str_replace(' ', '+', $img);
 		$data = base64_decode($img);
-		$name = mktime() . ".png";
+		$name = mktime() . "." . $format;
 		$file = $image_folder . $name;
 		file_put_contents($file, $data);
 		$path = "images/" . $name;
@@ -86,7 +90,6 @@ class UserInfoModel {
 		$preparedStatement->execute([$id]);
 		$fetch = $preparedStatement->fetch();
 		if ($fetch[0]) {
-			// $res = file_get_contents($fetch['profile_photo']);
 			$path = $fetch['profile_photo'];
 			$type = pathinfo($path, PATHINFO_EXTENSION);
 			$data = file_get_contents($path);
@@ -99,7 +102,7 @@ class UserInfoModel {
 		$photoPath = $this->putPhotoInFolder($data['photo']);
 		$unix_date = strtotime($data['birthdate']);
 		$birthdate = date("Y-m-d", $unix_date);
-		if ($this->checkIfAlreadyExists($id)) {
+		if ($this->checkIfAlreadyExists("user_info", $id)) {
 			$statement = "UPDATE `user_info` SET `gender`=?, `preferences`=?, `birthdate`=?, `biography`=?, `profile_photo`=? WHERE `uid`=?";
 			$preparedStatement = $this->pdo->prepare($statement);
 			$preparedStatement->execute([$data['gender'], $data['preferences'], $birthdate, $data['biography'], $photoPath, $id]);
@@ -110,8 +113,7 @@ class UserInfoModel {
 		}
 	}
 
-	public function getUserTags($id)
-	{
+	public function getUserTags($id) {
 		$statement = "SELECT `tag` FROM `all_user_interests` WHERE `uid`=?";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$id]);
@@ -124,9 +126,10 @@ class UserInfoModel {
 	}
 
 	public function getShortInfo($id) {
-		$statement = "SELECT users.first_name, users.last_name, users.login, user_info.rating FROM `users`
-		INNER JOIN `user_info` ON users.id=user_info.uid
-		WHERE users.id=?";
+		$statement = "SELECT `users`.`first_name`, `users`.`last_name`, `users`.`login`, `user_info`.`rating`, `user_location`.`city`, `user_location`.`country` FROM `users`
+		INNER JOIN `user_info` ON `users`.`id`=`user_info`.`uid`
+		INNER JOIN `user_location` ON `users`.`id`=`user_location`.`uid`
+		WHERE `users`.`id`=?";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$id]);
 		$info = $preparedStatement->fetchAll();
@@ -134,7 +137,9 @@ class UserInfoModel {
 			'firstName' => $info[0]['first_name'],
 			'lastName' => $info[0]['last_name'],
 			'login' => $info[0]['login'],
-			'rating' => $info[0]['rating']
+			'rating' => $info[0]['rating'],
+			'city' => $info[0]['city'],
+			'country' => $info[0]['country']
 		);
 		$tags = $this->getUserTags($id);
 		return [
@@ -154,6 +159,31 @@ class UserInfoModel {
 		];
 	}
 
+	public function getAllUserPhotos($id) {
+		$statement = "SELECT `photo` FROM `user_photos` WHERE `uid`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$id]);
+		$fetch = $preparedStatement->fetchAll();
+		// return $fetch;
+		$allPhotos = array();
+		if ($fetch) {
+			$i = 0;
+			foreach ($fetch as $photo) {
+				$allPhotos[] = $photo[0];
+			}
+			// return $allPhotos;
+			$allPhotosInBase64 = array();
+			foreach ($allPhotos as $photo) {
+				$path = $photo;
+				$type = pathinfo($path, PATHINFO_EXTENSION);
+				$data = file_get_contents($path);
+				$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+				$allPhotosInBase64[] = $base64;
+			}
+			return $allPhotosInBase64;
+		}
+	}
+
 	public function storePhotoInDb($photoPath, $uid) {
 		$statement = "SELECT * FROM `user_photos` WHERE `uid`=?";
 		$preparedStatement = $this->pdo->prepare($statement);
@@ -163,6 +193,19 @@ class UserInfoModel {
 			$statement = "INSERT INTO `user_photos` (`uid`, `photo`) VALUE (?, ?)";
 			$preparedStatement = $this->pdo->prepare($statement);
 			$preparedStatement->execute([$uid, $photoPath]);
+		}
+		return $this->getAllUserPhotos($uid);
+	}
+
+	public function storeUserLocation($data, $id) {
+		if ($this->checkIfAlreadyExists("user_location", $id)) {
+			$statement = "UPDATE `user_location` SET `city`=?, `country`=?, `longtitude`=?, `latitude`=?  WHERE `uid`=?";
+			$preparedStatement = $this->pdo->prepare($statement);
+			$preparedStatement->execute([$data['city'], $data['country'], $data['longtitude'], $data['latitude'], $id]);
+		} else {
+			$statement = "INSERT INTO `user_location` (`uid`, `country`, `city`, `longtitude`, `latitude`) VALUE (?, ?, ?, ?, ?)";
+			$preparedStatement = $this->pdo->prepare($statement);
+			$preparedStatement->execute([$id, $data['city'], $data['country'], $data['longtitude'], $data['latitude']]);
 		}
 	}
 

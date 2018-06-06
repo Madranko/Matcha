@@ -62,13 +62,17 @@ class AuthenticationController extends Controller {
 		if ($accessTokenExpireTime > time()) {
 			if ($id = JwtModel::getUidFromToken($refreshToken)) {
 				$tokenFromDb = $this->authModel->getUserData("id", $id, "refresh_token");
-				if (JwtModel::isRefreshTokenValid($refreshToken, $tokenFromDb) && JwtModel::isAccessTokenValid($accessToken)) {
-					$firsTimeLogin = $this->authModel->getUserData("id", $id, "first_time_login");
-					$newTokens = JwtModel::refreshToken($id, $firsTimeLogin);
-					$this->jwtModel->storeRefreshTokenInDb($newTokens['refreshToken']);
-					return json_encode($newTokens);
+				if (JwtModel::isRefreshTokenValid($refreshToken, $tokenFromDb)) {
+					if (JwtModel::isAccessTokenValid($accessToken)) {
+						$firsTimeLogin = $this->authModel->getUserData("id", $id, "first_time_login");
+						$newTokens = JwtModel::refreshToken($id, $firsTimeLogin);
+						$this->jwtModel->storeRefreshTokenInDb($newTokens['refreshToken']);
+						return json_encode($newTokens);
+					} else {
+						throw new \Exception("Invalid access token: ");
+					}
 				} else {
-					throw new \Exception("Invalid token");
+					throw new \Exception("Invalid refresh token" . $tokenFromDb . '__________________________________________________________________________' . $refreshToken);
 				}
 			} else {
 				throw new \Exception("No id in RefreshToken");

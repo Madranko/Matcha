@@ -35,4 +35,12 @@ $pdo->query("CREATE TABLE IF NOT EXISTS `user_photos` (
 	`uid` INT (6) UNSIGNED NOT NULL,
 	`photo` TEXT NOT NULL,
 	`likes` INT (6) UNSIGNED NOT NULL DEFAULT '0')");
+
+$pdo->query("CREATE TABLE IF NOT EXISTS `user_location` (
+	`id` INT (6) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	`uid` INT (6) UNSIGNED NOT NULL,
+	`latitude` FLOAT (18, 15) NOT NULL,
+	`longtitude` FLOAT (18, 15) NOT NULL,
+	`country` TEXT NOT NULL,
+	`city` TEXT NOT NULL)");
 ?>
