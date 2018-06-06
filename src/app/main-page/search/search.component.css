@@ -1,0 +1,15 @@
+.drawer-container {
+	height: 100%;
+}
+.drawer-container__sidenav {
+	width: 100%;
+	background-color: #E0F7FA;
+}
+
+button:focus {
+	background-color: transparent;
+}
+
+.slider-label {
+	margin: 8px;
+}

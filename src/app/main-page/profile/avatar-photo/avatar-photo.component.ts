@@ -5,7 +5,10 @@ import { AuthorizationService } from '../../../user/authorization/authorization.
 @Component({
 	selector: 'app-avatar-photo',
 	templateUrl: './avatar-photo.component.html',
-	styleUrls: ['./avatar-photo.component.css']
+	styleUrls: [
+		'./avatar-photo.component.css',
+		'../../../profile/user-info/profile-photo/profile-photo.component.css'
+	]
 })
 export class AvatarPhotoComponent implements OnInit {
 	imageUrl: string = "assets/upload.svg";
