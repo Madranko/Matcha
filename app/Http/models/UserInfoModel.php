@@ -89,13 +89,14 @@ class UserInfoModel {
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$id]);
 		$fetch = $preparedStatement->fetch();
-		if ($fetch[0]) {
-			$path = $fetch['profile_photo'];
-			$type = pathinfo($path, PATHINFO_EXTENSION);
-			$data = file_get_contents($path);
-			$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-			return $base64;
-		}
+		// if ($fetch[0]) {
+		// 	$path = $fetch['profile_photo'];
+		// 	$type = pathinfo($path, PATHINFO_EXTENSION);
+		// 	$data = file_get_contents($path);
+		// 	$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+		// 	return $base64;
+		// }
+		return $fetch['profile_photo'];
 	}
 
 	public function storeInfo($data, $id) {
@@ -171,24 +172,31 @@ class UserInfoModel {
 			foreach ($fetch as $photo) {
 				$allPhotos[] = $photo[0];
 			}
-			// return $allPhotos;
-			$allPhotosInBase64 = array();
-			foreach ($allPhotos as $photo) {
-				$path = $photo;
-				$type = pathinfo($path, PATHINFO_EXTENSION);
-				$data = file_get_contents($path);
-				$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-				$allPhotosInBase64[] = $base64;
-			}
-			return $allPhotosInBase64;
+			// // return $allPhotos;
+			// $allPhotosInBase64 = array();
+			// foreach ($allPhotos as $photo) {
+			// 	$path = $photo;
+			// 	$type = pathinfo($path, PATHINFO_EXTENSION);
+			// 	$data = file_get_contents($path);
+			// 	$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+			// 	$allPhotosInBase64[] = $base64;
+			// }
+			return $allPhotos;
 		}
 	}
 
-	public function storePhotoInDb($photoPath, $uid) {
-		$statement = "SELECT * FROM `user_photos` WHERE `uid`=?";
-		$preparedStatement = $this->pdo->prepare($statement);
-		$preparedStatement->execute([$uid]);
-		$result = $preparedStatement->fetchAll();
+	public function storePhotoInDb($previous, $photoPath, $uid) {
+		if ($previous == "assets/upload.svg") {
+			$statement = "SELECT * FROM `user_photos` WHERE `uid`=?";
+			$preparedStatement = $this->pdo->prepare($statement);
+			$preparedStatement->execute([$uid]);
+			$result = $preparedStatement->fetchAll();
+		} else {
+			$statement = "UPDATE `user_photos` SET `photo`=? WHERE `uid`=? AND `photo`=?";
+			$preparedStatement = $this->pdo->prepare($statement);
+			$preparedStatement->execute([$photoPath, $uid, $previous]);
+			$result = $preparedStatement->fetchAll();
+		}
 		if (count($result) < 4) {
 			$statement = "INSERT INTO `user_photos` (`uid`, `photo`) VALUE (?, ?)";
 			$preparedStatement = $this->pdo->prepare($statement);
@@ -248,6 +256,25 @@ class UserInfoModel {
 			? ((date("Y") - $birthDate[0]) - 1)
 			: (date("Y") - $birthDate[0]));
 		return $age;
+	}
+	public function getValidRegexp($invalidRegexp) {
+		$invalidSplit = explode('/', $invalidRegexp);
+		$validRegexp = explode('$', $invalidSplit[1]);
+		return $validRegexp[0];
+	}
+
+	public function findUsersByAge($minAge, $maxAge, $regexp, $currentId) {
+		$validRegexp = $this->getValidRegexp($regexp);
+		// return $validRegexp;
+		$statement = "SELECT `uid` FROM `user_info` WHERE `birthdate` REGEXP ? AND `uid` != '$currentId'";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$validRegexp]);
+		$result =  $preparedStatement->fetchAll();
+		return $result;
+	}
+
+	public function findUsersByGender($currentPreferences, $currentGender, $currentId) {
+		
 	}
 }
 ?>
