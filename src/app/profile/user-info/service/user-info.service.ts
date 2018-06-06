@@ -26,7 +26,30 @@ export class UserInfoService {
 	}
 
 	getLocation() {
-
+		this.http.get('http://ip-api.com/json')
+		.toPromise()
+		.then(
+			(data) => {
+				console.log(data);
+				let location = {
+					'refreshToken': this.cookieService.get('RefreshToken'),
+					'city': data['city'],
+					'country': data['country'],
+					'latitude': data['lat'],
+					'longtitude': data['lon']
+				};
+				this.sendRequest('userLocation', location)
+				.toPromise()
+				.then(
+					(data) => {
+						console.log(data);
+					},
+					(error) => {
+						console.log(error);
+					}
+				)
+			}
+		);
 	}
 
 	sendData(route, data): void {

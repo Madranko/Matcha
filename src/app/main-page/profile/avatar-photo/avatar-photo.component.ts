@@ -24,7 +24,9 @@ export class AvatarPhotoComponent implements OnInit {
 		.toPromise()
 		.then(
 			(data) => {
-				this.imageUrl = data;
+				if (data) {
+					this.imageUrl = data;
+				}
 			},
 			(error) => {
 				console.log(error);

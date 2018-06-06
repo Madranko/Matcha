@@ -34,9 +34,6 @@ export class AuthorizationService {
 	}
 
 	isTokensExists() {
-		console.log(this.cookieService.get('AccessToken'));
-		console.log(this.cookieService.get('RefreshToken'));
-		console.log(this.cookieService.get('ExpireTime'));
 		if (this.cookieService.get('AccessToken')
 		&& this.cookieService.get('RefreshToken')
 		&& this.cookieService.get('ExpireTime')) {

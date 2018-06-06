@@ -1,10 +1,12 @@
-<div class="upload-img-wrapper">
-	<div class="upload-img-container" [ngStyle]="{'border': imageUrl == 'assets/upload.svg' ? '5px dashed rgba(128, 128, 128, 0.1)' : 'none'}">
-		<img *ngIf="imageUrl != 'assets/upload.svg'" [src]="imageUrl" class="upload-img__user-img">
-		<img *ngIf="imageUrl == 'assets/upload.svg'" [src]="imageUrl" class="upload-img">
-	</div>
-	<div class="upload-btn-wrapper">
-		<button mat-raised-button color="primary">Upload photo</button>
-		<input type="file" #Image accept="image/*" (change)="handleFileInput($event.target.files)">
+<div class="img-block">
+	<div *ngFor="let i of [0, 1, 2, 3]" class="upload-img-wrapper">
+		<div class="upload-img-container" [ngStyle]="{'border': imageUrl == 'assets/upload.svg' ? '5px dashed rgba(128, 128, 128, 0.1)' : 'none'}">
+			<img *ngIf="userImages[i] != 'assets/upload.svg'" [src]="userImages[i]" class="upload-img__user-img">
+			<img *ngIf="userImages[i] == 'assets/upload.svg'" [src]="userImages[i]" class="upload-img">
+		</div>
+		<div class="upload-btn-wrapper">
+			<button mat-raised-button color="primary">Upload photo</button>
+			<input type="file" #Image accept="image/*" (change)="handleFileInput($event.target.files, i)">
+		</div>
 	</div>
 </div>

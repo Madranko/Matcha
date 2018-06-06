@@ -7,6 +7,7 @@ import { BirthdateComponent } from '../profile/user-info/birthdate/birthdate.com
 import { InterestsComponent } from '../profile/user-info/interests/interests.component';
 import { BiographyComponent } from '../profile/user-info/biography/biography.component';
 import { AuthorizationService } from '../user/authorization/authorization.service';
+import { UserInfoService } from '../profile/user-info/service/user-info.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -15,6 +16,7 @@ import { CookieService } from 'ngx-cookie-service';
 	styleUrls: ['./main-page.component.css']
 })
 export class MainPageComponent implements OnInit {
+
 	navLinks = [
 		{
 			path: 'profile',
@@ -46,12 +48,16 @@ export class MainPageComponent implements OnInit {
 
 	constructor(
 		private authorizationService: AuthorizationService,
+		private userInfoService: UserInfoService,
 		private cookieService: CookieService
 	) { }
 
 	ngOnInit() {
-
 		this.authorizationService.refreshTokens();
+		this.userInfoService.getLocation();
+		// this.getJsLocation();
+		// this.ipLookUp();
+		// this.findUserLocation();
 		console.log("MAIN REFRESH");
 	}
 

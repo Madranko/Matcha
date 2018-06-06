@@ -9,7 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
 	styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-	// windowWidth = window.innerWidth;
+	windowWidth = window.innerWidth;
 	// fileToUpload: File = null;
 	// imageUrl: string = "assets/upload.svg";
 
