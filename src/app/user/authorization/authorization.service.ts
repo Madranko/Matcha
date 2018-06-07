@@ -109,9 +109,9 @@ export class AuthorizationService {
 		.then(
 			(data) => {
 				this.deleteTokensFromCookie();
-				console.log(this.getTokensFromCookie());
+				// console.log(this.getTokensFromCookie());
 				this.setTokensInCookie(data);
-				console.log(this.getTokensFromCookie());
+				// console.log(this.getTokensFromCookie());
 			},
 			(error) => {
 				console.log(error);

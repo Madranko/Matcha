@@ -30,7 +30,7 @@ export class UserInfoService {
 		.toPromise()
 		.then(
 			(data) => {
-				console.log(data);
+				// console.log(data);
 				let location = {
 					'refreshToken': this.cookieService.get('RefreshToken'),
 					'city': data['city'],
@@ -42,7 +42,7 @@ export class UserInfoService {
 				.toPromise()
 				.then(
 					(data) => {
-						console.log(data);
+						// console.log(data);
 					},
 					(error) => {
 						console.log(error);

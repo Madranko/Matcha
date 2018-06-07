@@ -39,8 +39,6 @@ import { UserInterestsComponent } from './main-page/profile/user-interests/user-
 import { MoreInfoComponent } from './main-page/profile/more-info/more-info.component';
 import { ProfileBiographyComponent } from './main-page/profile/profile-biography/profile-biography.component';
 import { UserGalleryComponent } from './main-page/profile/user-gallery/user-gallery.component';
-import { RatingSliderComponent } from './main-page/search/rating-slider/rating-slider.component';
-import { DistanceSliderComponent } from './main-page/search/distance-slider/distance-slider.component';
 // import { DefaultInterestsComponent } from './profile/user-info/interests/default-interests/default-interests.component';
 // import { InterestsComponent } from './profile/user-info/interests/interests.component';
 
@@ -73,9 +71,7 @@ import { DistanceSliderComponent } from './main-page/search/distance-slider/dist
 		UserInterestsComponent,
 		MoreInfoComponent,
 		ProfileBiographyComponent,
-		UserGalleryComponent,
-		RatingSliderComponent,
-		DistanceSliderComponent
+		UserGalleryComponent
 	],
 	imports: [
 		BrowserModule,

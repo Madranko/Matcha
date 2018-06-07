@@ -13,3 +13,7 @@ button:focus {
 .slider-label {
 	margin: 8px;
 }
+
+mat-slider {
+	width: 100%;
+}

@@ -24,7 +24,7 @@ export class ProfileBiographyComponent implements OnInit {
 		.toPromise()
 		.then(
 			(data) => {
-				console.log(data);
+				// console.log(data);
 				this.bio = data;
 			},
 			(error) => {
