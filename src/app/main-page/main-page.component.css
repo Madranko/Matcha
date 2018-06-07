@@ -15,7 +15,7 @@ mat-toolbar {
 	height: 50px;
 }
 .nav-bar__profile-picture {
-	background-image: url('../../assets/Anonymous-Whatsapp-profile-picture.jpg');
+	/* background-image: url('../../assets/Anonymous-Whatsapp-profile-picture.jpg'); */
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center center;

@@ -1,6 +1,6 @@
 <div class="img-block">
 	<div *ngFor="let i of [0, 1, 2, 3]" class="upload-img-wrapper">
-		<div class="upload-img-container" [ngStyle]="{'border': imageUrl == 'assets/upload.svg' ? '5px dashed rgba(128, 128, 128, 0.1)' : 'none'}">
+		<div class="upload-img-container" [ngStyle]="{'border': userImages[i] == 'assets/upload.svg' ? '5px dashed rgba(128, 128, 128, 0.1)' : 'none'}">
 			<img *ngIf="userImages[i] != 'assets/upload.svg'" [src]="userImages[i]" class="upload-img__user-img">
 			<img *ngIf="userImages[i] == 'assets/upload.svg'" [src]="userImages[i]" class="upload-img">
 		</div>

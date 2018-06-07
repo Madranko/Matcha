@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { RatingSliderComponent } from './rating-slider/rating-slider.component';
 import { UserInfoService } from '../../profile/user-info/service/user-info.service';
 import { AuthorizationService } from '../../user/authorization/authorization.service';
 import { CookieService } from 'ngx-cookie-service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { SearchParams } from './SearchParams'
+
 
 @Component({
 	selector: 'app-search',
@@ -32,7 +34,7 @@ export class SearchComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.getSearchParams();
+		this.getSearchParamsAndBrowseUsers();
 	}
 
 	reason = '';
@@ -71,7 +73,7 @@ export class SearchComponent implements OnInit {
 		return value;
 	}
 
-	getSearchParams() {
+	getSearchParamsAndBrowseUsers() {
 		let cookies = this.authorizationService.getTokensFromCookie();
 		this.userInfoService.sendRequest('getSearchParams', cookies)
 			.toPromise()
@@ -92,4 +94,24 @@ export class SearchComponent implements OnInit {
 				}
 			);
 	}
+
+	getUsersByParams(params) {
+		let token = this.cookieService.get('RefreshToken');
+		params['refreshToken'] = token;
+		let regexp = require('year-range-regex');
+ 		regexp = regexp(params['ageMin'], params['ageMax']);
+		params['ageRegExp'] = String(regexp);
+		console.log(params);
+		this.userInfoService.sendRequest('getUsersByParams', params)
+		.toPromise()
+		.then(
+			(data) => {
+				console.log(data);
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
+	}
+
 }

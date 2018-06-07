@@ -50,7 +50,6 @@ export class AuthorizationService {
 			.then(
 				(data) => {
 					this.error = '';
-					console.log(data);
 					this.setTokensInCookie(data);
 					this.openUserProfilePage(data['firstTimeLogin']);
 				},
@@ -76,12 +75,6 @@ export class AuthorizationService {
 		};
 	}
 	deleteTokensFromCookie(): void {
-		// this.cookieService.delete('AccessToken', '/');
-		// this.cookieService.delete('RefreshToken', '/');
-		// this.cookieService.delete('ExpireTime', '/');
-		// this.cookieService.delete('AccessToken', '/main');
-		// this.cookieService.delete('RefreshToken', '/main');
-		// this.cookieService.delete('ExpireTime', '/main');
 		this.cookieService.deleteAll('/');
 		this.cookieService.deleteAll('/main');
 	}
@@ -109,9 +102,7 @@ export class AuthorizationService {
 		.then(
 			(data) => {
 				this.deleteTokensFromCookie();
-				// console.log(this.getTokensFromCookie());
 				this.setTokensInCookie(data);
-				// console.log(this.getTokensFromCookie());
 			},
 			(error) => {
 				console.log(error);

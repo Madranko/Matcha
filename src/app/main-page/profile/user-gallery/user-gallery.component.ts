@@ -39,7 +39,7 @@ export class UserGalleryComponent implements OnInit {
 			(data) => {
 				if (data) {
 					for (let i = 0; i < data.length; i++) {
-						this.userImages[i] = data[i];
+						this.userImages[i] = "http://localhost:8100/" + data[i];
 					}
 				}
 			},
@@ -51,11 +51,13 @@ export class UserGalleryComponent implements OnInit {
 
 	handleFileInput(file: FileList, i) {
 		this.fileToUpload = file.item(0);
-		//Show image preview
 		var reader = new FileReader();
 		reader.onload = (event:any) => {
+			let previous = this.userImages[i];
+			console.log(previous);
 			this.userImages[i] = event.target.result;
 			let data = {
+				'previous': previous,
 				'refreshToken': this.cookieService.get('RefreshToken'),
 				'photo': this.userImages[i]
 			}
