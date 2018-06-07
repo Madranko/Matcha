@@ -62,7 +62,7 @@ class UserInfoController extends Controller {
 	public function storeUserPhoto($data) {
 		$id = JwtModel::getUidFromToken($data['refreshToken']);
 		$path = $this->userInfoModel->putPhotoInFolder($data['photo']);
-		$result = $this->userInfoModel->storePhotoInDb($data['previous'], $path, $id);
+		$result = $this->userInfoModel->storePhotoInDb($path, $id);
 		return json_encode($result);
 	}
 
@@ -82,11 +82,9 @@ class UserInfoController extends Controller {
 		$tags = $this->userInfoModel->getUserTags($id);
 		$userInfo = $this->userInfoModel->getSearchParams($id);
 		$age = $this->userInfoModel->getUserAge($userInfo['birthdate']);
-		$ageMin = strval(date("Y") - $age - 5);
-		$ageMax = strval(date("Y") - $age + 5);
 		$params = [
-			'ageMin' => $ageMin,
-			'ageMax' => $ageMax,
+			'ageMin' => $age - 5,
+			'ageMax' => $age + 5,
 			'distance' => 0,
 			'gender' => $userInfo['gender'],
 			'latitude' => $userInfo['latitude'],
@@ -98,11 +96,11 @@ class UserInfoController extends Controller {
 		return json_encode($params);
 	}
 
-	public function getUsersByParams($data) {
-		$id = JwtModel::getUidFromToken($data['refreshToken']);
-		$usersByAge = $this->userInfoModel->findUsersByAge($data['ageMin'], $data['ageMax'], $data['ageRegExp'], $id);
-		$usersByGender = $this->userInfoModel->findUsersByGender($data['preferences'], $data['gender'], $id);
-		return json_encode($usersByAge);
+	public function getUsersByParams($params) {
+		$params['dateMax'] = strval(date('Y') - $params['ageMin'] + 1);
+		$params['dateMin'] = strval(date('Y') - $params['ageMax']);
+		$result = $this->userInfoModel->sortUsersByParams($params);
+		return json_encode($result);
 	}
 }
 ?>

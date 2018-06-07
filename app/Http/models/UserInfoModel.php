@@ -257,24 +257,82 @@ class UserInfoModel {
 			: (date("Y") - $birthDate[0]));
 		return $age;
 	}
+
 	public function getValidRegexp($invalidRegexp) {
 		$invalidSplit = explode('/', $invalidRegexp);
 		$validRegexp = explode('$', $invalidSplit[1]);
 		return $validRegexp[0];
 	}
 
-	public function findUsersByAge($minAge, $maxAge, $regexp, $currentId) {
-		$validRegexp = $this->getValidRegexp($regexp);
-		// return $validRegexp;
-		$statement = "SELECT `uid` FROM `user_info` WHERE `birthdate` REGEXP ? AND `uid` != '$currentId'";
+	public function findUsersByAge($dateMax, $dateMin) {
+		$statement = "SELECT `uid` FROM `user_info`
+			WHERE `birthdate` < ? AND `birthdate` > ?";
+
+		$testBigStatement ="SELECT
+			`users`.`id`,
+			`users`.`first_name`,
+			`users`.`last_name`,
+			`user_info`.`gender`,
+			`user_info`.`preferences`,
+			`user_info`.`birthdate`,
+			`user_info`.`rating`,
+			`all_user_interests`.`tag`
+			FROM `users`
+			INNER JOIN `user_info`
+			ON `users`.`id`=`user_info`.`uid`
+			INNER JOIN `all_user_interests`
+			ON `user_info`.`uid`=`all_user_interests`.`uid`
+			WHERE
+			(`user_info`.`birthdate` < '1993'
+			AND `user_info`.`birthdate` > '1970')
+			AND
+			(`user_info`.`rating` >= 145)
+			AND
+			(`all_user_interests`.`tag`='travel'
+			OR `all_user_interests`.`tag`='food')
+			GROUP BY `users`.`id`";
+
+		$testBigOnlineStatementWhichPrettyMuchWorks = "SELECT `users`.`id`,`users`.`first_name`,`users`.`last_name`,`user_info`.`gender`,`user_info`.`preferences`,`user_info`.`birthdate`,`user_info`.`rating` FROM `users` INNER JOIN `user_info` ON `users`.`id`=`user_info`.`uid` INNER JOIN `all_user_interests` ON `user_info`.`uid`=`all_user_interests`.`uid` WHERE (`user_info`.`birthdate` < '1993' AND `user_info`.`birthdate` > '1970') AND (`user_info`.`rating` >= 145) AND (`all_user_interests`.`tag`='travel' OR `all_user_interests`.`tag`='food') GROUP BY `users`.`id` ORDER BY `user_info`.`rating`";
 		$preparedStatement = $this->pdo->prepare($statement);
-		$preparedStatement->execute([$validRegexp]);
+		$preparedStatement->execute([$dateMax, $dateMin]);
 		$result =  $preparedStatement->fetchAll();
 		return $result;
 	}
 
 	public function findUsersByGender($currentPreferences, $currentGender, $currentId) {
 		
+	}
+
+	public function sortUsersByParams($params) {
+		$statement = "SELECT
+			`users`.`id`,
+			`users`.`first_name`,
+			`users`.`last_name`,
+			`user_info`.`gender`,
+			`user_info`.`preferences`,
+			`user_info`.`birthdate`,
+			`user_info`.`rating`,
+			`user_info`.`biography`,
+			`user_info`.`profile_photo`
+			FROM `users`
+			INNER JOIN `user_info` ON
+			`users`.`id`=`user_info`.`uid`
+			INNER JOIN `all_user_interests` ON
+			`user_info`.`uid`=`all_user_interests`.`uid`
+			WHERE
+				(`user_info`.`birthdate` < ? AND `user_info`.`birthdate` > ?)
+				AND
+				(`user_info`.`rating` >= ?)
+			GROUP BY `users`.`id`
+			ORDER BY `user_info`.`rating`";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([
+			$params['dateMax'],
+			$params['dateMin'],
+			$params['rating']
+		]);
+		$result =  $preparedStatement->fetchAll();
+		return $result;
 	}
 }
 ?>
