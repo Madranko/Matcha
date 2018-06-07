@@ -6,7 +6,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { SearchParams } from './SearchParams'
 
-
 @Component({
 	selector: 'app-search',
 	templateUrl: './search.component.html',
@@ -25,6 +24,9 @@ export class SearchComponent implements OnInit {
 		tags: null
 	};
 
+	sortedUsers;
+	panelOpenState: boolean = false;
+
 	@ViewChild('sidenav') sidenav: MatSidenav;
 
 	constructor(
@@ -42,6 +44,7 @@ export class SearchComponent implements OnInit {
 	close(reason: string) {
 		this.reason = reason;
 		this.sidenav.close();
+		this.getUsersByParams(this.searchParams);
 		console.log(this.searchParams);
 	}
 
@@ -79,15 +82,8 @@ export class SearchComponent implements OnInit {
 			.toPromise()
 			.then(
 				(data) => {
-					this.searchParams.ageMin = data.ageMin;
-					this.searchParams.ageMax = data.ageMax;
-					this.searchParams.distance = data.distance;
-					this.searchParams.gender = data.gender;
-					this.searchParams.latitude = data.latitude;
-					this.searchParams.longtitude = data.longtitude;
-					this.searchParams.preferences = data.preferences;
-					this.searchParams.rating = data.rating;
-					this.searchParams.tags = data.tags;
+					this.fillSearchParams(data);
+					this.getUsersByParams(this.searchParams);
 				},
 				(error) => {
 					console.log(error);
@@ -95,23 +91,35 @@ export class SearchComponent implements OnInit {
 			);
 	}
 
+	fillSearchParams(data) {
+		this.searchParams.ageMin = data.ageMin;
+		this.searchParams.ageMax = data.ageMax;
+		this.searchParams.distance = data.distance;
+		this.searchParams.gender = data.gender;
+		this.searchParams.latitude = data.latitude;
+		this.searchParams.longtitude = data.longtitude;
+		this.searchParams.preferences = data.preferences;
+		this.searchParams.rating = data.rating;
+		this.searchParams.tags = data.tags;
+	}
+
 	getUsersByParams(params) {
 		let token = this.cookieService.get('RefreshToken');
 		params['refreshToken'] = token;
 		let regexp = require('year-range-regex');
- 		regexp = regexp(params['ageMin'], params['ageMax']);
+		regexp = regexp(params['ageMin'], params['ageMax']);
 		params['ageRegExp'] = String(regexp);
-		console.log(params);
 		this.userInfoService.sendRequest('getUsersByParams', params)
-		.toPromise()
-		.then(
-			(data) => {
-				console.log(data);
-			},
-			(error) => {
-				console.log(error);
-			}
-		);
+			.toPromise()
+			.then(
+				(data) => {
+					this.sortedUsers = data;
+					console.log(this.sortedUsers);
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
 	}
 
 }
