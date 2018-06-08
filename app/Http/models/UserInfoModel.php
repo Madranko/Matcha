@@ -264,42 +264,8 @@ class UserInfoModel {
 		return $validRegexp[0];
 	}
 
-	public function findUsersByAge($dateMax, $dateMin) {
-		$statement = "SELECT `uid` FROM `user_info`
-			WHERE `birthdate` < ? AND `birthdate` > ?";
 
-		$testBigStatement ="SELECT
-			`users`.`id`,
-			`users`.`first_name`,
-			`users`.`last_name`,
-			`user_info`.`gender`,
-			`user_info`.`preferences`,
-			`user_info`.`birthdate`,
-			`user_info`.`rating`,
-			`all_user_interests`.`tag`
-			FROM `users`
-			INNER JOIN `user_info`
-			ON `users`.`id`=`user_info`.`uid`
-			INNER JOIN `all_user_interests`
-			ON `user_info`.`uid`=`all_user_interests`.`uid`
-			WHERE
-			(`user_info`.`birthdate` < '1993'
-			AND `user_info`.`birthdate` > '1970')
-			AND
-			(`user_info`.`rating` >= 145)
-			AND
-			(`all_user_interests`.`tag`='travel'
-			OR `all_user_interests`.`tag`='food')
-			GROUP BY `users`.`id`";
-
-		$testBigOnlineStatementWhichPrettyMuchWorks = "SELECT `users`.`id`,`users`.`first_name`,`users`.`last_name`,`user_info`.`gender`,`user_info`.`preferences`,`user_info`.`birthdate`,`user_info`.`rating` FROM `users` INNER JOIN `user_info` ON `users`.`id`=`user_info`.`uid` INNER JOIN `all_user_interests` ON `user_info`.`uid`=`all_user_interests`.`uid` WHERE (`user_info`.`birthdate` < '1993' AND `user_info`.`birthdate` > '1970') AND (`user_info`.`rating` >= 145) AND (`all_user_interests`.`tag`='travel' OR `all_user_interests`.`tag`='food') GROUP BY `users`.`id` ORDER BY `user_info`.`rating`";
-		$preparedStatement = $this->pdo->prepare($statement);
-		$preparedStatement->execute([$dateMax, $dateMin]);
-		$result =  $preparedStatement->fetchAll();
-		return $result;
-	}
-
-	public function managePreferences($currentGender, $currentPreferences) {
+	public function preferencesStatement($currentGender, $currentPreferences) {
 		if ($currentPreferences == "heterosexual") {
 			$statement = "`user_info`.`gender` != '$currentGender' AND `user_info`.`preferences` != 'homosexual'";
 		} else if ($currentPreferences == 'homosexual') {
@@ -309,34 +275,81 @@ class UserInfoModel {
 		}
 		return $statement;
 	}
+	public function tagsStatement($tags) {
+		$tagCounter = 0;
+		if ($tags) {
+			$tagsStatement = "";
+			foreach ($tags as $tag) {
+				$tagsStatement = $tagsStatement . ", '$tag'";
+				$tagCounter++;
+			}
+			$tagsStatement = substr($tagsStatement, 2);
+		}
 
+
+		// $tagsStatement = substr($tagsStatement, 1);
+		return [
+			'tagsStatement' => $tagsStatement,
+			'tagCount' => $tagCounter
+		];
+	}
 	public function sortUsersByParams($params, $currentId) {
-		$genderStatement = $this->managePreferences($params['gender'], $params['preferences']);
-		$statement = "SELECT
-			`users`.`id`,
-			`users`.`first_name`,
-			`users`.`last_name`,
-			`user_info`.`gender`,
-			`user_info`.`preferences`,
-			`user_info`.`birthdate`,
-			`user_info`.`rating`,
-			`user_info`.`biography`,
-			`user_info`.`profile_photo`
-			FROM `users`
-			INNER JOIN `user_info` ON
-			`users`.`id`=`user_info`.`uid`
-			INNER JOIN `all_user_interests` ON
-			`user_info`.`uid`=`all_user_interests`.`uid`
-			WHERE
-				(`user_info`.`birthdate` < ? AND `user_info`.`birthdate` > ?)
-				AND
-				(`user_info`.`rating` >= ?)
-				AND
-				(`user_info`.`uid` != ?)
-				AND
-				$genderStatement
-			GROUP BY `users`.`id`
-			ORDER BY `user_info`.`rating` DESC";
+		$genderStatement = $this->preferencesStatement($params['gender'], $params['preferences']);
+		if ($params['tags']) {
+			$tagsInfo = $this->tagsStatement($params['tags']);
+			$tagCounter = $tagsInfo['tagCount'];
+			$tagsStatement = $tagsInfo['tagsStatement'];
+			$tagsQuery = "AND `all_user_interests`.`tag` IN($tagsStatement)";
+
+		} else {
+			$tagCounter = 1;
+			$tagsQuery = "";
+		}
+		$statement = "SELECT *
+		FROM (
+			SELECT
+			`id`,
+			`first_name`,
+			`last_name`,
+			`gender`,
+			`preferences`,
+			`birthdate`,
+			`rating`,
+			`grouped_tags`,
+			`biography`,
+			`profile_photo`,
+			(LENGTH(`grouped_tags`) - LENGTH(REPLACE(`grouped_tags`,',',''))) + 1 AS `tag_length_count`
+			FROM (
+				SELECT
+				`users`.`id`,
+				`users`.`first_name`,
+				`users`.`last_name`,
+				`user_info`.`gender`,
+				`user_info`.`preferences`,
+				`user_info`.`birthdate`,
+				`user_info`.`rating`,
+				`user_info`.`biography`,
+				`user_info`.`profile_photo`,
+				GROUP_CONCAT(`all_user_interests`.`tag`) AS `grouped_tags`
+				FROM `users`
+				INNER JOIN `user_info`
+					ON `users`.`id`=`user_info`.`uid`
+				INNER JOIN `all_user_interests`
+					ON `all_user_interests`.`uid`=`user_info`.`uid`
+				WHERE
+					(`user_info`.`birthdate` < ? AND `user_info`.`birthdate` > ?)
+					AND
+					(`user_info`.`rating` >= ?)
+					AND
+					(`user_info`.`uid` != ?)
+					AND
+					$genderStatement
+					$tagsQuery
+					GROUP BY `all_user_interests`.`uid`
+					ORDER BY `user_info`.`rating` DESC
+			) A
+		) AA WHERE `tag_length_count` > $tagCounter - 1";
+
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([
 			$params['dateMax'],
@@ -348,4 +361,8 @@ class UserInfoModel {
 		return $result;
 	}
 }
+//	AND
+	// `all_user_interests`.`tag`
+	// IN($tagsStatement)
+
 ?>
