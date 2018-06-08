@@ -127,10 +127,17 @@ class UserInfoModel {
 	}
 
 	public function getShortInfo($id) {
-		$statement = "SELECT `users`.`first_name`, `users`.`last_name`, `users`.`login`, `user_info`.`rating`, `user_location`.`city`, `user_location`.`country` FROM `users`
-		INNER JOIN `user_info` ON `users`.`id`=`user_info`.`uid`
-		INNER JOIN `user_location` ON `users`.`id`=`user_location`.`uid`
-		WHERE `users`.`id`=?";
+		$statement = "SELECT
+			`users`.`first_name`,
+			`users`.`last_name`,
+			`users`.`login`,
+			`user_info`.`rating`,
+			`user_location`.`city`,
+			`user_location`.`country`
+			FROM `users`
+			INNER JOIN `user_info` ON `users`.`id`=`user_info`.`uid`
+			INNER JOIN `user_location` ON `users`.`id`=`user_location`.`uid`
+			WHERE `users`.`id`=?";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$id]);
 		$info = $preparedStatement->fetchAll();
@@ -160,27 +167,40 @@ class UserInfoModel {
 		];
 	}
 
+	public function isUserLiked($currentUid, $visitedUid) {
+		$statement = "SELECT `uid` FROM `likes` WHERE `target_uid`=? AND `uid`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$visitedUid, $currentUid]);
+		$fetch = $preparedStatement->fetchAll();
+		if ($fetch) {
+			return true;
+		}
+		return false;
+	}
+
+	public function unlikeUser($currentUid, $visitedUid) {
+		$statement = "DELETE FROM `likes` WHERE `uid`=? AND `target_uid`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$currentUid, $visitedUid]);
+	}
+
+	public function likeUser($currentUid, $visitedUid) {
+		$statement = "INSERT INTO `likes` (`uid`,`target_uid`) VALUES (?,?)";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$currentUid, $visitedUid]);
+	}
+
 	public function getAllUserPhotos($id) {
 		$statement = "SELECT `photo` FROM `user_photos` WHERE `uid`=?";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$id]);
 		$fetch = $preparedStatement->fetchAll();
-		// return $fetch;
 		$allPhotos = array();
 		if ($fetch) {
 			$i = 0;
 			foreach ($fetch as $photo) {
 				$allPhotos[] = $photo[0];
 			}
-			// // return $allPhotos;
-			// $allPhotosInBase64 = array();
-			// foreach ($allPhotos as $photo) {
-			// 	$path = $photo;
-			// 	$type = pathinfo($path, PATHINFO_EXTENSION);
-			// 	$data = file_get_contents($path);
-			// 	$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-			// 	$allPhotosInBase64[] = $base64;
-			// }
 			return $allPhotos;
 		}
 	}
@@ -264,7 +284,6 @@ class UserInfoModel {
 		return $validRegexp[0];
 	}
 
-
 	public function preferencesStatement($currentGender, $currentPreferences) {
 		if ($currentPreferences == "heterosexual") {
 			$statement = "`user_info`.`gender` != '$currentGender' AND `user_info`.`preferences` != 'homosexual'";
@@ -275,6 +294,7 @@ class UserInfoModel {
 		}
 		return $statement;
 	}
+
 	public function tagsStatement($tags) {
 		$tagCounter = 0;
 		if ($tags) {
@@ -293,6 +313,7 @@ class UserInfoModel {
 			'tagCount' => $tagCounter
 		];
 	}
+
 	public function sortUsersByParams($params, $currentId) {
 		$genderStatement = $this->preferencesStatement($params['gender'], $params['preferences']);
 		if ($params['tags']) {

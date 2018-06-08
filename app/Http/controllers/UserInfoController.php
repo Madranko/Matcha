@@ -105,9 +105,11 @@ class UserInfoController extends Controller {
 	}
 
 	public function getVisitedUserInfo($data) {
+		$currentUid = JwtModel::getUidFromToken($data['cookie']['refreshToken']);
 		$id = $data['uid'];
 		$shortInfo = $this->userInfoModel->getShortInfo($id);
 		$moreInfo = $this->userInfoModel->getMoreInfo($id);
+		$liked = $this->userInfoModel->isUserLiked($currentUid, $id);
 		$fullInfo = [
 			'profilePhoto' => $pathToProfilePhoto = $this->userInfoModel->getProfilePhoto($id),
 			'birthdate' => $moreInfo['birthdate'],
@@ -117,8 +119,20 @@ class UserInfoController extends Controller {
 			'tags' => $shortInfo['tags'],
 			'biography' => $biography = $this->userInfoModel->getUserData('biography', 'user_info', 'uid', $id),
 			'galleryPhotos' => $galleryPhotos = $this->userInfoModel->getAllUserPhotos($id),
+			'liked' => $liked
 		];
 		return json_encode($fullInfo);
+	}
+
+	public function likeUnlike($data) {
+		$currentUid = JwtModel::getUidFromToken($data['cookie']['refreshToken']);
+		$visitedUid = $data['visitedUid'];
+		$liked = $data['liked'];
+		if ($liked) {
+			$this->userInfoModel->unlikeUser($currentUid, $visitedUid);
+		} else {
+			$this->userInfoModel->likeUser($currentUid, $visitedUid);
+		}
 	}
 }
 ?>

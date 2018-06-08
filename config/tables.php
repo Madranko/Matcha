@@ -43,4 +43,9 @@ $pdo->query("CREATE TABLE IF NOT EXISTS `user_location` (
 	`longtitude` FLOAT (18, 15) NOT NULL,
 	`country` TEXT NOT NULL,
 	`city` TEXT NOT NULL)");
+
+$pdo->query("CREATE TABLE IF NOT EXISTS `likes` (
+	`id` INT (6) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	`uid` INT (6) UNSIGNED NOT NULL,
+	`target_uid` INT (6) UNSIGNED NOT NULL)");
 ?>
