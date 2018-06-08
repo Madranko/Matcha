@@ -77,6 +77,7 @@ export class AuthorizationService {
 	deleteTokensFromCookie(): void {
 		this.cookieService.deleteAll('/');
 		this.cookieService.deleteAll('/main');
+		this.cookieService.deleteAll('/main/search');
 	}
 
 	deleteTokensAndLogout() {

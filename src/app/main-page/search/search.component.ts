@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Router } from '@angular/router';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -122,6 +123,7 @@ export class SearchComponent implements OnInit {
 			.then(
 				(data) => {
 					this.sortedUsers = data;
+					console.log(data);
 				},
 				(error) => {
 					console.log(error);

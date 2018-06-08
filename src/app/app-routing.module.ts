@@ -12,8 +12,8 @@ import { ChatComponent } from './main-page/chat/chat.component';
 import { HistoryComponent } from './main-page/history/history.component';
 import { SearchComponent } from './main-page/search/search.component';
 import { SettingsComponent } from './main-page/settings/settings.component';
-// import { HomeComponent } from './main-page/home/home.component';
 import { ProfileComponent } from './main-page/profile/profile.component';
+import { VisitPageComponent } from './main-page/search/visit-page/visit-page.component';
 
 const routes: Routes = [
 	{
@@ -40,11 +40,14 @@ const routes: Routes = [
 		path: 'main',
 		component: MainPageComponent,
 		children: [
-			{ path: 'search', component: SearchComponent },
+			{
+				path: 'search',
+				component: SearchComponent
+			},
+			{ path: 'search/:id', component: VisitPageComponent },
 			{ path: 'chat', component: ChatComponent },
 			{ path: 'history', component: HistoryComponent },
 			{ path: 'settings', component: SettingsComponent },
-			// { path: 'user', component: HomeComponent },
 			{ path: 'profile', component: ProfileComponent }
 		],
 	},

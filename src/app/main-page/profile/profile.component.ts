@@ -20,23 +20,10 @@ export class ProfileComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		// console.log("PROFILE REFRESH");
-		// this.authorizationService.refreshTokens();
+
 	}
 
 	onResizez(event) {
 		this.windowWidth = event.target.innerWidth;
 	}
-
-	// handleFileInput(file: FileList) {
-	// 	this.fileToUpload = file.item(0);
-	// 	// console.log(id);
-	// 	//Show image preview
-	// 	var reader = new FileReader();
-	// 	reader.onload = (event:any) => {
-	// 		this.imageUrl = event.target.result;
-	// 		// console.log(this.uploadImg);
-	// 	}
-	// 	reader.readAsDataURL(this.fileToUpload);
-	// }
 }

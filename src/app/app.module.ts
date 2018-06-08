@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-// import { FormControl } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
@@ -15,11 +14,8 @@ import { CongratsComponent } from './user/congrats/congrats.component';
 import { ForgotPassComponent } from './user/forgot-pass/forgot-pass.component';
 
 import { CookieService } from 'ngx-cookie-service';
-// import { ProfileComponent } from './profile/profile.component';
 import { UserInfoComponent } from './profile/user-info/user-info.component';
-// import { GenderAndPreferencesComponent } from './profile/user-info/gender-and-preferences/gender-and-preferences.component';
 import { BirthdateComponent } from './profile/user-info/birthdate/birthdate.component';
-// import { CityComponent } from './profile/user-info/city/city.component';
 import { InterestsComponent } from './profile/user-info/interests/interests.component';
 import { GenderComponent } from './profile/user-info/gender/gender.component';
 import { PreferencesComponent } from './profile/user-info/preferences/preferences.component';
@@ -39,8 +35,7 @@ import { MoreInfoComponent } from './main-page/profile/more-info/more-info.compo
 import { ProfileBiographyComponent } from './main-page/profile/profile-biography/profile-biography.component';
 import { UserGalleryComponent } from './main-page/profile/user-gallery/user-gallery.component';
 import { HistoryComponent } from './main-page/history/history.component';
-// import { DefaultInterestsComponent } from './profile/user-info/interests/default-interests/default-interests.component';
-// import { InterestsComponent } from './profile/user-info/interests/interests.component';
+import { VisitPageComponent } from './main-page/search/visit-page/visit-page.component';
 
 @NgModule({
 	declarations: [
@@ -50,7 +45,6 @@ import { HistoryComponent } from './main-page/history/history.component';
 		routingComponents,
 		CongratsComponent,
 		ForgotPassComponent,
-		// ProfileComponent,
 		UserInfoComponent,
 		BirthdateComponent,
 		InterestsComponent,
@@ -71,7 +65,8 @@ import { HistoryComponent } from './main-page/history/history.component';
 		MoreInfoComponent,
 		ProfileBiographyComponent,
 		UserGalleryComponent,
-		HistoryComponent
+		HistoryComponent,
+		VisitPageComponent
 	],
 	imports: [
 		BrowserModule,
