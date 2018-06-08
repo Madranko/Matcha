@@ -299,11 +299,19 @@ class UserInfoModel {
 		return $result;
 	}
 
-	public function findUsersByGender($currentPreferences, $currentGender, $currentId) {
-		
+	public function managePreferences($currentGender, $currentPreferences) {
+		if ($currentPreferences == "heterosexual") {
+			$statement = "`user_info`.`gender` != '$currentGender' AND `user_info`.`preferences` != 'homosexual'";
+		} else if ($currentPreferences == 'homosexual') {
+			$statement = "`user_info`.`gender` = '$currentGender' AND `user_info`.`preferences` = 'homosexual'";
+		} else if ($currentPreferences == 'bisexual'){
+			$statement = "((`user_info`.`gender` = '$currentGender' AND `user_info`.`preferences` != 'heterosexual') OR (`user_info`.`gender` != '$currentGender' AND `user_info`.`preferences` != 'homosexual'))";
+		}
+		return $statement;
 	}
 
-	public function sortUsersByParams($params) {
+	public function sortUsersByParams($params, $currentId) {
+		$genderStatement = $this->managePreferences($params['gender'], $params['preferences']);
 		$statement = "SELECT
 			`users`.`id`,
 			`users`.`first_name`,
@@ -323,13 +331,18 @@ class UserInfoModel {
 				(`user_info`.`birthdate` < ? AND `user_info`.`birthdate` > ?)
 				AND
 				(`user_info`.`rating` >= ?)
+				AND
+				(`user_info`.`uid` != ?)
+				AND
+				$genderStatement
 			GROUP BY `users`.`id`
-			ORDER BY `user_info`.`rating`";
+			ORDER BY `user_info`.`rating` DESC";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([
 			$params['dateMax'],
 			$params['dateMin'],
-			$params['rating']
+			$params['rating'],
+			$currentId
 		]);
 		$result =  $preparedStatement->fetchAll();
 		return $result;

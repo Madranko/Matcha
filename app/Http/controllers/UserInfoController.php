@@ -97,9 +97,10 @@ class UserInfoController extends Controller {
 	}
 
 	public function getUsersByParams($params) {
+		$id = JwtModel::getUidFromToken($params['refreshToken']);
 		$params['dateMax'] = strval(date('Y') - $params['ageMin'] + 1);
 		$params['dateMin'] = strval(date('Y') - $params['ageMax']);
-		$result = $this->userInfoModel->sortUsersByParams($params);
+		$result = $this->userInfoModel->sortUsersByParams($params, $id);
 		return json_encode($result);
 	}
 }
