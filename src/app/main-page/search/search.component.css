@@ -36,6 +36,9 @@ mat-slider, mat-form-field {
 	display: flex;
 	justify-content: center;
 }
+.card-container__profile-picture--container > .card-container__profile-picture {
+	margin-top: 0;
+}
 
 mat-grid-tile {
   background: teal;

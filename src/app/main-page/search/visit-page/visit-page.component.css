@@ -102,4 +102,5 @@ mat-grid-tile {
 .img-block {
 	display: flex;
 	flex-direction: row;
+	flex-wrap: wrap;
 }
