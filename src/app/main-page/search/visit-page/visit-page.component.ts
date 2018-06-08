@@ -27,6 +27,7 @@ export class VisitPageComponent implements OnInit {
 	preferences: string;
 	shortInfo = [];
 	tags = [];
+	liked: boolean;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -45,8 +46,10 @@ export class VisitPageComponent implements OnInit {
 	}
 
 	getInfo(uid) {
+		let cookies = this.authorizationService.getTokensFromCookie();
 		let data = {
-			'uid': uid
+			'uid': uid,
+			'cookie': cookies
 		}
 		this.userInfoService.sendRequest('getVisitedUserInfo', data)
 		.toPromise()
@@ -69,6 +72,7 @@ export class VisitPageComponent implements OnInit {
 		this.preferences = data['preferences'];
 		this.shortInfo = data['shortInfo'];
 		this.tags = data['tags'];
+		this.liked = data['liked'];
 		if (data['galleryPhotos']) {
 			for (let i = 0; i < data['galleryPhotos'].length; i++) {
 				this.galleryPhotos[i] = "http://localhost:8100/" + data['galleryPhotos'][i];
@@ -78,5 +82,31 @@ export class VisitPageComponent implements OnInit {
 
 	onResizez(event) {
 		this.windowWidth = event.target.innerWidth;
+	}
+
+	likeUnlike() {
+		let cookies = this.authorizationService.getTokensFromCookie();
+		let data = {
+			'liked': this.liked,
+			'visitedUid': this.uid,
+			'cookie': cookies
+		};
+
+		this.userInfoService.sendRequest('likeUnlike', data)
+			.toPromise()
+			.then(
+				(data) => {
+					;
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
+
+		if (this.liked) {
+			this.liked = false;
+		} else {
+			this.liked = true;
+		}
 	}
 }

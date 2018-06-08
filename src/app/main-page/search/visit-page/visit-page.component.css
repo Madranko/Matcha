@@ -47,14 +47,36 @@ mat-grid-tile {
 	width: 200px;
 }
 .upload-img__user-img {
-	width: 200px;
-	height: 200px;
+	width: 240px;
+	height: 240px;
 	object-fit: scale-down;
 }
 
 .info-row {
-	margin-top: 10px;
+	margin: 42px 0 0 0;
 	display: flex;
+}
+.photo-container {
+	width: 320px;
+	height: 310px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.like-button {
+	margin-top: 10px;
+	background: transparent;
+}
+.like-button__icon {
+	font-size: 30px;
+	color: #c8d8da;
+}
+.liked {
+	color: #00acc1;
+}
+.short-info {
+	margin: 0 0 20px 20px;
 }
 
 .upload-div {
@@ -62,11 +84,9 @@ mat-grid-tile {
 	flex-direction: row;
 }
 
-.photo-container {
-	width: 320px;
-	height: 240px;
+.user-info-field-container {
+	margin: 25px 0;
 }
-
 .user-info-field {
 	display: flex;
 	width: 100%;
@@ -74,6 +94,12 @@ mat-grid-tile {
 	align-items: center;
 }
 
+
+.biography-container {
+	width: 100%;
+	height: 100%;
+	margin: 25px 0;
+}
 .biography-field {
 	display: flex;
 	flex-direction: column;
@@ -84,19 +110,6 @@ mat-grid-tile {
 
 .user-info-field__mat-icon {
 	margin-right: 16px;
-}
-
-.short-info {
-	margin-left: 20px;
-}
-
-.last-field {
-	margin-bottom: 9px;
-}
-
-.biography-container {
-	width: 100%;
-	height: 100%;
 }
 
 .img-block {

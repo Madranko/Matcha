@@ -1,77 +1,66 @@
-<div class="container col">
+<div class="container">
 	<div class="info-row">
-		<div class="col s5">
-			<div class="photo-container">
-				<img [src]="profileImageUrl" class="upload-img__user-img">
-			</div>
+		<div class="photo-container">
+			<img [src]="profileImageUrl" class="upload-img__user-img">
+			<button mat-icon-button (click)="likeUnlike()" class="like-button">
+				<mat-icon
+					[ngClass]="{'liked': liked, 'like-button__icon': true}">thumb_up_alt</mat-icon>
+			</button>
 		</div>
-		<div class="col s6">
-			<div class="short-info">
-				<div class="user-info-field">
-					<mat-icon class="user-info-field__mat-icon"><i class="fas fa-user"></i></mat-icon>
-					<h4>{{ shortInfo['firstName'] }} {{ shortInfo['lastName'] }}&nbsp;</h4>
-					<h5>({{ shortInfo['login'] }})</h5>
-				</div>
-				<div class="user-info-field">
-					<mat-icon class="user-info-field__mat-icon"><i class="fas fa-map-marker-alt"></i></mat-icon>
-					<h5>Location: {{ shortInfo['city'] }}, {{ shortInfo['country'] }}</h5>
-				</div>
-				<div class="user-info-field">
-					<mat-icon class="user-info-field__mat-icon"><i class="fas fa-star"></i></mat-icon>
-					<h5>Rating: {{ shortInfo['rating'] }}</h5>
-				</div>
-				<div>
-					<div>
-						<div class="user-info-field">
-							<mat-icon class="user-info-field__mat-icon"><i class="fab fa-slack-hash"></i></mat-icon>
-							<h5>Interests: </h5>
-						</div>
-						<div>
-							<mat-chip-list #chipList>
-								<mat-chip *ngFor="let tag of tags">
-									{{tag}}
-									<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-								</mat-chip>
-							</mat-chip-list>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div>
-		<div>
-			<mat-divider (window:resize)="onResizez($event)" *ngIf="windowWidth > 599"></mat-divider>
+		<div class="short-info">
 			<div class="user-info-field">
-				<h6>Birthdate: {{ birthdate }}</h6>
+				<mat-icon class="user-info-field__mat-icon"><i class="fas fa-user"></i></mat-icon>
+				<h4>{{ shortInfo['firstName'] }} {{ shortInfo['lastName'] }}&nbsp;</h4>
+				<h5>({{ shortInfo['login'] }})</h5>
 			</div>
 			<div class="user-info-field">
-				<h6>Gender: {{ gender }}</h6>
+				<mat-icon class="user-info-field__mat-icon"><i class="fas fa-map-marker-alt"></i></mat-icon>
+				<h5>Location: {{ shortInfo['city'] }}, {{ shortInfo['country'] }}</h5>
 			</div>
-			<div class="user-info-field last-field">
-				<h6>Sexual preferences: {{ preferences }}</h6>
+			<div class="user-info-field">
+				<mat-icon class="user-info-field__mat-icon"><i class="fas fa-star"></i></mat-icon>
+				<h5>Rating: {{ shortInfo['rating'] }}</h5>
 			</div>
-			<mat-divider></mat-divider>
+			<div class="user-info-field">
+				<mat-icon class="user-info-field__mat-icon"><i class="fab fa-slack-hash"></i></mat-icon>
+				<h5>Interests: </h5>
+			</div>
+			<div>
+				<mat-chip-list #chipList>
+					<mat-chip *ngFor="let tag of tags">
+						{{tag}}
+						<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+					</mat-chip>
+				</mat-chip-list>
+			</div>
 		</div>
 	</div>
-	<div>
-		<div class="biography-container">
-			<mat-divider (window:resize)="onResizez($event)" *ngIf="windowWidth > 599"></mat-divider>
-			<div class="last-field biography-field">
-				<div><h4>Biography: </h4></div>
-				<div><h6>{{ biography }}</h6></div>
-			</div>
-			<mat-divider></mat-divider>
+	<mat-divider></mat-divider>
+	<div class="user-info-field-container">
+		<div class="user-info-field">
+			<h6>Birthdate: {{ birthdate }}</h6>
+		</div>
+		<div class="user-info-field">
+			<h6>Gender: {{ gender }}</h6>
+		</div>
+		<div class="user-info-field">
+			<h6>Sexual preferences: {{ preferences }}</h6>
 		</div>
 	</div>
+	<mat-divider></mat-divider>
+	<div class="biography-container">
+		<div class="biography-field">
+			<h5>Biography: </h5>
+			<h6>{{ biography }}</h6>
+		</div>
+	</div>
+	<mat-divider></mat-divider>
 	<div class="upload-div">
 		<div>
 			<div class="img-block">
 				<div *ngFor="let i of [0, 1, 2, 3]" class="upload-img-wrapper">
-					<!-- <div class="upload-img-container" [ngStyle]="{'border': galleryPhotos[i] == 'assets/upload.svg' ? '5px dashed rgba(128, 128, 128, 0.1)' : 'none'}"> -->
 					<div class="upload-img-container">
 						<img *ngIf="galleryPhotos[i] != 'assets/upload.svg'" [src]="galleryPhotos[i]" class="upload-img__user-img">
-						<!-- <img *ngIf="galleryPhotos[i] == 'assets/upload.svg'" [src]="galleryPhotos[i]" class="upload-img"> -->
 					</div>
 				</div>
 			</div>
