@@ -1,27 +1,10 @@
-<div class="container">
-	<form #AddUserInfoForm="ngForm" (ngSubmit)="onSubmit(AddUserInfoForm)">
-		<div class="container user-info-container">
-			<app-profile-photo></app-profile-photo>
-			<app-first-last-name></app-first-last-name>
-			<app-login-email-password></app-login-email-password>
-			<app-gender></app-gender>
-			<app-preferences></app-preferences>
-			<app-birthdate></app-birthdate>
-			<app-interests></app-interests>
-			<app-biography></app-biography>
-		</div>
-		<mat-divider></mat-divider>
-		<div class="row under-divider">
-			<button
-				mat-raised-button
-				color="accent"
-				type="submit"
-				name="submit">Save</button>
-			<mat-error *ngIf="error">
-				<div>
-					{{ error }}
-				</div>
-			</mat-error>
-		</div>
-	</form>
+<app-change-profile-photo></app-change-profile-photo>
+<div class="container box">
+	<app-change-email></app-change-email>
+	<app-change-login></app-change-login>
+	<app-change-password></app-change-password>
+	<app-change-first-name></app-change-first-name>
+	<app-change-last-name></app-change-last-name>
+	<app-change-gender></app-change-gender>
+	<app-change-preferences></app-change-preferences>
 </div>

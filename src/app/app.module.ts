@@ -36,6 +36,14 @@ import { ProfileBiographyComponent } from './main-page/profile/profile-biography
 import { UserGalleryComponent } from './main-page/profile/user-gallery/user-gallery.component';
 import { HistoryComponent } from './main-page/history/history.component';
 import { VisitPageComponent } from './main-page/search/visit-page/visit-page.component';
+import { ChangeProfilePhotoComponent } from './main-page/settings/change-profile-photo/change-profile-photo.component';
+import { ChangeEmailComponent } from './main-page/settings/change-email/change-email.component';
+import { ChangeLoginComponent } from './main-page/settings/change-login/change-login.component';
+import { ChangePasswordComponent } from './main-page/settings/change-password/change-password.component';
+import { ChangeFirstNameComponent } from './main-page/settings/change-first-name/change-first-name.component';
+import { ChangeLastNameComponent } from './main-page/settings/change-last-name/change-last-name.component';
+import { ChangeGenderComponent } from './main-page/settings/change-gender/change-gender.component';
+import { ChangePreferencesComponent } from './main-page/settings/change-preferences/change-preferences.component';
 
 @NgModule({
 	declarations: [
@@ -66,7 +74,15 @@ import { VisitPageComponent } from './main-page/search/visit-page/visit-page.com
 		ProfileBiographyComponent,
 		UserGalleryComponent,
 		HistoryComponent,
-		VisitPageComponent
+		VisitPageComponent,
+		ChangeProfilePhotoComponent,
+		ChangeEmailComponent,
+		ChangeLoginComponent,
+		ChangePasswordComponent,
+		ChangeFirstNameComponent,
+		ChangeLastNameComponent,
+		ChangeGenderComponent,
+		ChangePreferencesComponent
 	],
 	imports: [
 		BrowserModule,

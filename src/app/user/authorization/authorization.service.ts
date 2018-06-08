@@ -97,6 +97,7 @@ export class AuthorizationService {
 	}
 
 	refreshTokens(): void {
+		console.log("refresh");
 		let cookies = this.getTokensFromCookie();
 		this.sendData('checkTokens', cookies)
 		.toPromise()

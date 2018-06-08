@@ -1,0 +1,18 @@
+<div class="user-info-field">
+	<mat-icon class="user-info-field__mat-icon"><i class="fas fa-user"></i></mat-icon>
+	<div class="input-field">
+		<input matInput
+		placeholder="Login"
+		type="text"
+		name="login"
+		[(ngModel)]="this.authorizationService.user.login">
+		<mat-error *ngIf="!this.authorizationService.checkPattern('loginPattern', 'login')">
+			<div class="error-div">
+				&nbsp;{{ this.authorizationService.getErrorMessage("login", 'login') }}
+			</div>
+		</mat-error>
+	</div>
+	<button mat-icon-button (click)="saveChanges(this.authorizationService.user.login, 'login')">
+		<mat-icon><i class="fas fa-check"></i></mat-icon>
+	</button>
+</div>
