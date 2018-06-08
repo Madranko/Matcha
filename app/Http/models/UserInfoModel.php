@@ -361,8 +361,5 @@ class UserInfoModel {
 		return $result;
 	}
 }
-//	AND
-	// `all_user_interests`.`tag`
-	// IN($tagsStatement)
 
 ?>

@@ -62,7 +62,7 @@ class UserInfoController extends Controller {
 	public function storeUserPhoto($data) {
 		$id = JwtModel::getUidFromToken($data['refreshToken']);
 		$path = $this->userInfoModel->putPhotoInFolder($data['photo']);
-		$result = $this->userInfoModel->storePhotoInDb($path, $id);
+		$result = $this->userInfoModel->storePhotoInDb($data['previous'], $path, $id);
 		return json_encode($result);
 	}
 
@@ -102,6 +102,23 @@ class UserInfoController extends Controller {
 		$params['dateMin'] = strval(date('Y') - $params['ageMax']);
 		$result = $this->userInfoModel->sortUsersByParams($params, $id);
 		return json_encode($result);
+	}
+
+	public function getVisitedUserInfo($data) {
+		$id = $data['uid'];
+		$shortInfo = $this->userInfoModel->getShortInfo($id);
+		$moreInfo = $this->userInfoModel->getMoreInfo($id);
+		$fullInfo = [
+			'profilePhoto' => $pathToProfilePhoto = $this->userInfoModel->getProfilePhoto($id),
+			'birthdate' => $moreInfo['birthdate'],
+			'gender' => $moreInfo['gender'],
+			'preferences' => $moreInfo['preferences'],
+			'shortInfo' => $shortInfo['info'],
+			'tags' => $shortInfo['tags'],
+			'biography' => $biography = $this->userInfoModel->getUserData('biography', 'user_info', 'uid', $id),
+			'galleryPhotos' => $galleryPhotos = $this->userInfoModel->getAllUserPhotos($id),
+		];
+		return json_encode($fullInfo);
 	}
 }
 ?>
