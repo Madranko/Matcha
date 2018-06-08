@@ -106,7 +106,7 @@ export class AuthorizationService {
 			},
 			(error) => {
 				console.log(error);
-				this.deleteTokensAndLogout();
+				// this.deleteTokensAndLogout();
 			}
 		);
 		console.log("test2");

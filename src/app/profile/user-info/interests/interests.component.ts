@@ -40,6 +40,10 @@ export class InterestsComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.getAllInterests();
+	}
+
+	getAllInterests() {
 		this.userInfoService.getData("getInterests")
 			.toPromise()
 			.then(

@@ -14,7 +14,7 @@ button:focus {
 	margin: 8px;
 }
 
-mat-slider {
+mat-slider, mat-form-field {
 	width: 100%;
 }
 
@@ -29,4 +29,18 @@ mat-slider {
 .card-container__profile-picture {
 	width: 250px;
 	height: 250px;
+}
+
+mat-grid-tile {
+  background: teal;
+}
+
+input:not([type]) {
+	border-bottom: none;
+	height: 15px;
+	margin: 0;
+}
+input:not([type]):focus:not([readonly]) {
+	border-bottom: none;
+	box-shadow: none;
 }
