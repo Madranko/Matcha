@@ -29,6 +29,12 @@ mat-slider, mat-form-field {
 .card-container__profile-picture {
 	width: 250px;
 	height: 250px;
+	margin: 0;
+	object-fit: scale-down;
+}
+.card-container__profile-picture--container {
+	display: flex;
+	justify-content: center;
 }
 
 mat-grid-tile {
@@ -43,4 +49,9 @@ input:not([type]) {
 input:not([type]):focus:not([readonly]) {
 	border-bottom: none;
 	box-shadow: none;
+}
+
+mat-card-actions {
+	display: flex;
+	justify-content: center;
 }

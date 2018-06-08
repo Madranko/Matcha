@@ -54,53 +54,53 @@ export class SearchComponent implements OnInit {
 		this.filteredTags = this.tagCtrl.valueChanges.pipe(
 			startWith(null),
 			map((tag: string | null) => tag ? this.filter(tag) : this.allTags.slice()));
+	}
+
+	ngOnInit() {
+		this.getAllInterests();
+		this.getSearchParamsAndBrowseUsers();
+	}
+
+	reason = '';
+
+	close(reason: string) {
+		this.reason = reason;
+		this.sidenav.close();
+		this.getUsersByParams(this.searchParams);
+		console.log(this.searchParams);
+	}
+
+	ratingLabel(value: number | null) {
+		if (!value) {
+			return 0;
 		}
+		return value;
+	}
 
-		ngOnInit() {
-			this.getAllInterests();
-			this.getSearchParamsAndBrowseUsers();
+	ageMinLabel(value: number | null) {
+		if (!value) {
+			return 0;
 		}
+		return value;
+	}
 
-		reason = '';
-
-		close(reason: string) {
-			this.reason = reason;
-			this.sidenav.close();
-			this.getUsersByParams(this.searchParams);
-			console.log(this.searchParams);
+	ageMaxLabel(value: number | null) {
+		if (!value) {
+			return 0;
 		}
+		return value;
+	}
 
-		ratingLabel(value: number | null) {
-			if (!value) {
-				return 0;
-			}
-			return value;
+	distanceLabel(value: number | null) {
+		if (!value) {
+			return 0;
 		}
+		return value;
+	}
 
-		ageMinLabel(value: number | null) {
-			if (!value) {
-				return 0;
-			}
-			return value;
-		}
-
-		ageMaxLabel(value: number | null) {
-			if (!value) {
-				return 0;
-			}
-			return value;
-		}
-
-		distanceLabel(value: number | null) {
-			if (!value) {
-				return 0;
-			}
-			return value;
-		}
-
-		getSearchParamsAndBrowseUsers() {
-			let cookies = this.authorizationService.getTokensFromCookie();
-			this.userInfoService.sendRequest('getSearchParams', cookies)
+	getSearchParamsAndBrowseUsers() {
+		let cookies = this.authorizationService.getTokensFromCookie();
+		this.userInfoService.sendRequest('getSearchParams', cookies)
 			.toPromise()
 			.then(
 				(data) => {
@@ -112,12 +112,12 @@ export class SearchComponent implements OnInit {
 					console.log(error);
 				}
 			);
-		}
+	}
 
-		getUsersByParams(params) {
-			let token = this.cookieService.get('RefreshToken');
-			params['refreshToken'] = token;
-			this.userInfoService.sendRequest('getUsersByParams', params)
+	getUsersByParams(params) {
+		let token = this.cookieService.get('RefreshToken');
+		params['refreshToken'] = token;
+		this.userInfoService.sendRequest('getUsersByParams', params)
 			.toPromise()
 			.then(
 				(data) => {
@@ -127,10 +127,10 @@ export class SearchComponent implements OnInit {
 					console.log(error);
 				}
 			);
-		}
+	}
 
-		getAllInterests() {
-			this.userInfoService.getData("getInterests")
+	getAllInterests() {
+		this.userInfoService.getData("getInterests")
 			.toPromise()
 			.then(
 				(data) => {
@@ -142,53 +142,53 @@ export class SearchComponent implements OnInit {
 					this.error = error.error.exception[0].message;
 				}
 			);
-		}
+	}
 
-		add(event: MatChipInputEvent): void {
-			const input = event.input;
-			const value = event.value;
-			const pattern = new RegExp("^[a-zA-Z0-9]{2,15}$");
-			if (pattern.test(value) && this.counter < 10) {
-				if ((value || '').trim() && this.checkIfExists(value)) {
-					this.tags.push(value.trim());
-					this.counter = this.tags.length;
-				}
-			}
-			if (input) {
-				input.value = '';
-			}
-
-			this.tagCtrl.setValue(null);
-		}
-
-		checkIfExists(tag) {
-			for(var i in this.tags) {
-				if (this.tags[i] == tag) {
-					return false;
-				}
-			}
-			return true;
-		}
-
-		remove(tag: any): void {
-			const index = this.tags.indexOf(tag);
-
-			if (index >= 0) {
-				this.tags.splice(index, 1);
+	add(event: MatChipInputEvent): void {
+		const input = event.input;
+		const value = event.value;
+		const pattern = new RegExp("^[a-zA-Z0-9]{2,15}$");
+		if (pattern.test(value) && this.counter < 10) {
+			if ((value || '').trim() && this.checkIfExists(value)) {
+				this.tags.push(value.trim());
 				this.counter = this.tags.length;
 			}
 		}
+		if (input) {
+			input.value = '';
+		}
 
-		filter(name: string) {
-			return this.allTags.filter(tag =>
-				tag.toLowerCase().indexOf(name.toLowerCase()) === 0);
-			}
+		this.tagCtrl.setValue(null);
+	}
 
-			selected(event: MatAutocompleteSelectedEvent): void {
-				if (this.checkIfExists(event.option.viewValue)) {
-					this.tags.push(event.option.viewValue);
-					this.tagInput.nativeElement.value = '';
-					this.tagCtrl.setValue(null);
-				}
+	checkIfExists(tag) {
+		for(var i in this.tags) {
+			if (this.tags[i] == tag) {
+				return false;
 			}
 		}
+		return true;
+	}
+
+	remove(tag: any): void {
+		const index = this.tags.indexOf(tag);
+
+		if (index >= 0) {
+			this.tags.splice(index, 1);
+			this.counter = this.tags.length;
+		}
+	}
+
+	filter(name: string) {
+		return this.allTags.filter(tag =>
+			tag.toLowerCase().indexOf(name.toLowerCase()) === 0);
+	}
+
+	selected(event: MatAutocompleteSelectedEvent): void {
+		if (this.checkIfExists(event.option.viewValue)) {
+			this.tags.push(event.option.viewValue);
+			this.tagInput.nativeElement.value = '';
+			this.tagCtrl.setValue(null);
+		}
+	}
+}

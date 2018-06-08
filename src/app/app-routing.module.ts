@@ -9,7 +9,7 @@ import { ForgotPassComponent } from './user/forgot-pass/forgot-pass.component';
 import { UserInfoComponent } from './profile/user-info/user-info.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { ChatComponent } from './main-page/chat/chat.component';
-import { FavoritesComponent } from './main-page/favorites/favorites.component';
+import { HistoryComponent } from './main-page/history/history.component';
 import { SearchComponent } from './main-page/search/search.component';
 import { SettingsComponent } from './main-page/settings/settings.component';
 // import { HomeComponent } from './main-page/home/home.component';
@@ -42,7 +42,7 @@ const routes: Routes = [
 		children: [
 			{ path: 'search', component: SearchComponent },
 			{ path: 'chat', component: ChatComponent },
-			{ path: 'favorites', component: FavoritesComponent },
+			{ path: 'history', component: HistoryComponent },
 			{ path: 'settings', component: SettingsComponent },
 			// { path: 'user', component: HomeComponent },
 			{ path: 'profile', component: ProfileComponent }

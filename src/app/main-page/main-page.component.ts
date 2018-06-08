@@ -34,9 +34,9 @@ export class MainPageComponent implements OnInit {
 			icon: 'chat_bubble'
 		},
 		{
-			path: 'favorites',
-			label: 'FAVORITES',
-			icon: 'favorite'
+			path: 'history',
+			label: 'HISTORY',
+			icon: 'history'
 		},
 		{
 			path: 'settings',

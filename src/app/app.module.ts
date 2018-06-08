@@ -28,7 +28,6 @@ import { ProfilePhotoComponent } from './profile/user-info/profile-photo/profile
 import { MainPageComponent } from './main-page/main-page.component';
 import { SearchComponent } from './main-page/search/search.component';
 import { ChatComponent } from './main-page/chat/chat.component';
-import { FavoritesComponent } from './main-page/favorites/favorites.component';
 import { SettingsComponent } from './main-page/settings/settings.component';
 import { FirstLastNameComponent } from './profile/user-info/first-last-name/first-last-name.component';
 import { LoginEmailPasswordComponent } from './profile/user-info/login-email-password/login-email-password.component';
@@ -39,6 +38,7 @@ import { UserInterestsComponent } from './main-page/profile/user-interests/user-
 import { MoreInfoComponent } from './main-page/profile/more-info/more-info.component';
 import { ProfileBiographyComponent } from './main-page/profile/profile-biography/profile-biography.component';
 import { UserGalleryComponent } from './main-page/profile/user-gallery/user-gallery.component';
+import { HistoryComponent } from './main-page/history/history.component';
 // import { DefaultInterestsComponent } from './profile/user-info/interests/default-interests/default-interests.component';
 // import { InterestsComponent } from './profile/user-info/interests/interests.component';
 
@@ -61,7 +61,6 @@ import { UserGalleryComponent } from './main-page/profile/user-gallery/user-gall
 		MainPageComponent,
 		SearchComponent,
 		ChatComponent,
-		FavoritesComponent,
 		SettingsComponent,
 		FirstLastNameComponent,
 		LoginEmailPasswordComponent,
@@ -71,7 +70,8 @@ import { UserGalleryComponent } from './main-page/profile/user-gallery/user-gall
 		UserInterestsComponent,
 		MoreInfoComponent,
 		ProfileBiographyComponent,
-		UserGalleryComponent
+		UserGalleryComponent,
+		HistoryComponent
 	],
 	imports: [
 		BrowserModule,
