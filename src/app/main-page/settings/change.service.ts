@@ -52,4 +52,22 @@ export class ChangeService {
 			}
 		);
 	}
+
+	changeInterests(interests) {
+		let data = {
+			'refreshToken': this.cookieService.get('RefreshToken'),
+			'interests': interests
+		}
+		console.log(data);
+		this.userInfoService.sendRequest('changeInterests', data)
+		.toPromise()
+		.then(
+			(data) => {
+				console.log(data);
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
+	}
 }

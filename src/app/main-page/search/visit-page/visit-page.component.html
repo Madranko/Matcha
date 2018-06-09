@@ -4,7 +4,7 @@
 			<img [src]="profileImageUrl" class="upload-img__user-img">
 			<button mat-icon-button (click)="likeUnlike()" class="like-button">
 				<mat-icon
-					[ngClass]="{'liked': liked, 'like-button__icon': true}">thumb_up_alt</mat-icon>
+				[ngClass]="{'liked': liked, 'like-button__icon': true}">thumb_up_alt</mat-icon>
 			</button>
 		</div>
 		<div class="short-info">
@@ -59,11 +59,14 @@
 		<div>
 			<div class="img-block">
 				<div *ngFor="let i of [0, 1, 2, 3]" class="upload-img-wrapper">
-					<div class="upload-img-container">
+					<div class="upload-img-container" *ngIf="galleryPhotos[i] != 'assets/upload.svg'">
 						<img *ngIf="galleryPhotos[i] != 'assets/upload.svg'" [src]="galleryPhotos[i]" class="upload-img__user-img">
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="warn">
+		<button mat-raised-button color="warn" class="warn-button" (click)="reportUser()">Report User</button>
 	</div>
 </div>

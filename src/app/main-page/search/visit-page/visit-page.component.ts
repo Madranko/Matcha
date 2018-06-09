@@ -40,8 +40,6 @@ export class VisitPageComponent implements OnInit {
 		this.sub = this.route.params.subscribe((params) => {
 			this.uid = +params['id'];
 		});
-		console.log("VISIT PAGE");
-		console.log(this.uid);
 		this.getInfo(this.uid);
 	}
 
@@ -96,7 +94,7 @@ export class VisitPageComponent implements OnInit {
 			.toPromise()
 			.then(
 				(data) => {
-					;
+					this.shortInfo['rating'] = data;
 				},
 				(error) => {
 					console.log(error);
@@ -108,5 +106,23 @@ export class VisitPageComponent implements OnInit {
 		} else {
 			this.liked = true;
 		}
+	}
+
+	reportUser() {
+		let data = {
+			'refreshToken': this.cookieService.get('RefreshToken'),
+			'visitedUid': this.uid
+		};
+		this.userInfoService.sendRequest('reportUser', data)
+		.toPromise()
+		.then(
+			(data) => {
+				console.log(data);
+				// this.saveData(data);
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
 	}
 }

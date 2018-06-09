@@ -7,7 +7,7 @@
 			</mat-option>
 		</mat-select>
 	</mat-form-field>
-	<button mat-icon-button (click)="saveChanges(selectedGender, 'gender')">
+	<button mat-icon-button (click)="saveChanges(selectedGender, 'gender')" [disabled]="!this.selectedGender">
 		<mat-icon><i class="fas fa-check"></i></mat-icon>
 	</button>
 </div>

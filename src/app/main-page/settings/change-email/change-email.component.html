@@ -1,5 +1,5 @@
 <div class="user-info-field">
-	<mat-icon class="user-info-field__mat-icon"><i class="fas fa-user"></i></mat-icon>
+	<mat-icon class="user-info-field__mat-icon"><i class="fas fa-at"></i></mat-icon>
 	<div class="input-field">
 		<input matInput
 		placeholder="Email"
@@ -12,7 +12,7 @@
 			</div>
 		</mat-error>
 	</div>
-	<button mat-icon-button (click)="saveChanges(this.authorizationService.user.email, 'email')">
+	<button mat-icon-button (click)="saveChanges(this.authorizationService.user.email, 'email')"  [disabled]="!this.authorizationService.checkPattern('emailPattern', 'email')">
 		<mat-icon><i class="fas fa-check"></i></mat-icon>
 	</button>
 </div>

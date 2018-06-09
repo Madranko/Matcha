@@ -12,7 +12,7 @@
 			</div>
 		</mat-error>
 	</div>
-	<button mat-icon-button (click)="saveChanges(this.authorizationService.user.lastName, 'last_name')">
+	<button mat-icon-button (click)="saveChanges(this.authorizationService.user.lastName, 'last_name')" [disabled]="!this.authorizationService.checkPattern('lastnamePattern', 'lastName')">
 		<mat-icon><i class="fas fa-check"></i></mat-icon>
 	</button>
 </div>

@@ -1,7 +1,7 @@
 .user-info-field {
 	color: rgba(0,0,0,0.54);
 	display: flex;
-	width: 30%;
+	width: 100%;
 	justify-content: flex-start;
 	align-items: center;
 }
@@ -18,6 +18,24 @@
 	width: 100%;
 }
 
+mat-select {
+	margin-top: 12px;
+}
+
 .box {
 	margin-top: 70px;
+	display: flex;
+	flex-direction: column;
+}
+
+.interests:not([type]) {
+	border-bottom: none;
+	height: 15px;
+	/* margin-top: 25px; */
+	/* margin: 0; */
+}
+.interests:not([type]):focus:not([readonly]) {
+	border-bottom: none;
+	box-shadow: none;
+	margin-top: 16px;
 }

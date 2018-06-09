@@ -1,0 +1,15 @@
+<div class="user-info-field">
+	<mat-icon class="user-info-field__mat-icon">assignment</mat-icon>
+	<mat-form-field class="input-field">
+		<textarea
+		maxlength="1000"
+		matInput
+		matTextareaAutosize
+		placeholder="Biography"
+		name="biography"
+		[(ngModel)]="this.biography"></textarea>
+	</mat-form-field>
+	<button mat-icon-button (click)="saveChanges(this.biography, 'biography')" [disabled]="!this.biography">
+		<mat-icon><i class="fas fa-check"></i></mat-icon>
+	</button>
+</div>

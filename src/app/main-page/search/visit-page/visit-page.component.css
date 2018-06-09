@@ -117,3 +117,14 @@ mat-grid-tile {
 	flex-direction: row;
 	flex-wrap: wrap;
 }
+
+.warn {
+	display: flex;
+	/* justify-content: space-around; */
+	margin-top: 50px;
+	margin-bottom: 5px;
+}
+
+.warn-button {
+	margin-left: 10px;
+}

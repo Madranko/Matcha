@@ -5,7 +5,7 @@ import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/materi
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-import { RatingSliderComponent } from './rating-slider/rating-slider.component';
+// import { RatingSliderComponent } from './rating-slider/rating-slider.component';
 import { UserInfoService } from '../../profile/user-info/service/user-info.service';
 import { AuthorizationService } from '../../user/authorization/authorization.service';
 import { CookieService } from 'ngx-cookie-service';

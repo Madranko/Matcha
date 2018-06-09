@@ -44,6 +44,8 @@ import { ChangeFirstNameComponent } from './main-page/settings/change-first-name
 import { ChangeLastNameComponent } from './main-page/settings/change-last-name/change-last-name.component';
 import { ChangeGenderComponent } from './main-page/settings/change-gender/change-gender.component';
 import { ChangePreferencesComponent } from './main-page/settings/change-preferences/change-preferences.component';
+import { ChangeBiographyComponent } from './main-page/settings/change-biography/change-biography.component';
+import { ChangeInterestsComponent } from './main-page/settings/change-interests/change-interests.component';
 
 @NgModule({
 	declarations: [
@@ -82,7 +84,9 @@ import { ChangePreferencesComponent } from './main-page/settings/change-preferen
 		ChangeFirstNameComponent,
 		ChangeLastNameComponent,
 		ChangeGenderComponent,
-		ChangePreferencesComponent
+		ChangePreferencesComponent,
+		ChangeBiographyComponent,
+		ChangeInterestsComponent
 	],
 	imports: [
 		BrowserModule,

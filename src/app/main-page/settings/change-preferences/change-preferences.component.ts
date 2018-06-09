@@ -29,7 +29,7 @@ export class ChangePreferencesComponent implements OnInit {
 		}
 	];
 
-	selected: string = this.preferences[2].viewValue;
+	selected: string;
 	value: string;
 	constructor(
 		private changeService: ChangeService,
