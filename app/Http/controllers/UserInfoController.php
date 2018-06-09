@@ -31,6 +31,12 @@ class UserInfoController extends Controller {
 		return json_encode($pathToPhoto);
 	}
 
+	public function changeProfilePhoto($data) {
+		$id = JwtModel::getUidFromToken($data['refreshToken']);
+		$pathToPhoto = $this->userInfoModel->changeProfilePhoto($data['photo'], $id);
+		return json_encode($pathToPhoto);
+	}
+
 	public function storeUserInfo($data) {
 
 		$id = JwtModel::getUidFromToken($data['refreshToken']);
@@ -124,15 +130,42 @@ class UserInfoController extends Controller {
 		return json_encode($fullInfo);
 	}
 
+
 	public function likeUnlike($data) {
 		$currentUid = JwtModel::getUidFromToken($data['cookie']['refreshToken']);
 		$visitedUid = $data['visitedUid'];
 		$liked = $data['liked'];
 		if ($liked) {
-			$this->userInfoModel->unlikeUser($currentUid, $visitedUid);
+			$rating = $this->userInfoModel->unlikeUser($currentUid, $visitedUid);
 		} else {
-			$this->userInfoModel->likeUser($currentUid, $visitedUid);
+			$rating = $this->userInfoModel->likeUser($currentUid, $visitedUid);
 		}
+		return json_encode($rating);
+	}
+
+	public function changeBasicInfo($data) {
+		$id = JwtModel::getUidFromToken($data['refreshToken']);
+		$result = $this->userInfoModel->changeInfo('users', $data['toChange'], $data['value'], $id);
+		return json_encode($result);
+	}
+
+	public function changeUserInfo($data) {
+		$id = JwtModel::getUidFromToken($data['refreshToken']);
+		$result = $this->userInfoModel->changeInfo('user_info', $data['toChange'], $data['value'], $id);
+		return json_encode($result);
+	}
+
+	public function changeInterests($data) {
+		$id = JwtModel::getUidFromToken($data['refreshToken']);
+		$result = $this->userInfoModel->storeUserInterests($data['interests'], $id);
+		return json_encode($result);
+	}
+
+	public function reportUser($data) {
+		$currentId = JwtModel::getUidFromToken($data['refreshToken']);
+		$reportedId = $data['visitedUid'];
+		$result = $this->userInfoModel->reportUser($currentId, $reportedId);
+		return json_encode($result);
 	}
 }
 ?>

@@ -70,7 +70,6 @@ class UserInfoModel {
 
 	public function putPhotoInFolder($imgCoded) {
 		$image_folder = "images/";
-		// $img = str_replace('data:image/png;base64,', '', $imgCoded);
 		$img = str_replace('data:image/', '', $imgCoded);
 		$exploded = explode(";", $img);
 		$format = $exploded[0];
@@ -89,14 +88,23 @@ class UserInfoModel {
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$id]);
 		$fetch = $preparedStatement->fetch();
-		// if ($fetch[0]) {
-		// 	$path = $fetch['profile_photo'];
-		// 	$type = pathinfo($path, PATHINFO_EXTENSION);
-		// 	$data = file_get_contents($path);
-		// 	$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-		// 	return $base64;
-		// }
 		return $fetch['profile_photo'];
+	}
+
+	public function changeProfilePhoto($photo, $id) {
+		$photoPath = $this->putPhotoInFolder($photo);
+		$statement = "UPDATE `user_info` SET `profile_photo`=? WHERE `uid`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$photoPath, $id]);
+	}
+
+	public function changeInfo($table, $toChange, $newValue, $uid) {
+		if ($toChange == 'password') {
+			$newValue = hash('sha256', $newValue);
+		}
+		$statement = "UPDATE $table SET $toChange = ? WHERE `id` = ?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$newValue, $uid]);
 	}
 
 	public function storeInfo($data, $id) {
@@ -182,12 +190,32 @@ class UserInfoModel {
 		$statement = "DELETE FROM `likes` WHERE `uid`=? AND `target_uid`=?";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$currentUid, $visitedUid]);
+		$newRating = $this->updateRating($visitedUid);
+		return $newRating;
 	}
 
 	public function likeUser($currentUid, $visitedUid) {
 		$statement = "INSERT INTO `likes` (`uid`,`target_uid`) VALUES (?,?)";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$currentUid, $visitedUid]);
+		$newRating = $this->updateRating($visitedUid);
+		return $newRating;
+	}
+
+	public function updateRating($uid) {
+		$rating = $this->getRatingFromLikes($uid);
+		$statement = "UPDATE `user_info` SET `rating`=? WHERE `uid` = ?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$rating, $uid]);
+		return $rating;
+	}
+
+	public function getRatingFromLikes($visitedId) {
+		$statement = "SELECT COUNT(`id`) FROM `likes` WHERE `target_uid` = ?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$visitedId]);
+		$fetch = $preparedStatement->fetchAll();
+		return $fetch[0][0];
 	}
 
 	public function getAllUserPhotos($id) {
@@ -305,9 +333,6 @@ class UserInfoModel {
 			}
 			$tagsStatement = substr($tagsStatement, 2);
 		}
-
-
-		// $tagsStatement = substr($tagsStatement, 1);
 		return [
 			'tagsStatement' => $tagsStatement,
 			'tagCount' => $tagCounter
@@ -378,9 +403,69 @@ class UserInfoModel {
 			$params['rating'],
 			$currentId
 		]);
-		$result =  $preparedStatement->fetchAll();
+		$result = $preparedStatement->fetchAll();
+		$result = $this->removeBannedUsers($result, $currentId);
 		return $result;
 	}
-}
 
+	public function removeBannedUsers($users, $currentId) {
+		for ($i = 0; $i < count($users); $i++) {
+			if ($this->ifBanned($users[$i]['id']) || $this->ifReported($currentId, $users[$i]['id'])) {
+				unset($users[$i]);
+			}
+		}
+		return array_values($users);
+	}
+
+	public function reportUser($currentId, $reportedId) {
+		if (!$this->ifReported($currentId, $reportedId)) {
+			$statement = "INSERT INTO `report_list` (`uid`, `who_reported`) VALUE (?, ?)";
+			$preparedStatement = $this->pdo->prepare($statement);
+			$preparedStatement->execute([$reportedId, $currentId]);
+			if ($this->limitReports($reportedId) > 0) {
+				$this->banUser($reportedId);
+			}
+		}
+	}
+
+	public function limitReports($uid) {
+		$statement = "SELECT COUNT(`id`) FROM `report_list` WHERE `uid` = ?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$uid]);
+		$fetch = $preparedStatement->fetchAll();
+		return $fetch[0][0];
+	}
+
+	public function banUser($uid) {
+		if (!$this->ifBanned($uid)) {
+			$statement = "INSERT INTO `ban_list` (`uid`) VALUE (?)";
+			$preparedStatement = $this->pdo->prepare($statement);
+			$preparedStatement->execute([$uid]);
+		}
+	}
+
+	public function ifBanned($uid) {
+		$statement = "SELECT * FROM `ban_list` WHERE `uid` = ?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$uid]);
+		$fetch = $preparedStatement->fetchAll();
+		if ($fetch) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function ifReported($currentId, $reportedId) {
+		$statement = "SELECT * FROM `report_list` WHERE `uid` = ? AND `who_reported` = ?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$reportedId, $currentId]);
+		$fetch = $preparedStatement->fetchAll();
+		if ($fetch) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
 ?>

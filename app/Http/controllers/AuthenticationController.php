@@ -35,23 +35,28 @@ class AuthenticationController extends Controller {
 	}
 
 	public function login($data) {
-		if ($this->authModel->isAccountActivated($data['login'])) {
+		$uid = $this->authModel->getUserData("login", $data['login'], "id");
+		if (!$this->authModel->ifBanned($uid)) {
 			$login = $data['login'];
 			$password = $data['password'];
 			if ($this->authModel->isLoginPassMatch(
 				strtolower($login), hash('sha256', $password)
 			)) {
-				$uid = $this->authModel->getUserData("login", $login, "id");
-				$firsTimeLogin = $this->authModel->getUserData("login", $login, "first_time_login");
-				$newTokens = JwtModel::refreshToken($uid, $firsTimeLogin);
-				$this->jwtModel->storeRefreshTokenInDb($newTokens['refreshToken']);
-				return json_encode($newTokens);
+				if ($this->authModel->isAccountActivated($data['login'])) {
+					$uid = $this->authModel->getUserData("login", $login, "id");
+					$firsTimeLogin = $this->authModel->getUserData("login", $login, "first_time_login");
+					$newTokens = JwtModel::refreshToken($uid, $firsTimeLogin);
+					$this->jwtModel->storeRefreshTokenInDb($newTokens['refreshToken']);
+					return json_encode($newTokens);
+				} else {
+					$this->authModel->sendLinkOnEmail("login", $data['login']);
+					throw new \Exception('You have to activate your account with activation link. Check your mail!');
+				}
 			} else {
 				throw new \Exception('Something went wrong');
 			}
 		} else {
-			$this->authModel->sendLinkOnEmail("login", $data['login']);
-			throw new \Exception('You have to activate your account with activation link. Check your mail!');
+			throw new \Exception('You recieved too many reports. Your account has been banned!');
 		}
 	}
 

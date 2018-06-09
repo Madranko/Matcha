@@ -15,10 +15,13 @@ $app->group('/api', function () use ($app, $pdo) {
 		$app->post(
 			'/{method}',
 			function (Request $request, Response $response, array $args) use ($pdo) {
-
-				$authController = new AuthenticationController($pdo);
-				$method = $args['method'];
-				return $authController->$method($request->getParams());
+				// try {
+					$authController = new AuthenticationController($pdo);
+					$method = $args['method'];
+					return $authController->$method($request->getParams());
+				// } catch (\Exception $e) {
+					// throw new \Exception($e->getMessage());
+				// }
 			}
 		);
 		$app->get(

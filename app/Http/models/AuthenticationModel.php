@@ -117,6 +117,18 @@ class AuthenticationModel
 		$result =  $preparedStatement->fetch();
 		return $result[0];
 	}
+
+	public function ifBanned($uid) {
+		$statement = "SELECT * FROM `ban_list` WHERE `uid` = ?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$uid]);
+		$fetch = $preparedStatement->fetchAll();
+		if ($fetch) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
 ?>
