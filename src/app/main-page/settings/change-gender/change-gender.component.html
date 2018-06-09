@@ -1,0 +1,13 @@
+<div class="user-info-field">
+	<mat-icon class="user-info-field__mat-icon"><i class="fas fa-transgender"></i></mat-icon>
+	<mat-form-field class="input-field">
+		<mat-select placeholder="Gender" name="gender" [(ngModel)]="selectedGender">
+			<mat-option *ngFor="let gender of genders" [value]="gender.value">
+				{{ gender.viewValue }}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<button mat-icon-button (click)="saveChanges(selectedGender, 'gender')">
+		<mat-icon><i class="fas fa-check"></i></mat-icon>
+	</button>
+</div>

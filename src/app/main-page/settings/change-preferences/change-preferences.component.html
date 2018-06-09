@@ -1,0 +1,13 @@
+<div class="user-info-field">
+	<mat-icon class="user-info-field__mat-icon"><i class="fas fa-venus-mars"></i></mat-icon>
+	<mat-form-field class="input-field">
+		<mat-select matInput [value]="value" name="preferences" placeholder="Sexual preferences" [(ngModel)]="selected">
+			<mat-option *ngFor="let preference of preferences" [value]="preference.value">
+				{{ preference.viewValue }}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<button mat-icon-button (click)="saveChanges(selected, 'preferences')">
+		<mat-icon><i class="fas fa-check"></i></mat-icon>
+	</button>
+</div>

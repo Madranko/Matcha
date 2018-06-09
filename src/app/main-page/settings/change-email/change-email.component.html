@@ -1,0 +1,18 @@
+<div class="user-info-field">
+	<mat-icon class="user-info-field__mat-icon"><i class="fas fa-user"></i></mat-icon>
+	<div class="input-field">
+		<input matInput
+		placeholder="Email"
+		type="text"
+		name="email"
+		[(ngModel)]="this.authorizationService.user.email">
+		<mat-error *ngIf="!this.authorizationService.checkPattern('emailPattern', 'email')">
+			<div class="error-div">
+				&nbsp;{{ this.authorizationService.getErrorMessage("email", 'email') }}
+			</div>
+		</mat-error>
+	</div>
+	<button mat-icon-button (click)="saveChanges(this.authorizationService.user.email, 'email')">
+		<mat-icon><i class="fas fa-check"></i></mat-icon>
+	</button>
+</div>

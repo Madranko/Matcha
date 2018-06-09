@@ -1,0 +1,18 @@
+<div class="user-info-field">
+	<mat-icon class="user-info-field__mat-icon"><i class="fas fa-user"></i></mat-icon>
+	<div class="input-field">
+		<input matInput
+		placeholder="First Name"
+		type="text"
+		name="firstName"
+		[(ngModel)]="this.authorizationService.user.firstName">
+		<mat-error *ngIf="!this.authorizationService.checkPattern('firstnamePattern', 'firstName')">
+			<div class="error-div">
+				&nbsp;{{ this.authorizationService.getErrorMessage("first name", 'firstName') }}
+			</div>
+		</mat-error>
+	</div>
+	<button mat-icon-button (click)="saveChanges(this.authorizationService.user.firstName, 'first_name')">
+		<mat-icon><i class="fas fa-check"></i></mat-icon>
+	</button>
+</div>
