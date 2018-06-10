@@ -46,6 +46,8 @@ import { ChangeGenderComponent } from './main-page/settings/change-gender/change
 import { ChangePreferencesComponent } from './main-page/settings/change-preferences/change-preferences.component';
 import { ChangeBiographyComponent } from './main-page/settings/change-biography/change-biography.component';
 import { ChangeInterestsComponent } from './main-page/settings/change-interests/change-interests.component';
+import { WebsocketService } from './websocket.service';
+import { ChatService } from './chat-service/chat.service';
 
 @NgModule({
 	declarations: [
@@ -98,7 +100,9 @@ import { ChangeInterestsComponent } from './main-page/settings/change-interests/
 		ReactiveFormsModule
 	],
 	providers: [
-		CookieService
+		CookieService,
+		WebsocketService,
+		ChatService
 		// FormControl
 	],
 	bootstrap: [AppComponent]

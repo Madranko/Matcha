@@ -5,7 +5,6 @@ import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/materi
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-// import { RatingSliderComponent } from './rating-slider/rating-slider.component';
 import { UserInfoService } from '../../profile/user-info/service/user-info.service';
 import { AuthorizationService } from '../../user/authorization/authorization.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -192,5 +191,14 @@ export class SearchComponent implements OnInit {
 			this.tagInput.nativeElement.value = '';
 			this.tagCtrl.setValue(null);
 		}
+	}
+
+	alertVisitedUser() {
+		let message = {
+			from: 'John Doe',
+			to: '1',
+			message: 'its a message'
+		}
+
 	}
 }

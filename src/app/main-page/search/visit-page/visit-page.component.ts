@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthorizationService } from '../../../user/authorization/authorization.service';
 import { UserInfoService } from '../../../profile/user-info/service/user-info.service';
 import { CookieService } from 'ngx-cookie-service';
+import { ChatService } from '../../../chat-service/chat.service';
 
 @Component({
 	selector: 'app-visit-page',
@@ -30,6 +31,7 @@ export class VisitPageComponent implements OnInit {
 	liked: boolean;
 
 	constructor(
+		private chatService: ChatService,
 		private route: ActivatedRoute,
 		private authorizationService: AuthorizationService,
 		private userInfoService: UserInfoService,
@@ -39,8 +41,10 @@ export class VisitPageComponent implements OnInit {
 	ngOnInit() {
 		this.sub = this.route.params.subscribe((params) => {
 			this.uid = +params['id'];
+			this.getInfo(this.uid);
+			this.chatService.sendMessage(this.uid, "visited your page", "");
 		});
-		this.getInfo(this.uid);
+
 	}
 
 	getInfo(uid) {
@@ -91,19 +95,21 @@ export class VisitPageComponent implements OnInit {
 		};
 
 		this.userInfoService.sendRequest('likeUnlike', data)
-			.toPromise()
-			.then(
-				(data) => {
-					this.shortInfo['rating'] = data;
-				},
-				(error) => {
-					console.log(error);
-				}
-			);
+		.toPromise()
+		.then(
+			(data) => {
+				this.shortInfo['rating'] = data;
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
 
 		if (this.liked) {
+			this.chatService.sendMessage(this.uid, "unliked you", "");
 			this.liked = false;
 		} else {
+			this.chatService.sendMessage(this.uid, "liked you", "");
 			this.liked = true;
 		}
 	}
@@ -118,7 +124,6 @@ export class VisitPageComponent implements OnInit {
 		.then(
 			(data) => {
 				console.log(data);
-				// this.saveData(data);
 			},
 			(error) => {
 				console.log(error);

@@ -9,6 +9,7 @@ import { BiographyComponent } from '../profile/user-info/biography/biography.com
 import { AuthorizationService } from '../user/authorization/authorization.service';
 import { UserInfoService } from '../profile/user-info/service/user-info.service';
 import { CookieService } from 'ngx-cookie-service';
+import { ChatService } from '../chat-service/chat.service';
 
 @Component({
 	selector: 'app-main-page',
@@ -47,10 +48,15 @@ export class MainPageComponent implements OnInit {
 	windowWidth = window.innerWidth;
 
 	constructor(
+		private chatService: ChatService,
 		private authorizationService: AuthorizationService,
 		private userInfoService: UserInfoService,
 		private cookieService: CookieService
-	) { }
+	) {
+		chatService.messages.subscribe(msg => {
+			Materialize.toast(msg['recievedMessage']['notification'], 7000, "cyan lighten-1");
+		});
+	}
 
 	ngOnInit() {
 		this.authorizationService.refreshTokens();
@@ -63,6 +69,7 @@ export class MainPageComponent implements OnInit {
 		.then(
 			(data) => {
 				this.profileImg = "http://localhost:8100/" + data;
+				this.chatService.sendMessage("", "", "");
 			},
 			(error) => {
 				console.log(error);
