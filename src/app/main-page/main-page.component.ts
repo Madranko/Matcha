@@ -54,7 +54,23 @@ export class MainPageComponent implements OnInit {
 		private cookieService: CookieService
 	) {
 		chatService.messages.subscribe(msg => {
-			Materialize.toast(msg['recievedMessage']['notification'], 7000, "cyan lighten-1");
+			let id = {
+				'refreshToken': this.cookieService.get('RefreshToken'),
+				'id': msg['recievedMessage']['from_id'];
+			}
+			this.userInfoService.sendRequest('ifBlocked', id)
+			.toPromise()
+			.then (
+				(data) => {
+					console.log(data);
+					if (data == false) {
+						Materialize.toast(msg['recievedMessage']['notification'], 7000, "cyan lighten-1");
+					}
+				},
+				(error) => {
+					console.log(error);
+				}
+			)
 		});
 	}
 

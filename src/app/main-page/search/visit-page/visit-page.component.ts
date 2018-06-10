@@ -130,4 +130,21 @@ export class VisitPageComponent implements OnInit {
 			}
 		);
 	}
+
+	blockUser() {
+		let data = {
+			'refreshToken': this.cookieService.get('RefreshToken'),
+			'visitedUid': this.uid
+		};
+		this.userInfoService.sendRequest('blockUser', data)
+		.toPromise()
+		.then(
+			(data) => {
+				console.log(data);
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
+	}
 }
