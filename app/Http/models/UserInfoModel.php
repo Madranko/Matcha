@@ -467,5 +467,25 @@ class UserInfoModel {
 			return false;
 		}
 	}
+
+	public function ifBlocked($currentId, $blockedId) {
+		$statement = "SELECT * FROM `block_list` WHERE `uid` = ? AND `who_blocked` = ?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$blockedId, $currentId]);
+		$fetch = $preparedStatement->fetchAll();
+		if ($fetch) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function blockUser($currentId, $blockedId) {
+		if (!$this->ifBlocked($currentId, $blockedId)) {
+			$statement = "INSERT INTO `block_list` (`uid`, `who_blocked`) VALUE (?, ?)";
+			$preparedStatement = $this->pdo->prepare($statement);
+			$preparedStatement->execute([$blockedId, $currentId]);
+		}
+	}
 }
 ?>

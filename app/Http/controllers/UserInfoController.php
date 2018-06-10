@@ -179,5 +179,18 @@ class UserInfoController extends Controller {
 		];
 		return json_encode($return);
 	}
+
+	public function ifBlocked($data) {
+		$id = JwtModel::getUidFromToken($data['refreshToken']);
+		$result = $this->userInfoModel->ifBlocked($id, $data['id']);
+		return json_encode($result);
+	}
+
+	public function blockUser($data) {
+		$currentId = JwtModel::getUidFromToken($data['refreshToken']);
+		$reportedId = $data['visitedUid'];
+		$result = $this->userInfoModel->blockUser($currentId, $reportedId);
+		return json_encode($result);
+	}
 }
 ?>
