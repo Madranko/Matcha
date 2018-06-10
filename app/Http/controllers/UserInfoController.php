@@ -116,6 +116,7 @@ class UserInfoController extends Controller {
 		$shortInfo = $this->userInfoModel->getShortInfo($id);
 		$moreInfo = $this->userInfoModel->getMoreInfo($id);
 		$liked = $this->userInfoModel->isUserLiked($currentUid, $id);
+		$blocked = $this->userInfoModel->ifBlocked($currentUid, $id);
 		$fullInfo = [
 			'profilePhoto' => $pathToProfilePhoto = $this->userInfoModel->getProfilePhoto($id),
 			'birthdate' => $moreInfo['birthdate'],
@@ -125,11 +126,11 @@ class UserInfoController extends Controller {
 			'tags' => $shortInfo['tags'],
 			'biography' => $biography = $this->userInfoModel->getUserData('biography', 'user_info', 'uid', $id),
 			'galleryPhotos' => $galleryPhotos = $this->userInfoModel->getAllUserPhotos($id),
-			'liked' => $liked
+			'liked' => $liked,
+			'blocked' => $blocked
 		];
 		return json_encode($fullInfo);
 	}
-
 
 	public function likeUnlike($data) {
 		$currentUid = JwtModel::getUidFromToken($data['cookie']['refreshToken']);
@@ -141,6 +142,37 @@ class UserInfoController extends Controller {
 			$rating = $this->userInfoModel->likeUser($currentUid, $visitedUid);
 		}
 		return json_encode($rating);
+	}
+
+	public function saveVisitToHistory($data) {
+		$currentUid = JwtModel::getUidFromToken($data['refreshToken']);
+		$targetUid = $data['targetUid'];
+		if ($this->userInfoModel->isRecordInHistory($currentUid, $targetUid, 'visit')) {
+			$this->userInfoModel->deleteRecordFromHistory($currentUid, $targetUid, 'visit');
+		}
+		$this->userInfoModel->saveRecordToHistory($currentUid, $targetUid, 'visit');
+	}
+
+	public function getLikedHistory($data) {
+		$currentUid = JwtModel::getUidFromToken($data['refreshToken']);
+		$likedHistory = $this->userInfoModel->getLikedHistory($currentUid);
+		return json_encode($likedHistory);
+	}
+
+	public function getVisitHistory($data) {
+		$currentUid = JwtModel::getUidFromToken($data['refreshToken']);
+		$visitHistory = $this->userInfoModel->getVisitHistory($currentUid);
+		return json_encode($visitHistory);
+	}
+
+	public function getBlockHistory($data) {
+		$currentUid = JwtModel::getUidFromToken($data['refreshToken']);
+		$blockHistory = $this->userInfoModel->getBlockHistory($currentUid);
+		return json_encode($blockHistory);
+	}
+
+	public function getUserHistory($data) {
+		$currentUid = JwtModel::getUidFromToken($data['refreshToken']);
 	}
 
 	public function changeBasicInfo($data) {
@@ -187,10 +219,24 @@ class UserInfoController extends Controller {
 	}
 
 	public function blockUser($data) {
-		$currentId = JwtModel::getUidFromToken($data['refreshToken']);
-		$reportedId = $data['visitedUid'];
-		$result = $this->userInfoModel->blockUser($currentId, $reportedId);
-		return json_encode($result);
+		$currentUid = JwtModel::getUidFromToken($data['refreshToken']);
+		$targetUid = $data['visitedUid'];
+		$this->userInfoModel->deleteRecordFromHistory($currentUid, $targetUid, 'unblock');
+		if (!$this->userInfoModel->ifBlocked($currentUid, $targetUid)) {
+			$this->userInfoModel->saveRecordToHistory($currentUid, $targetUid, 'block');
+		}
+	}
+
+	public function unBlockUser($data) {
+		$currentUid = JwtModel::getUidFromToken($data['refreshToken']);
+		$targetUid = $data['visitedUid'];
+		$this->userInfoModel->deleteRecordFromHistory($currentUid, $targetUid, 'block');
+		$this->userInfoModel->saveRecordToHistory($currentUid, $targetUid, 'unblock');
+	}
+
+	public function getCurrentUserId($data) {
+		$currentUid = JwtModel::getUidFromToken($data['refreshToken']);
+		return json_encode($currentUid);
 	}
 }
 ?>

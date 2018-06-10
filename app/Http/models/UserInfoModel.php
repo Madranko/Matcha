@@ -202,6 +202,108 @@ class UserInfoModel {
 		return $newRating;
 	}
 
+	public function saveRecordToHistory($currentUid, $targetUid, $message) {
+		$statement = "INSERT INTO `history` (`current_id`,`target_id`,`message`) VALUES (?,?,?)";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$currentUid, $targetUid, $message]);
+	}
+
+	public function isRecordInHistory($currentUid, $targetUid, $message) {
+		$statement = "SELECT `id` FROM `history`
+			WHERE `current_id`=? AND `target_id`=? AND `message`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$currentUid, $targetUid, $message]);
+		$fetch = $preparedStatement->fetchAll();
+		if ($fetch) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function deleteRecordFromHistory($currentUid, $targetUid, $message) {
+		$statement = "DELETE FROM `history` WHERE `current_id`=? AND `target_id`=? AND `message`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$currentUid, $targetUid, $message]);
+	}
+
+	public function getLikedHistory($currentUid) {
+		$statement = "SELECT
+			`user_info`.`profile_photo`,
+			`users`.`first_name`,
+			`users`.`last_name`,
+			`likes`.`uid` AS `liked_uid`
+			FROM `user_info`
+				INNER JOIN `users`
+				ON `user_info`.`uid`=`users`.`id`
+				INNER JOIN `likes`
+				ON `user_info`.`uid`=`likes`.`uid`
+			WHERE `likes`.`target_uid`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$currentUid]);
+		$fetch = $preparedStatement->fetchAll();
+		return $fetch;
+	}
+
+	public function getVisitHistory($currentUid) {
+		$statement = "SELECT
+			`f_photo`.`profile_photo` `current_photo`,
+			`s_photo`.`profile_photo` `target_photo`,
+			`c_users`.`first_name` `c_first_name`,
+			`c_users`.`last_name` `c_last_name`,
+			`t_users`.`first_name` `t_first_name`,
+			`t_users`.`last_name` `t_last_name`,
+			`history`.`current_id`,
+			`history`.`target_id`
+			FROM `history`
+				INNER JOIN `user_info` `f_photo`
+				ON `f_photo`.`uid`=`history`.`current_id`
+				INNER JOIN `user_info` `s_photo`
+				ON `s_photo`.`uid`=`history`.`target_id`
+				INNER JOIN `users` `c_users`
+				ON `c_users`.`id`=`history`.`current_id`
+				INNER JOIN `users` `t_users`
+				ON `t_users`.`id`=`history`.`target_id`
+			WHERE
+				(`history`.`current_id`=? OR `history`.`target_id`=?)
+				AND `history`.`message`='visit'
+			ORDER BY `history`.`id` DESC";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$currentUid, $currentUid]);
+		$fetch = $preparedStatement->fetchAll();
+		return $fetch;
+	}
+
+	public function getBlockHistory($currentUid) {
+		$statement = "SELECT
+			`f_photo`.`profile_photo` `current_photo`,
+			`s_photo`.`profile_photo` `target_photo`,
+			`c_users`.`first_name` `c_first_name`,
+			`c_users`.`last_name` `c_last_name`,
+			`t_users`.`first_name` `t_first_name`,
+			`t_users`.`last_name` `t_last_name`,
+			`history`.`current_id`,
+			`history`.`target_id`,
+			`history`.`message`
+			FROM `history`
+				INNER JOIN `user_info` `f_photo`
+				ON `f_photo`.`uid`=`history`.`current_id`
+				INNER JOIN `user_info` `s_photo`
+				ON `s_photo`.`uid`=`history`.`target_id`
+				INNER JOIN `users` `c_users`
+				ON `c_users`.`id`=`history`.`current_id`
+				INNER JOIN `users` `t_users`
+				ON `t_users`.`id`=`history`.`target_id`
+			WHERE
+				(`history`.`current_id`=? OR `history`.`target_id`=?)
+				AND (`history`.`message`='block' OR `history`.`message`='unblock')
+			ORDER BY `history`.`id` DESC";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$currentUid, $currentUid]);
+		$fetch = $preparedStatement->fetchAll();
+		return $fetch;
+	}
+
 	public function updateRating($uid) {
 		$rating = $this->getRatingFromLikes($uid);
 		$statement = "UPDATE `user_info` SET `rating`=? WHERE `uid` = ?";
@@ -445,7 +547,7 @@ class UserInfoModel {
 	}
 
 	public function ifBanned($uid) {
-		$statement = "SELECT * FROM `ban_list` WHERE `uid` = ?";
+		$statement = "SELECT * FROM `ban_list` WHERE `uid`=?";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$uid]);
 		$fetch = $preparedStatement->fetchAll();
@@ -457,7 +559,7 @@ class UserInfoModel {
 	}
 
 	public function ifReported($currentId, $reportedId) {
-		$statement = "SELECT * FROM `report_list` WHERE `uid` = ? AND `who_reported` = ?";
+		$statement = "SELECT * FROM `report_list` WHERE `uid`=? AND `who_reported`=?";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$reportedId, $currentId]);
 		$fetch = $preparedStatement->fetchAll();
@@ -468,23 +570,15 @@ class UserInfoModel {
 		}
 	}
 
-	public function ifBlocked($currentId, $blockedId) {
-		$statement = "SELECT * FROM `block_list` WHERE `uid` = ? AND `who_blocked` = ?";
+	public function ifBlocked($currentUid, $targetUid) {
+		$statement = "SELECT * FROM `history` WHERE `current_id`=? AND `target_id`=? AND `message`='block'";
 		$preparedStatement = $this->pdo->prepare($statement);
-		$preparedStatement->execute([$blockedId, $currentId]);
+		$preparedStatement->execute([$currentUid, $targetUid]);
 		$fetch = $preparedStatement->fetchAll();
 		if ($fetch) {
 			return true;
 		} else {
 			return false;
-		}
-	}
-
-	public function blockUser($currentId, $blockedId) {
-		if (!$this->ifBlocked($currentId, $blockedId)) {
-			$statement = "INSERT INTO `block_list` (`uid`, `who_blocked`) VALUE (?, ?)";
-			$preparedStatement = $this->pdo->prepare($statement);
-			$preparedStatement->execute([$blockedId, $currentId]);
 		}
 	}
 }
