@@ -1,5 +1,25 @@
 <div class="container">
-	<p>
-	history works!
-	</p>
+	<mat-card
+		*ngFor="let user of likedHistory"
+		routerLink="{{ '/main/search/' + user.liked_uid }}"
+		class="history-card like">
+			<img class="card-avatar" src="{{ 'http://localhost:8100/' + user.profile_photo }}" >
+			<h5>{{ user.first_name }} {{ user.last_name }} Liked you</h5>
+	</mat-card>
+	<mat-divider *ngIf="likedHistory"></mat-divider>
+	<mat-card
+		*ngFor="let user of visitHistory"
+		routerLink="/main/search/{{ user.current_id == currentUid ? user.target_id : user.current_id }}"
+		class="history-card visit">
+			<img class="card-avatar" src="http://localhost:8100/{{ user.current_id == currentUid ? user.target_photo : user.current_photo }}" >
+			<h5>{{ user.current_id == currentUid ? 'You visited ' : 'You were visited by ' }} {{ user.current_id == currentUid ? user.t_first_name : user.c_first_name }} {{ user.current_id == currentUid ? user.t_last_name : user.c_last_name }}</h5>
+	</mat-card>
+	<mat-divider></mat-divider>
+	<mat-card
+		*ngFor="let user of blockHistory"
+		routerLink="/main/search/{{ user.current_id == currentUid ? user.target_id : user.current_id }}"
+		class="history-card block">
+			<img class="card-avatar" src="http://localhost:8100/{{ user.current_id == currentUid ? user.target_photo : user.current_photo }}" >
+			<h5>{{ user.current_id == currentUid ? 'You ' + user.message + 'ed ' : 'You were ' + user.message + 'ed by ' }} {{ user.current_id == currentUid ? user.t_first_name : user.c_first_name }} {{ user.current_id == currentUid ? user.t_last_name : user.c_last_name }}</h5>
+	</mat-card>
 </div>

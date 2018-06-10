@@ -29,6 +29,7 @@ export class VisitPageComponent implements OnInit {
 	shortInfo = [];
 	tags = [];
 	liked: boolean;
+	blocked: boolean;
 
 	constructor(
 		private chatService: ChatService,
@@ -43,6 +44,7 @@ export class VisitPageComponent implements OnInit {
 			this.uid = +params['id'];
 			this.getInfo(this.uid);
 			this.chatService.sendMessage(this.uid, "visited your page", "");
+			this.saveVisitToHistory();
 		});
 
 	}
@@ -66,6 +68,23 @@ export class VisitPageComponent implements OnInit {
 		);
 	}
 
+	saveVisitToHistory() {
+		let data = {
+			'targetUid': this.uid,
+			'refreshToken': this.cookieService.get('RefreshToken')
+		};
+		this.userInfoService.sendRequest('saveVisitToHistory', data)
+		.toPromise()
+		.then(
+			(data) => {
+				;
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
+	}
+
 	saveData(data) {
 		this.profileImageUrl = "http://localhost:8100/" + data['profilePhoto'];
 		this.biography = data['biography'];
@@ -75,6 +94,7 @@ export class VisitPageComponent implements OnInit {
 		this.shortInfo = data['shortInfo'];
 		this.tags = data['tags'];
 		this.liked = data['liked'];
+		this.blocked = data['blocked'];
 		if (data['galleryPhotos']) {
 			for (let i = 0; i < data['galleryPhotos'].length; i++) {
 				this.galleryPhotos[i] = "http://localhost:8100/" + data['galleryPhotos'][i];
@@ -132,6 +152,7 @@ export class VisitPageComponent implements OnInit {
 	}
 
 	blockUser() {
+		this.blocked = true;
 		let data = {
 			'refreshToken': this.cookieService.get('RefreshToken'),
 			'visitedUid': this.uid
@@ -140,7 +161,25 @@ export class VisitPageComponent implements OnInit {
 		.toPromise()
 		.then(
 			(data) => {
-				console.log(data);
+				;
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
+	}
+
+	unBlockUser() {
+		this.blocked = false;
+		let data = {
+			'refreshToken': this.cookieService.get('RefreshToken'),
+			'visitedUid': this.uid
+		};
+		this.userInfoService.sendRequest('unBlockUser', data)
+		.toPromise()
+		.then(
+			(data) => {
+				;
 			},
 			(error) => {
 				console.log(error);

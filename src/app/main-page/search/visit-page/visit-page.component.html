@@ -68,6 +68,7 @@
 	</div>
 	<div class="warn">
 		<button mat-raised-button color="warn" class="warn-button" (click)="reportUser()">Report User</button>
-		<button mat-raised-button color="warn" class="warn-button" (click)="blockUser()">Block User</button>
+		<button mat-raised-button *ngIf="!blocked" color="warn" class="warn-button" (click)="blockUser()">Block User</button>
+		<button mat-raised-button *ngIf="blocked" color="primary" class="warn-button" (click)="unBlockUser()">Unblock User</button>
 	</div>
 </div>

@@ -56,7 +56,7 @@ export class MainPageComponent implements OnInit {
 		chatService.messages.subscribe(msg => {
 			let id = {
 				'refreshToken': this.cookieService.get('RefreshToken'),
-				'id': msg['recievedMessage']['from_id'];
+				'id': msg['recievedMessage']['from_id']
 			}
 			this.userInfoService.sendRequest('ifBlocked', id)
 			.toPromise()
@@ -84,6 +84,7 @@ export class MainPageComponent implements OnInit {
 		.toPromise()
 		.then(
 			(data) => {
+				console.log(data);
 				this.profileImg = "http://localhost:8100/" + data;
 				this.chatService.sendMessage("", "", "");
 			},
