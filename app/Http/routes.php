@@ -15,13 +15,9 @@ $app->group('/api', function () use ($app, $pdo) {
 		$app->post(
 			'/{method}',
 			function (Request $request, Response $response, array $args) use ($pdo) {
-				// try {
-					$authController = new AuthenticationController($pdo);
-					$method = $args['method'];
-					return $authController->$method($request->getParams());
-				// } catch (\Exception $e) {
-					// throw new \Exception($e->getMessage());
-				// }
+				$authController = new AuthenticationController($pdo);
+				$method = $args['method'];
+				return $authController->$method($request->getParams());
 			}
 		);
 		$app->get(

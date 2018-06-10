@@ -167,5 +167,17 @@ class UserInfoController extends Controller {
 		$result = $this->userInfoModel->reportUser($currentId, $reportedId);
 		return json_encode($result);
 	}
+
+	public function getUidFromToken($data) {
+		$id = JwtModel::getUidFromToken($data['refreshToken']);
+		$return = [
+			'id' => $id,
+			'login' => $this->userInfoModel->getUserData('login', 'users', 'id', $id),
+			'firstName' => $this->userInfoModel->getUserData('first_name', 'users', 'id', $id),
+			'lastName' => $this->userInfoModel->getUserData('last_name', 'users', 'id', $id),
+			'profilePhoto' => $this->userInfoModel->getUserData('profile_photo', 'user_info', 'uid', $id),
+		];
+		return json_encode($return);
+	}
 }
 ?>

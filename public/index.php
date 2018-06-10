@@ -17,6 +17,8 @@ $blade = new Blade('views', 'cache');
 
 include ROOT . '/app/Http/routes.php';
 
+// include_once 'chat.php';
+
 $app->run();
 
 ?>
