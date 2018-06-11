@@ -54,18 +54,17 @@ export class SearchComponent implements OnInit {
 	orderFields = [
 		{
 			name: 'Age',
-			value: 'age'
+			value: 'birthdate'
 		},
 		{
 			name: 'Location',
-			value: 'location'
+			value: 'distance'
 		}
 		{
 			name: 'Rating',
 			value: 'rating'
 		}
 	];
-	selected = 'Rating';
 
 	sortedUsers;
 	panelOpenState: boolean = false;
