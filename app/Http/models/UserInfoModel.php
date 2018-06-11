@@ -453,50 +453,109 @@ class UserInfoModel {
 			$tagCounter = 1;
 			$tagsQuery = "";
 		}
+		/* $statement = "SELECT * */
+		/* FROM ( */
+		/* 	SELECT */
+		/* 	`id`, */
+		/* 	`first_name`, */
+		/* 	`last_name`, */
+		/* 	`gender`, */
+		/* 	`preferences`, */
+		/* 	`birthdate`, */
+		/* 	`rating`, */
+		/* 	`grouped_tags`, */
+		/* 	`biography`, */
+		/* 	`profile_photo`, */
+		/* 	(LENGTH(`grouped_tags`) - LENGTH(REPLACE(`grouped_tags`,',',''))) + 1 AS `tag_length_count` */
+		/* 	FROM ( */
+		/* 		SELECT */
+		/* 		`users`.`id`, */
+		/* 		`users`.`first_name`, */
+		/* 		`users`.`last_name`, */
+		/* 		`user_info`.`gender`, */
+		/* 		`user_info`.`preferences`, */
+		/* 		`user_info`.`birthdate`, */
+		/* 		`user_info`.`rating`, */
+		/* 		`user_info`.`biography`, */
+		/* 		`user_info`.`profile_photo`, */
+		/* 		GROUP_CONCAT(`all_user_interests`.`tag`) AS `grouped_tags` */
+		/* 		FROM `users` */
+		/* 		INNER JOIN `user_info` */
+		/* 			ON `users`.`id`=`user_info`.`uid` */
+		/* 		INNER JOIN `all_user_interests` */
+		/* 			ON `all_user_interests`.`uid`=`user_info`.`uid` */
+		/* 		WHERE */
+		/* 			(`user_info`.`birthdate` < ? AND `user_info`.`birthdate` > ?) */
+		/* 			AND */
+		/* 			(`user_info`.`rating` >= ?) */
+		/* 			AND */
+		/* 			(`user_info`.`uid` != ?) */
+		/* 			AND */
+		/* 			$genderStatement */
+		/* 			$tagsQuery */
+		/* 			GROUP BY `all_user_interests`.`uid` */
+		/* 			ORDER BY `user_info`.`rating` {$params['order']} */
+		/* 	) A */
+		/* ) AA WHERE `tag_length_count` > $tagCounter - 1"; */
 		$statement = "SELECT *
-		FROM (
-			SELECT
-			`id`,
-			`first_name`,
-			`last_name`,
-			`gender`,
-			`preferences`,
-			`birthdate`,
-			`rating`,
-			`grouped_tags`,
-			`biography`,
-			`profile_photo`,
-			(LENGTH(`grouped_tags`) - LENGTH(REPLACE(`grouped_tags`,',',''))) + 1 AS `tag_length_count`
 			FROM (
 				SELECT
-				`users`.`id`,
-				`users`.`first_name`,
-				`users`.`last_name`,
-				`user_info`.`gender`,
-				`user_info`.`preferences`,
-				`user_info`.`birthdate`,
-				`user_info`.`rating`,
-				`user_info`.`biography`,
-				`user_info`.`profile_photo`,
-				GROUP_CONCAT(`all_user_interests`.`tag`) AS `grouped_tags`
-				FROM `users`
-				INNER JOIN `user_info`
-					ON `users`.`id`=`user_info`.`uid`
-				INNER JOIN `all_user_interests`
-					ON `all_user_interests`.`uid`=`user_info`.`uid`
-				WHERE
-					(`user_info`.`birthdate` < ? AND `user_info`.`birthdate` > ?)
-					AND
-					(`user_info`.`rating` >= ?)
-					AND
-					(`user_info`.`uid` != ?)
-					AND
-					$genderStatement
-					$tagsQuery
-					GROUP BY `all_user_interests`.`uid`
-					ORDER BY `user_info`.`rating` {$params['order']}
-			) A
-		) AA WHERE `tag_length_count` > $tagCounter - 1";
+				`id`,
+				`first_name`,
+				`last_name`,
+				`gender`,
+				`preferences`,
+				`latitude`,
+				`longtitude`,
+				`birthdate`,
+				`rating`,
+				`grouped_tags`,
+				`profile_photo`,
+				(LENGTH(`grouped_tags`) - LENGTH(REPLACE(`grouped_tags`,',',''))) + 1 AS `tag_length_count`,
+				`distance`
+				FROM (
+					SELECT
+					`users`.`id`,
+					`users`.`first_name`,
+					`users`.`last_name`,
+					`user_info`.`gender`,
+					`user_info`.`preferences`,
+					`user_info`.`birthdate`,
+					`user_info`.`rating`,
+					`user_info`.`biography`,
+					`user_location`.`latitude`,
+					`user_location`.`longtitude`,
+					`user_info`.`profile_photo`,
+					GROUP_CONCAT(`all_user_interests`.`tag`) AS `grouped_tags`,
+					ROUND((
+						6371 * 2 * ASIN(SQRT(
+							POWER(
+								SIN(
+									({$params['latitude']} - abs(`user_location`.`latitude`)) * pi()/180 / 2
+								), 2
+							) + COS({$params['latitude']} * pi()/180)
+							* COS(abs(`user_location`.`latitude`) * pi()/180)
+							* POWER(SIN(
+								({$params['longtitude']} - `user_location`.`longtitude`) * pi()/180 / 2
+							), 2)))),2) AS `distance`
+					FROM `users`
+					INNER JOIN `user_info`
+						ON `users`.`id`=`user_info`.`uid`
+					INNER JOIN `all_user_interests`
+						ON `all_user_interests`.`uid`=`user_info`.`uid`
+					INNER JOIN `user_location` ON `users`.`id`=`user_location`.`uid`
+					WHERE
+						(`user_info`.`birthdate` < ? AND `user_info`.`birthdate` > ?)
+						AND
+						(`user_info`.`rating` >= ?)
+						AND
+						(`user_info`.`uid` != ?)
+						AND
+						$genderStatement
+						$tagsQuery
+						GROUP BY `all_user_interests`.`uid`,`user_location`.`latitude`,`user_location`.`longtitude`
+				) A WHERE `distance` >= {$params['distance']} ORDER BY `{$params['orderField']}` {$params['order']}
+			) AA WHERE `tag_length_count` > $tagCounter - 1";
 
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([
@@ -582,4 +641,5 @@ class UserInfoModel {
 		}
 	}
 }
+/* SELECT * FROM ( SELECT `id`, `first_name`, `last_name`, `gender`, `preferences`, `birthdate`, `rating`, `grouped_tags`, `biography`, `profile_photo`, (LENGTH(`grouped_tags`) - LENGTH(REPLACE(`grouped_tags`,',',''))) + 1 AS `tag_length_count` FROM ( SELECT `users`.`id`, `users`.`first_name`, `users`.`last_name`, `user_info`.`gender`, `user_info`.`preferences`, `user_info`.`birthdate`, `user_info`.`rating`, `user_info`.`biography`, `user_info`.`profile_photo`, GROUP_CONCAT(`all_user_interests`.`tag`) AS `grouped_tags` FROM `users` INNER JOIN `user_info` ON `users`.`id`=`user_info`.`uid` INNER JOIN `all_user_interests` ON `all_user_interests`.`uid`=`user_info`.`uid` WHERE (`user_info`.`birthdate` < ? AND `user_info`.`birthdate` > ?) AND (`user_info`.`rating` >= ?) AND (`user_info`.`uid` != ?) AND $genderStatement $tagsQuery GROUP BY `all_user_interests`.`uid` ORDER BY `user_info`.`rating` {$params['order']}) A) AA WHERE `tag_length_count` > $tagCounter - 1 */
 ?>
