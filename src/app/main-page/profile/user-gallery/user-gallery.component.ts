@@ -63,7 +63,14 @@ export class UserGalleryComponent implements OnInit {
 			}
 			this.userInfoService.sendRequest('storeUserPhoto', data)
 			.toPromise()
-			.then();
+			.then(
+				(data) => {
+					console.log(data);
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
 		}
 		reader.readAsDataURL(this.fileToUpload);
 	}

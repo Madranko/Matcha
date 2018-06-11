@@ -48,6 +48,7 @@ import { ChangeBiographyComponent } from './main-page/settings/change-biography/
 import { ChangeInterestsComponent } from './main-page/settings/change-interests/change-interests.component';
 import { WebsocketService } from './websocket.service';
 import { ChatService } from './chat-service/chat.service';
+import { MessengerComponent } from './main-page/chat/messenger/messenger.component';
 
 @NgModule({
 	declarations: [
@@ -88,7 +89,8 @@ import { ChatService } from './chat-service/chat.service';
 		ChangeGenderComponent,
 		ChangePreferencesComponent,
 		ChangeBiographyComponent,
-		ChangeInterestsComponent
+		ChangeInterestsComponent,
+		MessengerComponent
 	],
 	imports: [
 		BrowserModule,
