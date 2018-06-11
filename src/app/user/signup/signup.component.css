@@ -11,3 +11,11 @@
 .row > form > mat-error > div {
 	margin-top: 20px;
 }
+
+.row {
+	background-color: white;
+}
+
+.btn {
+	margin-bottom: 4px;
+}

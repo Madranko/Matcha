@@ -29,6 +29,8 @@ export class ChangePasswordComponent implements OnInit {
 	}
 
 	saveChanges(value, toChange) {
-		this.changeService.changeBasicInfo(value, toChange);
+		if (value) {
+			this.changeService.changeBasicInfo(value, toChange);
+		}
 	}
 }

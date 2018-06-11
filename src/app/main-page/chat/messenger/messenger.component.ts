@@ -14,6 +14,7 @@ export class MessengerComponent implements OnInit {
 	@Input() reciever_id;
 	@Input() current_id;
 	@Input() messages;
+	message: string;
 	constructor(
 		private chatService: ChatService,
 		private authorizationService: AuthorizationService,
@@ -40,8 +41,10 @@ export class MessengerComponent implements OnInit {
 							}
 							this.messages.unshift(newMessages);
 						} else {
-							let notification = msg['recievedMessage']['from_login'] + ': ' + msg['recievedMessage']['message'];
-							Materialize.toast(notification, 7000, "cyan lighten-1");
+							if (msg['recievedMessage']['message']) {
+								let notification = msg['recievedMessage']['from_login'] + ': ' + msg['recievedMessage']['message'];
+								Materialize.toast(notification, 7000, "cyan lighten-1");
+							}
 						}
 					}
 				},

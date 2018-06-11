@@ -18,25 +18,13 @@
 
 		<!-- <div class="send red"> -->
 		<div class="message" *ngFor="let message of messages">
-			<div class="message-send card-panel teal lighten-2" *ngIf="message['current_id'] == current_id">
+			<div class="message-send card-panel cyan lighten-3" *ngIf="message['current_id'] == current_id">
 				{{ message['message'] }}
 			</div>
-			<div class="message-recieve card-panel teal lighten-2" *ngIf="message['current_id'] != current_id">
+			<div class="message-recieve card-panel grey lighten-2" *ngIf="message['current_id'] != current_id">
 				{{ message['message'] }}
 			</div>
 		</div>
-
-		<!-- <div class="message">
-			<div class="message-send card-panel teal lighten-2">
-				This is a card panel with a teal lighten-2 class
-			</div>
-		</div>
-
-		<div class="message">
-			<div class="message-recieve card-panel teal lighten-2">
-				recieve
-			</div>
-		</div> -->
 	</div>
 
 </div>
