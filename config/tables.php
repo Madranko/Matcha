@@ -62,4 +62,10 @@ $pdo->query("CREATE TABLE IF NOT EXISTS `block_list` (
 	`id` INT (6) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
 	`uid` INT (6) UNSIGNED NOT NULL,
 	`who_blocked` INT (6) UNSIGNED NOT NULL)");
+
+$pdo->query("CREATE TABLE IF NOT EXISTS `chat_list` (
+	`id` INT (6) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	`current_id` INT (6) UNSIGNED NOT NULL,
+	`target_id` INT (6) UNSIGNED NOT NULL,
+	`message` TEXT NOT NULL)");
 ?>

@@ -192,5 +192,39 @@ class UserInfoController extends Controller {
 		$result = $this->userInfoModel->blockUser($currentId, $reportedId);
 		return json_encode($result);
 	}
+
+	public function findConnected($data) {
+		$currentId = JwtModel::getUidFromToken($data['refreshToken']);
+		$result = $this->userInfoModel->findConnected($currentId);
+		// $return = [
+		// 	'id' => $id,
+		// 	'login' => $this->userInfoModel->getUserData('login', 'users', 'id', $id),
+		// 	'firstName' => $this->userInfoModel->getUserData('first_name', 'users', 'id', $id),
+		// 	'lastName' => $this->userInfoModel->getUserData('last_name', 'users', 'id', $id),
+		// 	'profilePhoto' => $this->userInfoModel->getUserData('profile_photo', 'user_info', 'uid', $id),
+		// ];
+		return json_encode($result);
+	}
+
+	public function storeChatMessage($data){
+		$currentId = JwtModel::getUidFromToken($data['refreshToken']);
+		$this->userInfoModel->storeChatMessage($currentId, $data['target_id'], $data['message']);
+		$messages = $this->userInfoModel->getMessagesForChat($currentId, $data['target_id']);
+		$result = [
+			'current_id' => $currentId,
+			'messages' => $messages
+		];
+		return json_encode($result);
+	}
+
+	public function getMessagesForChat($data) {
+		$currentId = JwtModel::getUidFromToken($data['refreshToken']);
+		$messages = $this->userInfoModel->getMessagesForChat($currentId, $data['target_id']);
+		$result = [
+			'current_id' => $currentId,
+			'messages' => $messages
+		];
+		return json_encode($result);
+	}
 }
 ?>
