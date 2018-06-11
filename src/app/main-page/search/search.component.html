@@ -12,6 +12,26 @@
 			(click)="close('toggle button')">
 			<mat-icon>close</mat-icon>
 		</button>
+		<div class="select-container">
+			<mat-select
+				[(ngModel)]="searchParams.order"
+				placeholder="Order">
+				<mat-option
+					*ngFor="let o of order"
+					[value]="o.value">
+					{{ o.name }}
+				</mat-option>
+			</mat-select>
+			<mat-select
+				[(ngModel)]="searchParams.orderField"
+				placeholder="Order Field">
+				<mat-option
+					*ngFor="let orderField of orderFields"
+					[value]="orderField.value">
+					{{ orderField.name }}
+				</mat-option>
+			</mat-select>
+		</div>
 		<p class="slider-label">Age minimum ({{ searchParams.ageMin }}):</p>
 		<mat-slider
 			thumbLabel
@@ -34,7 +54,7 @@
 			[displayWith]="ratingLabel"
 			tickInterval="1"
 			min="0"
-			max="1000"
+			max="100"
 			[(ngModel)]="searchParams.rating"></mat-slider>
 		<p class="slider-label">Distance ({{ searchParams.distance }} km):</p>
 		<mat-slider
@@ -42,7 +62,7 @@
 			[displayWith]="distanceLabel"
 			tickInterval="1"
 			min="0"
-			max="100"
+			max="1000"
 			[(ngModel)]="searchParams.distance"></mat-slider>
 
 			<div class="user-info-field">

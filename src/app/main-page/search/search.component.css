@@ -14,6 +14,13 @@ button:focus {
 	margin: 8px;
 }
 
+.select-container {
+	display: flex;
+}
+.select-container > mat-select {
+	width: 25%;
+}
+
 mat-slider, mat-form-field {
 	width: 100%;
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Authorization } from '../authorization/authorization.model';
+import { AuthorizationService } from '../authorization/authorization.service';
 import { Patterns } from '../authorization/patterns.model';
 import { NgForm } from '@angular/forms';
 
@@ -12,13 +13,17 @@ export class ForgotPassComponent implements OnInit {
 	user: Authorization;
 	patterns: Patterns;
 	error: string;
+	emailWasSent: boolean;
 
-	constructor() { }
+	constructor(
+		private authorizationService: AuthorizationService
+	) { }
 
 	ngOnInit() {
 		this.user = new Authorization();
 		this.patterns = new Patterns();
 		this.resetForm();
+		this.emailWasSent = false;
 	}
 
 	resetForm(form? : NgForm) {
@@ -36,7 +41,19 @@ export class ForgotPassComponent implements OnInit {
 
 	OnSubmit(form: NgForm) {
 		if (this.checkForm()) {
-			console.log('Email was sent');
+			let data = {
+				'email': this.user.email
+			};
+			this.authorizationService.sendData('resetPassword', data)
+			.toPromise()
+			.then(
+				(data) => {
+					this.emailWasSent = true;
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
 		}
 	}
 

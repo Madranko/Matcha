@@ -25,6 +25,8 @@ export class SearchComponent implements OnInit {
 		latitude: 0,
 		longtitude: 0,
 		preferences: null,
+		order: 'DESC',
+		orderField: 'rating',
 		rating: 0,
 		tags: null
 	};
@@ -39,6 +41,31 @@ export class SearchComponent implements OnInit {
 	filteredTags: Observable<any[]>;
 	tags = [];
 	allTags = [];
+	order = [
+		{
+			name: 'Ascending',
+			value: 'ASC'
+		},
+		{
+			name: 'Descending',
+			value: 'DESC'
+		}
+	];
+	orderFields = [
+		{
+			name: 'Age',
+			value: 'age'
+		},
+		{
+			name: 'Location',
+			value: 'location'
+		}
+		{
+			name: 'Rating',
+			value: 'rating'
+		}
+	];
+	selected = 'Rating';
 
 	sortedUsers;
 	panelOpenState: boolean = false;

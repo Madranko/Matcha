@@ -5,6 +5,8 @@ export class SearchParams {
 	gender: string;
 	latitude: number;
 	longtitude: number;
+	order: string;
+	orderField: string;
 	preferences: string;
 	rating: number;
 	tags: Array<string>;
