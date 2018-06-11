@@ -336,22 +336,26 @@ class UserInfoModel {
 	}
 
 	public function storePhotoInDb($previous, $photoPath, $uid) {
+		$previousExploded = explode("/", $previous);
+		$previous = $previousExploded[3] . '/' . $previousExploded[4];
 		if ($previous == "assets/upload.svg") {
 			$statement = "SELECT * FROM `user_photos` WHERE `uid`=?";
 			$preparedStatement = $this->pdo->prepare($statement);
 			$preparedStatement->execute([$uid]);
 			$result = $preparedStatement->fetchAll();
-		} else {
-			$statement = "UPDATE `user_photos` SET `photo`=? WHERE `uid`=? AND `photo`=?";
-			$preparedStatement = $this->pdo->prepare($statement);
-			$preparedStatement->execute([$photoPath, $uid, $previous]);
-			$result = $preparedStatement->fetchAll();
+			if (count($result) < 4) {
+				return "test1";
+				$statement = "INSERT INTO `user_photos` (`uid`, `photo`) VALUE (?, ?)";
+				$preparedStatement = $this->pdo->prepare($statement);
+				$preparedStatement->execute([$uid, $photoPath]);
+				return $this->getAllUserPhotos($uid);
+			}
 		}
-		if (count($result) < 4) {
-			$statement = "INSERT INTO `user_photos` (`uid`, `photo`) VALUE (?, ?)";
-			$preparedStatement = $this->pdo->prepare($statement);
-			$preparedStatement->execute([$uid, $photoPath]);
-		}
+		$statement = "UPDATE `user_photos` SET `photo`=? WHERE `uid`=? AND `photo`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$photoPath, $uid, $previous]);
+		// return $photoPath;
+		// $result = $preparedStatement->fetchAll();
 		return $this->getAllUserPhotos($uid);
 	}
 
@@ -403,8 +407,8 @@ class UserInfoModel {
 				)
 			)
 		) > date("md")
-			? ((date("Y") - $birthDate[0]) - 1)
-			: (date("Y") - $birthDate[0]));
+		? ((date("Y") - $birthDate[0]) - 1)
+		: (date("Y") - $birthDate[0]));
 		return $age;
 	}
 
@@ -439,6 +443,42 @@ class UserInfoModel {
 			'tagsStatement' => $tagsStatement,
 			'tagCount' => $tagCounter
 		];
+	}
+
+	public function findConnected($currentId) {
+		$statement = "SELECT
+			`i_liked`.`uid`,
+			`me_liked`.`uid`,
+			`target_photo`.`profile_photo`,
+			`target_info`.`first_name`,
+			`target_info`.`last_name`
+			FROM `likes` AS `i_liked`
+				JOIN `likes` AS `me_liked`
+					ON `i_liked`.`uid`=`me_liked`.`target_uid`
+				INNER JOIN `users` AS `target_info`
+					ON `i_liked`.`target_uid`=`target_info`.`id`
+				INNER JOIN `user_info` AS `target_photo`
+					ON `target_photo`.`uid`=`i_liked`.`target_uid`
+			WHERE `i_liked`.`uid`=? AND `me_liked`.`target_uid`=?
+			AND `me_liked`.`uid`=`i_liked`.`target_uid`";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$currentId, $currentId]);
+		$fetch = $preparedStatement->fetchAll();
+		return $fetch;
+	}
+
+	public function storeChatMessage($currentId, $targetId, $message) {
+		$statement = "INSERT INTO `chat_list` (`current_id`, `target_id`, message) VALUE (?, ?, ?)";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$currentId, $targetId, $message]);
+	}
+
+	public function getMessagesForChat($currentId, $targetId) {
+		$statement = "SELECT * FROM `chat_list` WHERE (`current_id`=? AND `target_id`=?) OR (`current_id`=? AND `target_id`=?) 	ORDER BY `id` DESC";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$currentId, $targetId, $targetId, $currentId]);
+		$fetch = $preparedStatement->fetchAll();
+		return $fetch;
 	}
 
 	public function sortUsersByParams($params, $currentId) {
@@ -641,5 +681,4 @@ class UserInfoModel {
 		}
 	}
 }
-/* SELECT * FROM ( SELECT `id`, `first_name`, `last_name`, `gender`, `preferences`, `birthdate`, `rating`, `grouped_tags`, `biography`, `profile_photo`, (LENGTH(`grouped_tags`) - LENGTH(REPLACE(`grouped_tags`,',',''))) + 1 AS `tag_length_count` FROM ( SELECT `users`.`id`, `users`.`first_name`, `users`.`last_name`, `user_info`.`gender`, `user_info`.`preferences`, `user_info`.`birthdate`, `user_info`.`rating`, `user_info`.`biography`, `user_info`.`profile_photo`, GROUP_CONCAT(`all_user_interests`.`tag`) AS `grouped_tags` FROM `users` INNER JOIN `user_info` ON `users`.`id`=`user_info`.`uid` INNER JOIN `all_user_interests` ON `all_user_interests`.`uid`=`user_info`.`uid` WHERE (`user_info`.`birthdate` < ? AND `user_info`.`birthdate` > ?) AND (`user_info`.`rating` >= ?) AND (`user_info`.`uid` != ?) AND $genderStatement $tagsQuery GROUP BY `all_user_interests`.`uid` ORDER BY `user_info`.`rating` {$params['order']}) A) AA WHERE `tag_length_count` > $tagCounter - 1 */
 ?>

@@ -63,4 +63,11 @@ $pdo->query("CREATE TABLE IF NOT EXISTS `history` (
 	`current_id` INT (6) UNSIGNED NOT NULL,
 	`target_id` INT (6) UNSIGNED NOT NULL,
 	`message` ENUM('visit','block','unblock','connected','disconnected') NOT NULL)");
+
+
+$pdo->query("CREATE TABLE IF NOT EXISTS `chat_list` (
+	`id` INT (6) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	`current_id` INT (6) UNSIGNED NOT NULL,
+	`target_id` INT (6) UNSIGNED NOT NULL,
+	`message` TEXT NOT NULL)");
 ?>
