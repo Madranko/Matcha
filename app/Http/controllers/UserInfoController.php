@@ -96,6 +96,8 @@ class UserInfoController extends Controller {
 			'latitude' => $userInfo['latitude'],
 			'longtitude' => $userInfo['longtitude'],
 			'preferences' => $userInfo['preferences'],
+			'order' => 'DESC',
+			'orderField' => 'rating',
 			'rating' => $userInfo['rating'],
 			'tags' => $tags
 		];

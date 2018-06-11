@@ -91,6 +91,16 @@ class AuthenticationController extends Controller {
 		}
 	}
 
+	public function resetPassword($data) {
+		$tempPassword = strtoupper(bin2hex(random_bytes(6)));
+		$hashedTempPassword = hash('sha256', $tempPassword);
+
+		if ($this->authModel->isEmailExists($data['email'])) {
+			$this->authModel->updatePasswordToTempPasswordOnEmail($data['email'], $hashedTempPassword);
+			$this->authModel->sendPasswordToEmail($tempPassword, $data['email']);
+		}
+	}
+
 	public function deleteRefreshTokenFromDb($data) {
 		$refreshToken = $data['refreshToken'];
 		$this->jwtModel->deleteRefreshTokenFromDb($refreshToken);

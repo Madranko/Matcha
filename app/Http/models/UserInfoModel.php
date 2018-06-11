@@ -494,7 +494,7 @@ class UserInfoModel {
 					$genderStatement
 					$tagsQuery
 					GROUP BY `all_user_interests`.`uid`
-					ORDER BY `user_info`.`rating` DESC
+					ORDER BY `user_info`.`rating` {$params['order']}
 			) A
 		) AA WHERE `tag_length_count` > $tagCounter - 1";
 

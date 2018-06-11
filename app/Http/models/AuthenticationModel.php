@@ -45,16 +45,37 @@ class AuthenticationModel
 		}
 	}
 
+	public function sendPasswordToEmail($password, $email) {
+		$subject = 'Password Recovery';
+		$message = "<html><head>";
+		$message .= "<title>Password reset</title></head>";
+		$message .= "<body><h1>Password reset</h1>";
+		$message .= "<p>Hello there!</p>";
+		$message .= "<p>You resetted your password, so we got you a new one, please change this temporary password to something a little bit more secure.</p>";
+		$message .= "<p>Temporary password: $password</p>";
+		$message .= "</body></html>";
+		$header = 'MIME-version: 1.0' . "\r\n";
+		$header .= 'Content-Type:text/html;charset=UTF-8' . "\r\n";
+		$header .= 'From: noreply@matcha.com' . "\r\n";
+		mail($email, $subject, $message, $header);
+	}
+
+	public function updatePasswordToTempPasswordOnEmail($email, $tempPassword) {
+		$statement = "UPDATE `users` SET `password`=? WHERE `email`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$tempPassword, $email]);
+	}
+
 	public function isAccountActivated($login) {
-			$statement = "SELECT `is_activated` FROM `users` WHERE `login`=?";
-			$preparedStatement = $this->pdo->prepare($statement);
-			$preparedStatement->execute([$login]);
-			$fetch = $preparedStatement->fetch();
-			if ($fetch[0] == '1') {
-				return true;
-			} else {
-				 return false;
-			}
+		$statement = "SELECT `is_activated` FROM `users` WHERE `login`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$login]);
+		$fetch = $preparedStatement->fetch();
+		if ($fetch[0] == '1') {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public function activateAccount($email, $hash)
