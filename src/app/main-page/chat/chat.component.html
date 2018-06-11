@@ -1,6 +1,32 @@
-<div class="container">
-	<h1>
-		Chat for Matcha
-	</h1>
-	<button (click)="sendMsg()">Send Message?</button>
-</div>
+<mat-sidenav-container
+class="drawer-container"
+(backdropClick)="close('backdrop')">
+<mat-sidenav
+	class="drawer-container__sidenav"
+	#sidenav
+	(keydown.escape)="close('escape')"
+	disableClose>
+	<div class="container">
+	<button
+		mat-icon-button
+		(click)="close('toggle button')">
+		<mat-icon>close</mat-icon>
+	</button>
+	</div>
+	<app-messenger [messages]="this.messages" [current_id]="this.current_id" [reciever_id]="this.reciever_id"></app-messenger>
+</mat-sidenav>
+
+<mat-sidenav-content>
+	<div class="container">
+		<div class="container" *ngFor="let user of connectedUsers">
+			<mat-card class="chat-box  blue lighten-4">
+				<mat-card-header (click)="startChat(user['uid'])" class="chat-card">
+					<div mat-card-avatar class="photo-div"><img [src]="'http://localhost:8100/' + user['profile_photo']" class="connected-user-profile-picture"/></div>
+					<mat-card-title>{{ user['first_name'] }}  {{ user['last_name'] }}</mat-card-title>
+					<mat-card-subtitle>Start Chat</mat-card-subtitle>
+				</mat-card-header>
+			</mat-card>
+		</div>
+	</div>
+</mat-sidenav-content>
+</mat-sidenav-container>

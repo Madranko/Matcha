@@ -21,7 +21,8 @@ export class ChangeBiographyComponent implements OnInit {
 	}
 
 	saveChanges(value, toChange) {
-		console.log(value);
-		this.changeService.changeUserInfo(value, toChange);
+		if (value) {
+			this.changeService.changeUserInfo(value, toChange);
+		}
 	}
 }

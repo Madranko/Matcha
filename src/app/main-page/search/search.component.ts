@@ -218,13 +218,4 @@ export class SearchComponent implements OnInit {
 			this.tagCtrl.setValue(null);
 		}
 	}
-
-	alertVisitedUser() {
-		let message = {
-			from: 'John Doe',
-			to: '1',
-			message: 'its a message'
-		}
-
-	}
 }

@@ -47,7 +47,7 @@ export class ChatService {
 				from_firstName: result['firstName'],
 				from_profilePhoto: result['profilePhoto'],
 				to: reciever_id,
-				notification: result['login'] + ': ' + notificationText,
+				notification: notificationText,
 				message: messageText
 
 			}

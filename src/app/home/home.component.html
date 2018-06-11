@@ -1,6 +1,6 @@
 <mat-sidenav-container
 	(window:resize)="onResizez($event)">
-	<mat-sidenav class="sidenav" #sidenav>
+	<mat-sidenav class="sidenav pink lighten-2" #sidenav>
 		<ul class="sidenav">
 			<li><a mat-button routerLink="/" class="sidenav__button">Home</a></li>
 			<li><a mat-button routerLink="login" class="sidenav__button">Login</a></li>
@@ -8,7 +8,7 @@
 		</ul>
 	</mat-sidenav>
 	<mat-sidenav-content>
-		<nav>
+		<nav class="pink lighten-2">
 			<div class="container">
 				<a class="brand-logo">Matcha</a>
 				<a *ngIf="windowWidth <= 992"
@@ -24,9 +24,9 @@
 				</ul>
 			</div>
 		</nav>
-		<div class="section  cyan lighten-4" style="height: 65em">
+		<div class="section  cyan lighten-4" style="height: 65em" id="index-page">
 			<div class="row container">
-				<h2 *ngIf="isHome()">Hello</h2>
+				<h2 *ngIf="isHome()"></h2>
 				<router-outlet></router-outlet>
 			</div>
 		</div>

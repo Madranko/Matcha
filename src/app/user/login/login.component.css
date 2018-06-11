@@ -15,3 +15,11 @@
 #buttons > button:first-child {
 	margin-bottom: 20px;
 }
+
+.row {
+	background-color: white;
+}
+
+.btn {
+	margin-bottom: 5px;
+}

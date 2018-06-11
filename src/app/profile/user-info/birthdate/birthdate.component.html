@@ -2,6 +2,8 @@
 	<mat-icon class="user-info-field__mat-icon"><i class="far fa-calendar-alt"></i></mat-icon>
 	<mat-form-field ngModelGroup="birthdate" class="user-info-field__form-field">
 		<input
+		[min]="minDate"
+		[max]="maxDate"
 		matInput
 		name="birthdate"
 		ngModel

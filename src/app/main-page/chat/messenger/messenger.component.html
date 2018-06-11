@@ -1,0 +1,30 @@
+<div class="messenger-container">
+	<div class="user-info-field">
+		<!-- <mat-icon class="user-info-field__mat-icon">assignment</mat-icon> -->
+		<mat-form-field class="input-field">
+			<textarea
+			maxlength="1000"
+			matInput
+			matTextareaAutosize
+			placeholder="Start chating ..."
+			name="messenger"
+			[(ngModel)]="this.message"></textarea>
+		</mat-form-field>
+		<button mat-icon-button (click)="sendMessage(this.message)" [disabled]="!this.message">
+			<mat-icon><i class="fas fa-check"></i></mat-icon>
+		</button>
+	</div>
+	<div class="all-messages">
+
+		<!-- <div class="send red"> -->
+		<div class="message" *ngFor="let message of messages">
+			<div class="message-send card-panel cyan lighten-3" *ngIf="message['current_id'] == current_id">
+				{{ message['message'] }}
+			</div>
+			<div class="message-recieve card-panel grey lighten-2" *ngIf="message['current_id'] != current_id">
+				{{ message['message'] }}
+			</div>
+		</div>
+	</div>
+
+</div>
