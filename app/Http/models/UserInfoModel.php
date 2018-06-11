@@ -136,16 +136,16 @@ class UserInfoModel {
 
 	public function getShortInfo($id) {
 		$statement = "SELECT
-			`users`.`first_name`,
-			`users`.`last_name`,
-			`users`.`login`,
-			`user_info`.`rating`,
-			`user_location`.`city`,
-			`user_location`.`country`
-			FROM `users`
-			INNER JOIN `user_info` ON `users`.`id`=`user_info`.`uid`
-			INNER JOIN `user_location` ON `users`.`id`=`user_location`.`uid`
-			WHERE `users`.`id`=?";
+		`users`.`first_name`,
+		`users`.`last_name`,
+		`users`.`login`,
+		`user_info`.`rating`,
+		`user_location`.`city`,
+		`user_location`.`country`
+		FROM `users`
+		INNER JOIN `user_info` ON `users`.`id`=`user_info`.`uid`
+		INNER JOIN `user_location` ON `users`.`id`=`user_location`.`uid`
+		WHERE `users`.`id`=?";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$id]);
 		$info = $preparedStatement->fetchAll();
@@ -336,22 +336,26 @@ class UserInfoModel {
 	}
 
 	public function storePhotoInDb($previous, $photoPath, $uid) {
+		$previousExploded = explode("/", $previous);
+		$previous = $previousExploded[3] . '/' . $previousExploded[4];
 		if ($previous == "assets/upload.svg") {
 			$statement = "SELECT * FROM `user_photos` WHERE `uid`=?";
 			$preparedStatement = $this->pdo->prepare($statement);
 			$preparedStatement->execute([$uid]);
 			$result = $preparedStatement->fetchAll();
-		} else {
-			$statement = "UPDATE `user_photos` SET `photo`=? WHERE `uid`=? AND `photo`=?";
-			$preparedStatement = $this->pdo->prepare($statement);
-			$preparedStatement->execute([$photoPath, $uid, $previous]);
-			$result = $preparedStatement->fetchAll();
+			if (count($result) < 4) {
+				return "test1";
+				$statement = "INSERT INTO `user_photos` (`uid`, `photo`) VALUE (?, ?)";
+				$preparedStatement = $this->pdo->prepare($statement);
+				$preparedStatement->execute([$uid, $photoPath]);
+				return $this->getAllUserPhotos($uid);
+			}
 		}
-		if (count($result) < 4) {
-			$statement = "INSERT INTO `user_photos` (`uid`, `photo`) VALUE (?, ?)";
-			$preparedStatement = $this->pdo->prepare($statement);
-			$preparedStatement->execute([$uid, $photoPath]);
-		}
+		$statement = "UPDATE `user_photos` SET `photo`=? WHERE `uid`=? AND `photo`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$photoPath, $uid, $previous]);
+		// return $photoPath;
+		// $result = $preparedStatement->fetchAll();
 		return $this->getAllUserPhotos($uid);
 	}
 
@@ -369,16 +373,16 @@ class UserInfoModel {
 
 	public function getSearchParams($id) {
 		$statement = "SELECT
-			`user_info`.`gender`,
-			`user_info`.`preferences`,
-			`user_info`.`birthdate`,
-			`user_info`.`rating`,
-			`user_location`.`latitude`,
-			`user_location`.`longtitude`
-			FROM `user_info`
-			INNER JOIN
-			`user_location` ON `user_info`.`uid`=`user_location`.`uid`
-			WHERE `user_info`.`uid`=?;";
+		`user_info`.`gender`,
+		`user_info`.`preferences`,
+		`user_info`.`birthdate`,
+		`user_info`.`rating`,
+		`user_location`.`latitude`,
+		`user_location`.`longtitude`
+		FROM `user_info`
+		INNER JOIN
+		`user_location` ON `user_info`.`uid`=`user_location`.`uid`
+		WHERE `user_info`.`uid`=?;";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$id]);
 		$result =  $preparedStatement->fetchAll();
@@ -400,186 +404,223 @@ class UserInfoModel {
 			"md", date(
 				"U", mktime(
 					0, 0, 0, $birthDate[1], $birthDate[2], $birthDate[0]
-				)
-			)
-		) > date("md")
-			? ((date("Y") - $birthDate[0]) - 1)
-			: (date("Y") - $birthDate[0]));
-		return $age;
-	}
+					)
+					)
+					) > date("md")
+					? ((date("Y") - $birthDate[0]) - 1)
+					: (date("Y") - $birthDate[0]));
+					return $age;
+				}
 
-	public function getValidRegexp($invalidRegexp) {
-		$invalidSplit = explode('/', $invalidRegexp);
-		$validRegexp = explode('$', $invalidSplit[1]);
-		return $validRegexp[0];
-	}
+				public function getValidRegexp($invalidRegexp) {
+					$invalidSplit = explode('/', $invalidRegexp);
+					$validRegexp = explode('$', $invalidSplit[1]);
+					return $validRegexp[0];
+				}
 
-	public function preferencesStatement($currentGender, $currentPreferences) {
-		if ($currentPreferences == "heterosexual") {
-			$statement = "`user_info`.`gender` != '$currentGender' AND `user_info`.`preferences` != 'homosexual'";
-		} else if ($currentPreferences == 'homosexual') {
-			$statement = "`user_info`.`gender` = '$currentGender' AND `user_info`.`preferences` = 'homosexual'";
-		} else if ($currentPreferences == 'bisexual'){
-			$statement = "((`user_info`.`gender` = '$currentGender' AND `user_info`.`preferences` != 'heterosexual') OR (`user_info`.`gender` != '$currentGender' AND `user_info`.`preferences` != 'homosexual'))";
-		}
-		return $statement;
-	}
+				public function preferencesStatement($currentGender, $currentPreferences) {
+					if ($currentPreferences == "heterosexual") {
+						$statement = "`user_info`.`gender` != '$currentGender' AND `user_info`.`preferences` != 'homosexual'";
+					} else if ($currentPreferences == 'homosexual') {
+						$statement = "`user_info`.`gender` = '$currentGender' AND `user_info`.`preferences` = 'homosexual'";
+					} else if ($currentPreferences == 'bisexual'){
+						$statement = "((`user_info`.`gender` = '$currentGender' AND `user_info`.`preferences` != 'heterosexual') OR (`user_info`.`gender` != '$currentGender' AND `user_info`.`preferences` != 'homosexual'))";
+					}
+					return $statement;
+				}
 
-	public function tagsStatement($tags) {
-		$tagCounter = 0;
-		if ($tags) {
-			$tagsStatement = "";
-			foreach ($tags as $tag) {
-				$tagsStatement = $tagsStatement . ", '$tag'";
-				$tagCounter++;
+				public function tagsStatement($tags) {
+					$tagCounter = 0;
+					if ($tags) {
+						$tagsStatement = "";
+						foreach ($tags as $tag) {
+							$tagsStatement = $tagsStatement . ", '$tag'";
+							$tagCounter++;
+						}
+						$tagsStatement = substr($tagsStatement, 2);
+					}
+					return [
+						'tagsStatement' => $tagsStatement,
+						'tagCount' => $tagCounter
+					];
+				}
+
+				public function sortUsersByParams($params, $currentId) {
+					$genderStatement = $this->preferencesStatement($params['gender'], $params['preferences']);
+					if ($params['tags']) {
+						$tagsInfo = $this->tagsStatement($params['tags']);
+						$tagCounter = $tagsInfo['tagCount'];
+						$tagsStatement = $tagsInfo['tagsStatement'];
+						$tagsQuery = "AND `all_user_interests`.`tag` IN($tagsStatement)";
+
+					} else {
+						$tagCounter = 1;
+						$tagsQuery = "";
+					}
+					$statement = "SELECT *
+					FROM (
+						SELECT
+						`id`,
+						`first_name`,
+						`last_name`,
+						`gender`,
+						`preferences`,
+						`birthdate`,
+						`rating`,
+						`grouped_tags`,
+						`biography`,
+						`profile_photo`,
+						(LENGTH(`grouped_tags`) - LENGTH(REPLACE(`grouped_tags`,',',''))) + 1 AS `tag_length_count`
+						FROM (
+							SELECT
+							`users`.`id`,
+							`users`.`first_name`,
+							`users`.`last_name`,
+							`user_info`.`gender`,
+							`user_info`.`preferences`,
+							`user_info`.`birthdate`,
+							`user_info`.`rating`,
+							`user_info`.`biography`,
+							`user_info`.`profile_photo`,
+							GROUP_CONCAT(`all_user_interests`.`tag`) AS `grouped_tags`
+							FROM `users`
+							INNER JOIN `user_info`
+							ON `users`.`id`=`user_info`.`uid`
+							INNER JOIN `all_user_interests`
+							ON `all_user_interests`.`uid`=`user_info`.`uid`
+							WHERE
+							(`user_info`.`birthdate` < ? AND `user_info`.`birthdate` > ?)
+							AND
+							(`user_info`.`rating` >= ?)
+							AND
+							(`user_info`.`uid` != ?)
+							AND
+							$genderStatement
+							$tagsQuery
+							GROUP BY `all_user_interests`.`uid`
+							ORDER BY `user_info`.`rating` DESC
+						) A
+					) AA WHERE `tag_length_count` > $tagCounter - 1";
+
+					$preparedStatement = $this->pdo->prepare($statement);
+					$preparedStatement->execute([
+						$params['dateMax'],
+						$params['dateMin'],
+						$params['rating'],
+						$currentId
+					]);
+					$result = $preparedStatement->fetchAll();
+					$result = $this->removeBannedUsers($result, $currentId);
+					return $result;
+				}
+
+				public function removeBannedUsers($users, $currentId) {
+					for ($i = 0; $i < count($users); $i++) {
+						if ($this->ifBanned($users[$i]['id']) || $this->ifReported($currentId, $users[$i]['id'])) {
+							unset($users[$i]);
+						}
+					}
+					return array_values($users);
+				}
+
+				public function reportUser($currentId, $reportedId) {
+					if (!$this->ifReported($currentId, $reportedId)) {
+						$statement = "INSERT INTO `report_list` (`uid`, `who_reported`) VALUE (?, ?)";
+						$preparedStatement = $this->pdo->prepare($statement);
+						$preparedStatement->execute([$reportedId, $currentId]);
+						if ($this->limitReports($reportedId) > 0) {
+							$this->banUser($reportedId);
+						}
+					}
+				}
+
+				public function limitReports($uid) {
+					$statement = "SELECT COUNT(`id`) FROM `report_list` WHERE `uid` = ?";
+					$preparedStatement = $this->pdo->prepare($statement);
+					$preparedStatement->execute([$uid]);
+					$fetch = $preparedStatement->fetchAll();
+					return $fetch[0][0];
+				}
+
+				public function banUser($uid) {
+					if (!$this->ifBanned($uid)) {
+						$statement = "INSERT INTO `ban_list` (`uid`) VALUE (?)";
+						$preparedStatement = $this->pdo->prepare($statement);
+						$preparedStatement->execute([$uid]);
+					}
+				}
+
+				public function ifBanned($uid) {
+					$statement = "SELECT * FROM `ban_list` WHERE `uid`=?";
+					$preparedStatement = $this->pdo->prepare($statement);
+					$preparedStatement->execute([$uid]);
+					$fetch = $preparedStatement->fetchAll();
+					if ($fetch) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+
+				public function ifReported($currentId, $reportedId) {
+					$statement = "SELECT * FROM `report_list` WHERE `uid`=? AND `who_reported`=?";
+					$preparedStatement = $this->pdo->prepare($statement);
+					$preparedStatement->execute([$reportedId, $currentId]);
+					$fetch = $preparedStatement->fetchAll();
+					if ($fetch) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+
+				public function ifBlocked($currentUid, $targetUid) {
+					$statement = "SELECT * FROM `history` WHERE `current_id`=? AND `target_id`=? AND `message`='block'";
+					$preparedStatement = $this->pdo->prepare($statement);
+					$preparedStatement->execute([$currentUid, $targetUid]);
+					$fetch = $preparedStatement->fetchAll();
+					if ($fetch) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+
+				public function findConnected($currentId) {
+					$statement = "SELECT
+					`i_liked`.`uid`,
+					`me_liked`.`uid`,
+					`target_photo`.`profile_photo`,
+					`target_info`.`first_name`,
+					`target_info`.`last_name`
+					FROM `likes` AS `i_liked`
+					JOIN `likes` AS `me_liked`
+					ON `i_liked`.`uid`=`me_liked`.`target_uid`
+					INNER JOIN `users` AS `target_info`
+					ON `i_liked`.`target_uid`=`target_info`.`id`
+					INNER JOIN `user_info` AS `target_photo`
+					ON `target_photo`.`uid`=`i_liked`.`target_uid`
+					WHERE `i_liked`.`uid`=? AND `me_liked`.`target_uid`=?
+					AND `me_liked`.`uid`=`i_liked`.`target_uid`";
+					$preparedStatement = $this->pdo->prepare($statement);
+					$preparedStatement->execute([$currentId, $currentId]);
+					$fetch = $preparedStatement->fetchAll();
+					return $fetch;
+				}
+
+				public function storeChatMessage($currentId, $targetId, $message) {
+					$statement = "INSERT INTO `chat_list` (`current_id`, `target_id`, message) VALUE (?, ?, ?)";
+					$preparedStatement = $this->pdo->prepare($statement);
+					$preparedStatement->execute([$currentId, $targetId, $message]);
+				}
+
+				public function getMessagesForChat($currentId, $targetId) {
+					$statement = "SELECT * FROM `chat_list` WHERE (`current_id`=? AND `target_id`=?) OR (`current_id`=? AND `target_id`=?) 	ORDER BY `id` DESC";
+					$preparedStatement = $this->pdo->prepare($statement);
+					$preparedStatement->execute([$currentId, $targetId, $targetId, $currentId]);
+					$fetch = $preparedStatement->fetchAll();
+					return $fetch;
+				}
+
 			}
-			$tagsStatement = substr($tagsStatement, 2);
-		}
-		return [
-			'tagsStatement' => $tagsStatement,
-			'tagCount' => $tagCounter
-		];
-	}
-
-	public function sortUsersByParams($params, $currentId) {
-		$genderStatement = $this->preferencesStatement($params['gender'], $params['preferences']);
-		if ($params['tags']) {
-			$tagsInfo = $this->tagsStatement($params['tags']);
-			$tagCounter = $tagsInfo['tagCount'];
-			$tagsStatement = $tagsInfo['tagsStatement'];
-			$tagsQuery = "AND `all_user_interests`.`tag` IN($tagsStatement)";
-
-		} else {
-			$tagCounter = 1;
-			$tagsQuery = "";
-		}
-		$statement = "SELECT *
-		FROM (
-			SELECT
-			`id`,
-			`first_name`,
-			`last_name`,
-			`gender`,
-			`preferences`,
-			`birthdate`,
-			`rating`,
-			`grouped_tags`,
-			`biography`,
-			`profile_photo`,
-			(LENGTH(`grouped_tags`) - LENGTH(REPLACE(`grouped_tags`,',',''))) + 1 AS `tag_length_count`
-			FROM (
-				SELECT
-				`users`.`id`,
-				`users`.`first_name`,
-				`users`.`last_name`,
-				`user_info`.`gender`,
-				`user_info`.`preferences`,
-				`user_info`.`birthdate`,
-				`user_info`.`rating`,
-				`user_info`.`biography`,
-				`user_info`.`profile_photo`,
-				GROUP_CONCAT(`all_user_interests`.`tag`) AS `grouped_tags`
-				FROM `users`
-				INNER JOIN `user_info`
-					ON `users`.`id`=`user_info`.`uid`
-				INNER JOIN `all_user_interests`
-					ON `all_user_interests`.`uid`=`user_info`.`uid`
-				WHERE
-					(`user_info`.`birthdate` < ? AND `user_info`.`birthdate` > ?)
-					AND
-					(`user_info`.`rating` >= ?)
-					AND
-					(`user_info`.`uid` != ?)
-					AND
-					$genderStatement
-					$tagsQuery
-					GROUP BY `all_user_interests`.`uid`
-					ORDER BY `user_info`.`rating` DESC
-			) A
-		) AA WHERE `tag_length_count` > $tagCounter - 1";
-
-		$preparedStatement = $this->pdo->prepare($statement);
-		$preparedStatement->execute([
-			$params['dateMax'],
-			$params['dateMin'],
-			$params['rating'],
-			$currentId
-		]);
-		$result = $preparedStatement->fetchAll();
-		$result = $this->removeBannedUsers($result, $currentId);
-		return $result;
-	}
-
-	public function removeBannedUsers($users, $currentId) {
-		for ($i = 0; $i < count($users); $i++) {
-			if ($this->ifBanned($users[$i]['id']) || $this->ifReported($currentId, $users[$i]['id'])) {
-				unset($users[$i]);
-			}
-		}
-		return array_values($users);
-	}
-
-	public function reportUser($currentId, $reportedId) {
-		if (!$this->ifReported($currentId, $reportedId)) {
-			$statement = "INSERT INTO `report_list` (`uid`, `who_reported`) VALUE (?, ?)";
-			$preparedStatement = $this->pdo->prepare($statement);
-			$preparedStatement->execute([$reportedId, $currentId]);
-			if ($this->limitReports($reportedId) > 0) {
-				$this->banUser($reportedId);
-			}
-		}
-	}
-
-	public function limitReports($uid) {
-		$statement = "SELECT COUNT(`id`) FROM `report_list` WHERE `uid` = ?";
-		$preparedStatement = $this->pdo->prepare($statement);
-		$preparedStatement->execute([$uid]);
-		$fetch = $preparedStatement->fetchAll();
-		return $fetch[0][0];
-	}
-
-	public function banUser($uid) {
-		if (!$this->ifBanned($uid)) {
-			$statement = "INSERT INTO `ban_list` (`uid`) VALUE (?)";
-			$preparedStatement = $this->pdo->prepare($statement);
-			$preparedStatement->execute([$uid]);
-		}
-	}
-
-	public function ifBanned($uid) {
-		$statement = "SELECT * FROM `ban_list` WHERE `uid`=?";
-		$preparedStatement = $this->pdo->prepare($statement);
-		$preparedStatement->execute([$uid]);
-		$fetch = $preparedStatement->fetchAll();
-		if ($fetch) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public function ifReported($currentId, $reportedId) {
-		$statement = "SELECT * FROM `report_list` WHERE `uid`=? AND `who_reported`=?";
-		$preparedStatement = $this->pdo->prepare($statement);
-		$preparedStatement->execute([$reportedId, $currentId]);
-		$fetch = $preparedStatement->fetchAll();
-		if ($fetch) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public function ifBlocked($currentUid, $targetUid) {
-		$statement = "SELECT * FROM `history` WHERE `current_id`=? AND `target_id`=? AND `message`='block'";
-		$preparedStatement = $this->pdo->prepare($statement);
-		$preparedStatement->execute([$currentUid, $targetUid]);
-		$fetch = $preparedStatement->fetchAll();
-		if ($fetch) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-}
 ?>
