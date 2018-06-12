@@ -61,6 +61,11 @@ class AuthenticationController extends Controller {
 	}
 
 	public function checkTokens($data) {
+		if (!array_key_exists('refreshToken', $data) ||
+			!array_key_exists('expireTime', $data) ||
+			!array_key_exists('accessToken', $data)) {
+				throw new \Exception("Invalid token");
+			}
 		$refreshToken = $data['refreshToken'];
 		$accessToken = $data['accessToken'];
 		$accessTokenExpireTime = $data['expireTime'];
@@ -77,7 +82,7 @@ class AuthenticationController extends Controller {
 						throw new \Exception("Invalid access token: ");
 					}
 				} else {
-					throw new \Exception("Invalid refresh token" . $tokenFromDb . '__________________________________________________________________________' . $refreshToken);
+					throw new \Exception("Invalid refresh token");
 				}
 			} else {
 				throw new \Exception("No id in RefreshToken");
