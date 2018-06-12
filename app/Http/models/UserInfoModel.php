@@ -493,50 +493,10 @@ class UserInfoModel {
 			$tagCounter = 1;
 			$tagsQuery = "";
 		}
-		/* $statement = "SELECT * */
-		/* FROM ( */
-		/* 	SELECT */
-		/* 	`id`, */
-		/* 	`first_name`, */
-		/* 	`last_name`, */
-		/* 	`gender`, */
-		/* 	`preferences`, */
-		/* 	`birthdate`, */
-		/* 	`rating`, */
-		/* 	`grouped_tags`, */
-		/* 	`biography`, */
-		/* 	`profile_photo`, */
-		/* 	(LENGTH(`grouped_tags`) - LENGTH(REPLACE(`grouped_tags`,',',''))) + 1 AS `tag_length_count` */
-		/* 	FROM ( */
-		/* 		SELECT */
-		/* 		`users`.`id`, */
-		/* 		`users`.`first_name`, */
-		/* 		`users`.`last_name`, */
-		/* 		`user_info`.`gender`, */
-		/* 		`user_info`.`preferences`, */
-		/* 		`user_info`.`birthdate`, */
-		/* 		`user_info`.`rating`, */
-		/* 		`user_info`.`biography`, */
-		/* 		`user_info`.`profile_photo`, */
-		/* 		GROUP_CONCAT(`all_user_interests`.`tag`) AS `grouped_tags` */
-		/* 		FROM `users` */
-		/* 		INNER JOIN `user_info` */
-		/* 			ON `users`.`id`=`user_info`.`uid` */
-		/* 		INNER JOIN `all_user_interests` */
-		/* 			ON `all_user_interests`.`uid`=`user_info`.`uid` */
-		/* 		WHERE */
-		/* 			(`user_info`.`birthdate` < ? AND `user_info`.`birthdate` > ?) */
-		/* 			AND */
-		/* 			(`user_info`.`rating` >= ?) */
-		/* 			AND */
-		/* 			(`user_info`.`uid` != ?) */
-		/* 			AND */
-		/* 			$genderStatement */
-		/* 			$tagsQuery */
-		/* 			GROUP BY `all_user_interests`.`uid` */
-		/* 			ORDER BY `user_info`.`rating` {$params['order']} */
-		/* 	) A */
-		/* ) AA WHERE `tag_length_count` > $tagCounter - 1"; */
+		$distance = $params['distance'];
+		if ($params['distance'] >= 999) {
+			$distance = 1000000;
+		}
 		$statement = "SELECT *
 			FROM (
 				SELECT
@@ -594,7 +554,7 @@ class UserInfoModel {
 						$genderStatement
 						$tagsQuery
 						GROUP BY `all_user_interests`.`uid`,`user_location`.`latitude`,`user_location`.`longtitude`
-				) A WHERE `distance` >= {$params['distance']} ORDER BY `{$params['orderField']}` {$params['order']}
+				) A WHERE `distance` <= {$distance} ORDER BY `{$params['orderField']}` {$params['order']}
 			) AA WHERE `tag_length_count` > $tagCounter - 1";
 
 		$preparedStatement = $this->pdo->prepare($statement);
