@@ -336,26 +336,23 @@ class UserInfoModel {
 	}
 
 	public function storePhotoInDb($previous, $photoPath, $uid) {
-		$previousExploded = explode("/", $previous);
-		$previous = $previousExploded[3] . '/' . $previousExploded[4];
 		if ($previous == "assets/upload.svg") {
 			$statement = "SELECT * FROM `user_photos` WHERE `uid`=?";
 			$preparedStatement = $this->pdo->prepare($statement);
 			$preparedStatement->execute([$uid]);
 			$result = $preparedStatement->fetchAll();
 			if (count($result) < 4) {
-				return "test1";
 				$statement = "INSERT INTO `user_photos` (`uid`, `photo`) VALUE (?, ?)";
 				$preparedStatement = $this->pdo->prepare($statement);
 				$preparedStatement->execute([$uid, $photoPath]);
 				return $this->getAllUserPhotos($uid);
 			}
 		}
+		$previousExploded = explode("/", $previous);
+		$previous = $previousExploded[3] . '/' . $previousExploded[4];
 		$statement = "UPDATE `user_photos` SET `photo`=? WHERE `uid`=? AND `photo`=?";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$photoPath, $uid, $previous]);
-		// return $photoPath;
-		// $result = $preparedStatement->fetchAll();
 		return $this->getAllUserPhotos($uid);
 	}
 
