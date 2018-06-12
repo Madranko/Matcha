@@ -15,7 +15,10 @@ import { ChatService } from '../../chat-service/chat.service';
 @Component({
 	selector: 'app-search',
 	templateUrl: './search.component.html',
-	styleUrls: ['./search.component.css']
+	styleUrls: [
+		'./search.component.css',
+		'../../profile/user-info/user-info.component.css'
+	]
 })
 export class SearchComponent implements OnInit {
 	searchParams: SearchParams = {

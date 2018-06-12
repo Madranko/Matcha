@@ -16,6 +16,7 @@ button:focus {
 
 .select-container {
 	display: flex;
+	padding: 8px;
 }
 .select-container > mat-select {
 	width: 25%;
@@ -53,7 +54,7 @@ mat-grid-tile {
 
 input:not([type]) {
 	border-bottom: none;
-	height: 15px;
+	height: 20px;
 	margin: 0;
 }
 input:not([type]):focus:not([readonly]) {
@@ -64,4 +65,11 @@ input:not([type]):focus:not([readonly]) {
 mat-card-actions {
 	display: flex;
 	justify-content: center;
+}
+.user-info-field__search-field {
+	padding: 8px;
+}
+
+mat-select {
+	margin-right: 85px;
 }

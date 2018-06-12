@@ -49,9 +49,7 @@ export class ChatService {
 				to: reciever_id,
 				notification: notificationText,
 				message: messageText
-
 			}
-			console.log(message);
 			this.messages.next(message);
 		});
 	}

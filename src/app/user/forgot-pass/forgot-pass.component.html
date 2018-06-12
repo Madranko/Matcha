@@ -1,4 +1,4 @@
-<div *ngIf="!emailWasSent" class="row">
+<div *ngIf="!emailWasSent" class="row form-container">
 	<h4>Please enter your email so we can sent you new password</h4>
 	<form class="col s12"
 		#forgotEmailForm="ngForm"
@@ -27,6 +27,6 @@
 		</button>
 	</form>
 </div>
-<div *ngIf="emailWasSent" class="row">
+<div *ngIf="emailWasSent" class="row form-container">
 	<h4>Check your email</h4>
 </div>

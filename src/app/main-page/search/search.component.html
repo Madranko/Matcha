@@ -12,26 +12,6 @@
 			(click)="close('toggle button')">
 			<mat-icon>close</mat-icon>
 		</button>
-		<div class="select-container">
-			<mat-select
-				[(ngModel)]="searchParams.order"
-				placeholder="Order">
-				<mat-option
-					*ngFor="let o of order"
-					[value]="o.value">
-					{{ o.name }}
-				</mat-option>
-			</mat-select>
-			<mat-select
-				[(ngModel)]="searchParams.orderField"
-				placeholder="Order Field">
-				<mat-option
-					*ngFor="let orderField of orderFields"
-					[value]="orderField.value">
-					{{ orderField.name }}
-				</mat-option>
-			</mat-select>
-		</div>
 		<p class="slider-label">Age minimum ({{ searchParams.ageMin }}):</p>
 		<mat-slider
 			thumbLabel
@@ -65,37 +45,57 @@
 			max="1000"
 			[(ngModel)]="searchParams.distance"></mat-slider>
 
-			<div class="user-info-field">
-				<mat-form-field class="user-info-field__form-field">
-					<mat-chip-list
-						#chipList>
-						<mat-chip
-						*ngFor="let tag of tags"
-						[selectable]="selectable"
-						[removable]="removable"
-						(removed)="remove(tag)">
-							{{tag}}
-							<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-						</mat-chip>
-						<input
-						matInput
-						placeholder="Interests"
-						#tagInput
-						[formControl]="tagCtrl"
-						[matAutocomplete]="auto"
-						[matChipInputFor]="chipList"
-						[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-						[matChipInputAddOnBlur]="addOnBlur"
-						(matChipInputTokenEnd)="add($event)"
-						/>
-					</mat-chip-list>
-					<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-						<mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-							{{ tag }}
-						</mat-option>
-					</mat-autocomplete>
-				</mat-form-field>
-			</div>
+		<div style="width: 100%" class="user-info-field user-info-field__search-field">
+			<mat-form-field class="user-info-field__form-field">
+				<mat-chip-list
+					#chipList>
+					<mat-chip
+					*ngFor="let tag of tags"
+					[selectable]="selectable"
+					[removable]="removable"
+					(removed)="remove(tag)">
+						{{tag}}
+						<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+					</mat-chip>
+					<input
+					matInput
+					placeholder="Interests"
+					#tagInput
+					[formControl]="tagCtrl"
+					[matAutocomplete]="auto"
+					[matChipInputFor]="chipList"
+					[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+					[matChipInputAddOnBlur]="addOnBlur"
+					(matChipInputTokenEnd)="add($event)"
+					/>
+				</mat-chip-list>
+				<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+					<mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+						{{ tag }}
+					</mat-option>
+				</mat-autocomplete>
+			</mat-form-field>
+		</div>
+		<div class="select-container">
+			<mat-select
+				[(ngModel)]="searchParams.order"
+				placeholder="Order">
+				<mat-option
+					*ngFor="let o of order"
+					[value]="o.value">
+					{{ o.name }}
+				</mat-option>
+			</mat-select>
+			<mat-select
+				[(ngModel)]="searchParams.orderField"
+				placeholder="Order Field">
+				<mat-option
+					*ngFor="let orderField of orderFields"
+					[value]="orderField.value">
+					{{ orderField.name }}
+				</mat-option>
+			</mat-select>
+		</div>
 
 		</div>
 	</mat-sidenav>
@@ -133,10 +133,3 @@
 		</div>
 	</mat-sidenav-content>
 </mat-sidenav-container>
-
-<!--
-	age: input only digits
-	age: input only digits
-	rating: slider
-	distance: slider
-	tags: input -->

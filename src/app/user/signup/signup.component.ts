@@ -9,7 +9,10 @@ import { AuthorizationService } from '../authorization/authorization.service';
 @Component({
 	selector: 'app-signup',
 	templateUrl: './signup.component.html',
-	styleUrls: ['./signup.component.css']
+	styleUrls: [
+		'./signup.component.css',
+		'../../home/home.component.css'
+	]
 })
 export class SignupComponent implements OnInit {
 	error: string;

@@ -12,8 +12,7 @@
 		<app-interests></app-interests>
 		<app-biography></app-biography>
 	</div>
-	<mat-divider></mat-divider>
-	<div class="row under-divider">
+	<div class="row under-divider container">
 		<button mat-raised-button color="accent" type="submit" name="submit">Save</button>
 		<mat-error *ngIf="error">
 			<div>
@@ -22,4 +21,3 @@
 		</mat-error>
 	</div>
 </form>
-<!-- <pre>{{ AddUserInfoForm.value | json }}</pre> -->
