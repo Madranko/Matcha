@@ -11,6 +11,7 @@ export class BiographyComponent implements OnInit {
 	// value: string = "mmotov";
 	constructor() { }
 
+	value: string;
 	ngOnInit() {
 	}
 

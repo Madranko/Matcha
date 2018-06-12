@@ -23,12 +23,13 @@
 														"src/assets"
 												],
 												"styles": [
+														"node_modules/materialize-css/dist/css/materialize.min.css",
 														"src/styles.css",
-														"src/theme.scss",
-														"node_modules/materialize-css/dist/css/materialize.min.css"
+														"src/theme.scss"
 												],
 												"scripts": [
 														"node_modules/jquery/dist/jquery.min.js",
+														"node_modules/hammerjs/hammer.js",
 														"node_modules/materialize-css/dist/js/materialize.min.js"
 												]
 										},

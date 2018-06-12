@@ -22,6 +22,7 @@ export class GenderComponent implements OnInit {
 		}
 	];
 
+	value: string;
 	constructor() { }
 
 	ngOnInit() {

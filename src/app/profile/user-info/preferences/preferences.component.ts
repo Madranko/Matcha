@@ -27,11 +27,10 @@ export class PreferencesComponent implements OnInit {
 	];
 
 	selected: string = this.preferences[2].viewValue;
-	value: string = "Allo";
+	value: string;
 	constructor() { }
 
 	ngOnInit() {
-		this.value = "ALLO"
 	}
 
 }

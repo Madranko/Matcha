@@ -1,3 +1,4 @@
+import { MaterializeModule } from 'angular2-materialize';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -49,6 +50,8 @@ import { ChangeInterestsComponent } from './main-page/settings/change-interests/
 import { WebsocketService } from './websocket.service';
 import { ChatService } from './chat-service/chat.service';
 import { MessengerComponent } from './main-page/chat/messenger/messenger.component';
+// import { MatSnackBar } from '@angular/material';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
 	declarations: [
@@ -99,7 +102,10 @@ import { MessengerComponent } from './main-page/chat/messenger/messenger.compone
 		AppRoutingModule,
 		HttpClientModule,
 		FormsModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		MaterializeModule,
+		// MatSnackBar,
+		MatSnackBarModule
 	],
 	providers: [
 		CookieService,

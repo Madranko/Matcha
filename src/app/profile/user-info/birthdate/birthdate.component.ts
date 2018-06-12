@@ -14,6 +14,7 @@ export class BirthdateComponent implements OnInit {
 	minDate = new Date(1900, 0, 1);
 	maxDate = new Date(2000, 0, 1);
 
+	value: any;
 	constructor() { }
 
 	ngOnInit() {

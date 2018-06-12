@@ -32,8 +32,15 @@ export class ChatService {
 			map((response: MessageEvent): Message => {
 				let recievedMessage = JSON.parse(response.data);
 				return {
-					recievedMessage
-				}
+					from_id: recievedMessage.from_id,
+					from_login: recievedMessage.from_login,
+					from_lastName: recievedMessage.from_lastName,
+					from_firstName: recievedMessage.from_firstName,
+					from_profilePhoto: recievedMessage.from_profilePhoto,
+					to: recievedMessage.to,
+					notification: recievedMessage.notification,
+					message: recievedMessage.message
+				};
 			})
 		);
 	}

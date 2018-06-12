@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { ViewChild, AfterViewInit } from '@angular/core';
 import { InterestsComponent } from "./interests/interests.component";
 import { ProfilePhotoComponent } from "./profile-photo/profile-photo.component";
+import { PreferencesComponent } from "./preferences/preferences.component";
+import { GenderComponent } from "./gender/gender.component";
+import { BirthdateComponent } from "./birthdate/birthdate.component";
+import { BiographyComponent } from "./biography/biography.component";
 import { UserInfoService } from "./service/user-info.service";
 import { AuthorizationService } from '../../user/authorization/authorization.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -27,6 +31,10 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 
 	@ViewChild(InterestsComponent) interests;
 	@ViewChild(ProfilePhotoComponent) photo;
+	@ViewChild(PreferencesComponent) preferences;
+	@ViewChild(GenderComponent) gender;
+	@ViewChild(BirthdateComponent) birthdate;
+	@ViewChild(BiographyComponent) biography;
 
 	ngOnInit() {
 		this.authorizationService.refreshTokens();
@@ -35,10 +43,10 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 	onSubmit(form: NgForm) {
 		let url = this.photo.imageUrl;
 		let tags = this.interests.tags;
-		let gender = form._directives[0].value;
-		let preferences = form._directives[1].value;
-		let birthdate = new Date(form._directives[2].value);
-		let biography = form._directives[3].value;
+		let gender = this.gender.value;
+		let preferences = this.preferences.value;
+		let birthdate = new Date(this.birthdate.value);
+		let biography = this.biography.value;
 
 		let data = {
 			photo: url,
@@ -53,9 +61,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 		}
 		if(this.isValid(data)) {
 			data['preferences'] = this.checkPreferences(data['preferences']);
-			//SEND DATA ON SERVER
 			this.userInfoService.sendData('storeUserInfo', data);
-		} else {
 		}
 	}
 

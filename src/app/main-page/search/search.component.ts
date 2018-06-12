@@ -11,6 +11,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { SearchParams } from './SearchParams';
 import { ChatService } from '../../chat-service/chat.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
 	selector: 'app-search',
@@ -80,7 +82,8 @@ export class SearchComponent implements OnInit {
 		private chatService: ChatService,
 		private cookieService: CookieService,
 		private userInfoService: UserInfoService,
-		private authorizationService: AuthorizationService
+		private authorizationService: AuthorizationService,
+		private snackBar: MatSnackBar
 	) {
 		this.filteredTags = this.tagCtrl.valueChanges.pipe(
 			startWith(null),
@@ -89,19 +92,23 @@ export class SearchComponent implements OnInit {
 			chatService.messages.subscribe(msg => {
 				let id = {
 					'refreshToken': this.cookieService.get('RefreshToken'),
-					'id': msg['recievedMessage']['from_id']
+					'id': msg['from_id']
 				}
 				this.userInfoService.sendRequest('ifBlocked', id)
 				.toPromise()
 				.then (
 					(data) => {
 						if (data == false) {
-							if (msg['recievedMessage']['notification']) {
-								let notification = msg['recievedMessage']['from_login'] + ': ' + msg['recievedMessage']['notification'];
-								Materialize.toast(msg['recievedMessage']['notification'], 7000, "cyan lighten-1");
-							} else if (msg['recievedMessage']['message']) {
-								let notification = msg['recievedMessage']['from_login'] + ': ' + msg['recievedMessage']['message'];
-								Materialize.toast(notification, 7000, "cyan lighten-1");
+							if (msg['notification']) {
+								let notification = msg['from_login'] + ': ' + msg['notification'];
+								this.snackBar.open(notification, '', {
+									duration: 7000,
+								});
+							} else if (msg['message']) {
+								let notification = msg['from_login'] + ': ' + msg['message'];
+								this.snackBar.open(notification, '', {
+									duration: 7000,
+								});
 							}
 						}
 					},

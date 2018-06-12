@@ -3,6 +3,7 @@ import { AuthorizationService } from '../../user/authorization/authorization.ser
 import { UserInfoService } from '../../profile/user-info/service/user-info.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ChatService } from '../../chat-service/chat.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
 	selector: 'app-profile',
@@ -21,24 +22,29 @@ export class ProfileComponent implements OnInit {
 		private chatService: ChatService,
 		private authorizationService: AuthorizationService,
 		private userInfoService: UserInfoService,
-		private cookieService: CookieService
+		private cookieService: CookieService,
+		private snackBar: MatSnackBar
 	) {
 		chatService.messages.subscribe(msg => {
 			let id = {
 				'refreshToken': this.cookieService.get('RefreshToken'),
-				'id': msg['recievedMessage']['from_id']
+				'id': msg['from_id']
 			}
 			this.userInfoService.sendRequest('ifBlocked', id)
 			.toPromise()
 			.then (
 				(data) => {
 					if (data == false) {
-						if (msg['recievedMessage']['notification']) {
-							let notification = msg['recievedMessage']['from_login'] + ': ' + msg['recievedMessage']['notification'];
-							Materialize.toast(msg['recievedMessage']['notification'], 7000, "cyan lighten-1");
-						} else if (msg['recievedMessage']['message']) {
-							let notification = msg['recievedMessage']['from_login'] + ': ' + msg['recievedMessage']['message'];
-							Materialize.toast(notification, 7000, "cyan lighten-1");
+						if (msg['notification']) {
+							let notification = msg['from_login'] + ': ' + msg['notification'];
+							this.snackBar.open(notification, '', {
+								duration: 7000,
+							});
+						} else if (msg['message']) {
+							let notification = msg['from_login'] + ': ' + msg['message'];
+							this.snackBar.open(notification, '', {
+								duration: 7000,
+							});
 						}
 					}
 				},
