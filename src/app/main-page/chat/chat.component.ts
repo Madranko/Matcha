@@ -36,22 +36,17 @@ export class ChatComponent implements OnInit {
 			.toPromise()
 			.then (
 				(data) => {
-	console.log(data);
 					if (data == false) {
-							console.log("CHAT");
 						if (msg['recievedMessage']['notification']) {
 							let notification = msg['recievedMessage']['from_login'] + ': ' + msg['recievedMessage']['notification'];
 							Materialize.toast(msg['recievedMessage']['notification'], 7000, "cyan lighten-1");
 						} else if (msg['recievedMessage']['message']) {
-							console.log('MESSAGE');
-							console.log(msg['recievedMessage']['message']);
 							let notification = msg['recievedMessage']['from_login'] + ': ' + msg['recievedMessage']['message'];
 							Materialize.toast(notification, 7000, "cyan lighten-1");
 						}
 					}
 				},
 				(error) => {
-					console.log(error);
 				}
 			)
 		});
@@ -66,10 +61,8 @@ export class ChatComponent implements OnInit {
 		.then(
 			(data) => {
 				this.connectedUsers = data;
-				console.log(this.connectedUsers);
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}
@@ -80,7 +73,6 @@ export class ChatComponent implements OnInit {
 		this.reason = reason;
 		this.sidenav.close();
 		// this.getUsersByParams(this.searchParams);
-		// console.log(this.searchParams);
 	}
 
 	startChat(id) {
@@ -93,12 +85,10 @@ export class ChatComponent implements OnInit {
 		.toPromise()
 		.then(
 			(data) => {
-				console.log(data);
 				this.messages = data['messages'];
 				this.current_id = data['current_id'];
 			},
 			(error) => {
-				console.log(error);
 			}
 		)
 		this.sidenav.open();

@@ -23,7 +23,6 @@ export class WebsocketService {
 	public connect(url): Subject<MessageEvent> {
 		if (!this.subject) {
 			this.subject = this.create(url);
-			console.log("Successfully Connected:" + url);
 		}
 		return this.subject;
 	}

@@ -95,23 +95,17 @@ export class SearchComponent implements OnInit {
 				.toPromise()
 				.then (
 					(data) => {
-						console.log(data);
 						if (data == false) {
 							if (msg['recievedMessage']['notification']) {
-								console.log('NOTIFICATION');
-								console.log(msg['recievedMessage']['notification']);
 								let notification = msg['recievedMessage']['from_login'] + ': ' + msg['recievedMessage']['notification'];
 								Materialize.toast(msg['recievedMessage']['notification'], 7000, "cyan lighten-1");
 							} else if (msg['recievedMessage']['message']) {
-								console.log('MESSAGE');
-								console.log(msg['recievedMessage']['message']);
 								let notification = msg['recievedMessage']['from_login'] + ': ' + msg['recievedMessage']['message'];
 								Materialize.toast(notification, 7000, "cyan lighten-1");
 							}
 						}
 					},
 					(error) => {
-						console.log(error);
 					}
 				)
 			});
@@ -128,7 +122,6 @@ export class SearchComponent implements OnInit {
 		this.reason = reason;
 		this.sidenav.close();
 		this.getUsersByParams(this.searchParams);
-		console.log(this.searchParams);
 	}
 
 	ratingLabel(value: number | null) {
@@ -170,7 +163,6 @@ export class SearchComponent implements OnInit {
 					this.getUsersByParams(this.searchParams);
 				},
 				(error) => {
-					console.log(error);
 				}
 			);
 	}
@@ -183,10 +175,8 @@ export class SearchComponent implements OnInit {
 			.then(
 				(data) => {
 					this.sortedUsers = data;
-					console.log(data);
 				},
 				(error) => {
-					console.log(error);
 				}
 			);
 	}
@@ -200,7 +190,6 @@ export class SearchComponent implements OnInit {
 					this.allTags = data;
 				},
 				(error) => {
-					console.log("ERROR");
 					this.error = error.error.exception[0].message;
 				}
 			);

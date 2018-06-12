@@ -70,7 +70,6 @@ export class LoginComponent implements OnInit {
 				if (this.cookieService.get('AccessToken')) {
 					this.authorizationService.deleteTokensAndLogout();
 				}
-				console.log(error);
 				this.error = error.error.exception[0].message;
 			}
 		);

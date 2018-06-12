@@ -45,7 +45,6 @@ export class UserGalleryComponent implements OnInit {
 				}
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}
@@ -55,7 +54,6 @@ export class UserGalleryComponent implements OnInit {
 		var reader = new FileReader();
 		reader.onload = (event:any) => {
 			let previous = this.userImages[i];
-			console.log(previous);
 			this.userImages[i] = event.target.result;
 			let data = {
 				'previous': previous,
@@ -66,10 +64,8 @@ export class UserGalleryComponent implements OnInit {
 			.toPromise()
 			.then(
 				(data) => {
-					console.log(data);
 				},
 				(error) => {
-					console.log(error);
 				}
 			);
 		}

@@ -25,7 +25,6 @@ export class ShortInfoComponent implements OnInit {
 
 	getShortInfo() {
 		let cookies = this.authorizationService.getTokensFromCookie();
-		// console.log(cookies);
 		this.userInfoService.sendRequest('getShortInfo', cookies)
 		.toPromise()
 		.then(
@@ -34,7 +33,6 @@ export class ShortInfoComponent implements OnInit {
 				this.tags = data['tags'];
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}

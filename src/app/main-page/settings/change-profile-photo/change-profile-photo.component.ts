@@ -33,7 +33,6 @@ export class ChangeProfilePhotoComponent implements OnInit {
 				}
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}
@@ -51,10 +50,8 @@ export class ChangeProfilePhotoComponent implements OnInit {
 			.toPromise()
 			.then(
 				(data) => {
-					console.log(data);
 				},
 				(error) => {
-					console.log(error);
 				}
 			);
 		}

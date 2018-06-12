@@ -34,7 +34,6 @@ export class ChangeGenderComponent implements OnInit {
 	}
 
 	saveChanges(value, toChange) {
-		console.log(value);
 		if (value) {
 			this.changeService.changeUserInfo(value, toChange);
 		}

@@ -35,7 +35,6 @@ export class MoreInfoComponent implements OnInit {
 				this.info = data;
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}

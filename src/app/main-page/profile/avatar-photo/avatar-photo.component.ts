@@ -33,7 +33,6 @@ export class AvatarPhotoComponent implements OnInit {
 				}
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}

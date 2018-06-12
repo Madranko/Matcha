@@ -39,7 +39,6 @@ export class HistoryComponent implements OnInit {
 					}
 				},
 				(error) => {
-					console.log(error);
 				}
 			)
 		});
@@ -60,11 +59,9 @@ export class HistoryComponent implements OnInit {
 		.toPromise()
 		.then(
 			(data) => {
-				console.log(data);
 				this.likedHistory = data;
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}
@@ -77,11 +74,9 @@ export class HistoryComponent implements OnInit {
 		.toPromise()
 		.then(
 			(data) => {
-				console.log(data);
 				this.visitHistory = data;
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}
@@ -94,11 +89,9 @@ export class HistoryComponent implements OnInit {
 		.toPromise()
 		.then(
 			(data) => {
-				console.log(data);
 				this.blockHistory = data;
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}
@@ -114,7 +107,6 @@ export class HistoryComponent implements OnInit {
 				this.currentUid = data;
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}

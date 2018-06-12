@@ -51,13 +51,11 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 			accessToken: this.cookieService.get('AccessToken'),
 			expireTime: this.cookieService.get('ExpireTime')
 		}
-		console.log(data);
 		if(this.isValid(data)) {
 			data['preferences'] = this.checkPreferences(data['preferences']);
 			//SEND DATA ON SERVER
 			this.userInfoService.sendData('storeUserInfo', data);
 		} else {
-			console.log("NOT OK");
 		}
 	}
 
@@ -115,7 +113,6 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 	}
 
 	checkBiography(bio) {
-		console.log(bio);
 		if (bio) {
 			this.error = '';
 			return true;

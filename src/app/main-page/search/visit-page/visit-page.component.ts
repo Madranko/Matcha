@@ -59,11 +59,9 @@ export class VisitPageComponent implements OnInit {
 		.toPromise()
 		.then(
 			(data) => {
-				console.log(data);
 				this.saveData(data);
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}
@@ -80,7 +78,6 @@ export class VisitPageComponent implements OnInit {
 				;
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}
@@ -121,7 +118,6 @@ export class VisitPageComponent implements OnInit {
 				this.shortInfo['rating'] = data;
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 
@@ -143,10 +139,8 @@ export class VisitPageComponent implements OnInit {
 		.toPromise()
 		.then(
 			(data) => {
-				console.log(data);
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}
@@ -164,7 +158,6 @@ export class VisitPageComponent implements OnInit {
 				;
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}
@@ -182,7 +175,6 @@ export class VisitPageComponent implements OnInit {
 				;
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}

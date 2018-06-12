@@ -50,10 +50,8 @@ export class InterestsComponent implements OnInit {
 				(data) => {
 					this.error = '';
 					this.allTags = data;
-					// console.log(this.allTags);
 				},
 				(error) => {
-					console.log("ERROR");
 					this.error = error.error.exception[0].message;
 				}
 			);
@@ -67,7 +65,6 @@ export class InterestsComponent implements OnInit {
 			if ((value || '').trim() && this.checkIfExists(value)) {
 				this.tags.push(value.trim());
 				this.counter = this.tags.length;
-				console.log(this.tags);
 				// this.tagsToStore.tags = this.tags;
 			}
 		}

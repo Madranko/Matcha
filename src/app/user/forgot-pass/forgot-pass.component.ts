@@ -54,7 +54,6 @@ export class ForgotPassComponent implements OnInit {
 					this.emailWasSent = true;
 				},
 				(error) => {
-					console.log(error);
 				}
 			);
 		}

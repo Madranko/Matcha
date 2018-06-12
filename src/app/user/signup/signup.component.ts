@@ -25,8 +25,6 @@ export class SignupComponent implements OnInit {
 	ngOnInit() {
 		this.authorizationService.user = new Authorization();
 		this.authorizationService.patterns = new Patterns();
-		console.log(this.authorizationService.user);
-		console.log(this.authorizationService.patterns);
 		this.resetForm();
 	}
 
@@ -66,7 +64,6 @@ export class SignupComponent implements OnInit {
 		.toPromise()
 		.then(
 			(data) => {
-				console.log(data);
 				this.error = '';
 				this.router.navigate(['/home/congrats']);
 			},

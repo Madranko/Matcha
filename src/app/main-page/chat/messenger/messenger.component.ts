@@ -30,9 +30,7 @@ export class MessengerComponent implements OnInit {
 			.toPromise()
 			.then (
 				(data) => {
-					// console.log(data);
 					if (data == false) {
-					console.log('MESSAGE');
 						if (msg['recievedMessage']['from_id'] == this.reciever_id) {
 							let newMessages = {
 								'current_id': this.reciever_id,
@@ -53,7 +51,6 @@ export class MessengerComponent implements OnInit {
 					}
 				},
 				(error) => {
-					console.log(error);
 				}
 			)
 		});
@@ -64,8 +61,6 @@ export class MessengerComponent implements OnInit {
 	}
 
 	sendMessage(message) {
-		console.log(message);
-		console.log(this.reciever_id);
 		let data = {
 			'refreshToken': this.cookieService.get('RefreshToken'),
 			'target_id': this.reciever_id,
@@ -80,15 +75,10 @@ export class MessengerComponent implements OnInit {
 
 				this.messages = data['messages'];
 				this.current_id = data['current_id'];
-				// console.log(this.reciever_id);
-				console.log(data);
-				console.log(this.messages);
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
-		// console.log(this.data);
 		// this.changeService.changeUserInfo(value, toChange);
 	}
 

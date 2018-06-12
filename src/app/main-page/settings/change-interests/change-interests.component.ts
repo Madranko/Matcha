@@ -41,7 +41,6 @@ export class ChangeInterestsComponent implements OnInit {
 		}
 
 		ngOnInit() {
-			console.log(this.tags.length);
 			this.getAllInterests();
 		}
 
@@ -52,10 +51,8 @@ export class ChangeInterestsComponent implements OnInit {
 				(data) => {
 					this.error = '';
 					this.allTags = data;
-					// console.log(this.allTags);
 				},
 				(error) => {
-					console.log("ERROR");
 					this.error = error.error.exception[0].message;
 				}
 			);
@@ -69,8 +66,6 @@ export class ChangeInterestsComponent implements OnInit {
 				if ((value || '').trim() && this.checkIfExists(value)) {
 					this.tags.push(value.trim());
 					this.counter = this.tags.length;
-					console.log(this.tags.length);
-					console.log(this.tags);
 				}
 			}
 			if (input) {
@@ -107,7 +102,6 @@ export class ChangeInterestsComponent implements OnInit {
 				if (this.checkIfExists(event.option.viewValue) && this.counter < 10) {
 					this.tags.push(event.option.viewValue);
 					this.counter = this.tags.length;
-					console.log(this.tags.length);
 					this.tagInput.nativeElement.value = '';
 					this.tagCtrl.setValue(null);
 				}

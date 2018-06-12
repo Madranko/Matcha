@@ -98,7 +98,6 @@ export class AuthorizationService {
 	}
 
 	refreshTokens(): void {
-		console.log("refresh");
 		let cookies = this.getTokensFromCookie();
 		this.sendData('checkTokens', cookies)
 		.toPromise()
@@ -108,7 +107,6 @@ export class AuthorizationService {
 				this.setTokensInCookie(data);
 			},
 			(error) => {
-				console.log(error);
 				this.deleteTokensAndLogout();
 			}
 		);
@@ -120,7 +118,6 @@ export class AuthorizationService {
 				this.router.navigate(['/main/profile']);
 				// window.open('/main/profile', '_self');
 			} else {
-				// console.log("First Login 1");
 				this.router.navigate(['/user-info']);
 				// window.open('/user-info', '_self');
 			}

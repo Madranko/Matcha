@@ -15,21 +15,17 @@ export class ChangeService {
 	) { }
 
 	changeBasicInfo(value, toChange) {
-		// console.log(value, toChange);
 		let data = {
 			'refreshToken': this.cookieService.get('RefreshToken'),
 			'toChange': toChange,
 			'value': value
 		}
-		console.log(data);
 		this.userInfoService.sendRequest('changeBasicInfo', data)
 		.toPromise()
 		.then(
 			(data) => {
-				console.log(data);
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}
@@ -40,15 +36,12 @@ export class ChangeService {
 			'toChange': toChange,
 			'value': value
 		}
-		console.log(data);
 		this.userInfoService.sendRequest('changeUserInfo', data)
 		.toPromise()
 		.then(
 			(data) => {
-				console.log(data);
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}
@@ -58,15 +51,12 @@ export class ChangeService {
 			'refreshToken': this.cookieService.get('RefreshToken'),
 			'interests': interests
 		}
-		console.log(data);
 		this.userInfoService.sendRequest('changeInterests', data)
 		.toPromise()
 		.then(
 			(data) => {
-				console.log(data);
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}

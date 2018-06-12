@@ -18,16 +18,13 @@ export class UserInterestsComponent implements OnInit {
 	}
 	getUserTags() {
 		let cookies = this.authorizationService.getTokensFromCookie();
-		// console.log(cookies);
 		this.userInfoService.sendRequest('getShortInfo', cookies)
 		.toPromise()
 		.then(
 			(data) => {
 				this.tags = data['tags'];
-				// console.log(this.tags);
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}
