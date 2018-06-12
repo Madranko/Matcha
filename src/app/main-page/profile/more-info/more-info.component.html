@@ -1,13 +1,11 @@
-<div>
-	<mat-divider (window:resize)="onResizez($event)" *ngIf="windowWidth > 599"></mat-divider>
+<div class="user-info-field-container">
 	<div class="user-info-field">
-		<h6>Birthdate: {{this.info['birthdate']}}</h6>
+		<h6>Birthdate: {{ info['birthdate'] }}</h6>
 	</div>
 	<div class="user-info-field">
-		<h6>Gender: {{this.info['gender']}}</h6>
+		<h6>Gender: {{ info['gender'] }}</h6>
 	</div>
-	<div class="user-info-field last-field">
-		<h6>Sexual preferences: {{this.info['preferences']}}</h6>
+	<div class="user-info-field">
+		<h6>Sexual preferences: {{ info['preferences'] }}</h6>
 	</div>
-	<mat-divider></mat-divider>
 </div>

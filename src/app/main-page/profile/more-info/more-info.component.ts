@@ -5,7 +5,10 @@ import { AuthorizationService } from '../../../user/authorization/authorization.
 @Component({
 	selector: 'app-more-info',
 	templateUrl: './more-info.component.html',
-	styleUrls: ['./more-info.component.css']
+	styleUrls: [
+		'./more-info.component.css',
+		'../../../main-page/search/visit-page/visit-page.component.css'
+	]
 })
 export class MoreInfoComponent implements OnInit {
 	info = [];

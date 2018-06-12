@@ -5,7 +5,10 @@ import { AuthorizationService } from '../../../user/authorization/authorization.
 @Component({
 	selector: 'app-short-info',
 	templateUrl: './short-info.component.html',
-	styleUrls: ['./short-info.component.css']
+	styleUrls: [
+		'./short-info.component.css',
+		'../../../main-page/search/visit-page/visit-page.component.css'
+	]
 })
 export class ShortInfoComponent implements OnInit {
 

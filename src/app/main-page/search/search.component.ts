@@ -59,7 +59,7 @@ export class SearchComponent implements OnInit {
 		{
 			name: 'Location',
 			value: 'distance'
-		}
+		},
 		{
 			name: 'Rating',
 			value: 'rating'

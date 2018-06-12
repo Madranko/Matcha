@@ -5,7 +5,10 @@ import { AuthorizationService } from '../../../user/authorization/authorization.
 @Component({
 	selector: 'app-profile-biography',
 	templateUrl: './profile-biography.component.html',
-	styleUrls: ['./profile-biography.component.css']
+	styleUrls: [
+		'./profile-biography.component.css',
+		'../../../main-page/search/visit-page/visit-page.component.css'
+	]
 })
 export class ProfileBiographyComponent implements OnInit {
 	bio: string;

@@ -1,8 +1,6 @@
 <div class="biography-container">
-	<mat-divider (window:resize)="onResizez($event)" *ngIf="windowWidth > 599"></mat-divider>
-	<div class="user-info-field last-field">
-		<h4>Biography: </h4>
-		<h6>{{this.bio}}</h6>
+	<div class="biography-field">
+		<h5>Biography: </h5>
+		<h6>{{ bio }}</h6>
 	</div>
-	<mat-divider></mat-divider>
 </div>

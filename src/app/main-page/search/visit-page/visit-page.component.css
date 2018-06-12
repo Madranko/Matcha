@@ -82,6 +82,7 @@ mat-grid-tile {
 .upload-div {
 	display: flex;
 	flex-direction: row;
+	margin-top: 25px;
 }
 
 .user-info-field-container {

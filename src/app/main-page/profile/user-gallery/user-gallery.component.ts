@@ -8,6 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
 	templateUrl: './user-gallery.component.html',
 	styleUrls: [
 		'./user-gallery.component.css',
+		'../../../main-page/search/visit-page/visit-page.component.css',
 		'../profile.component.css'
 	]
 })

@@ -7,7 +7,8 @@ import { AuthorizationService } from '../../../user/authorization/authorization.
 	templateUrl: './avatar-photo.component.html',
 	styleUrls: [
 		'./avatar-photo.component.css',
-		'../../../profile/user-info/profile-photo/profile-photo.component.css'
+		'../../../profile/user-info/profile-photo/profile-photo.component.css',
+		'../../../main-page/search/visit-page/visit-page.component.css'
 	]
 })
 export class AvatarPhotoComponent implements OnInit {
