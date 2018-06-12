@@ -30,9 +30,9 @@ export class MessengerComponent implements OnInit {
 			.toPromise()
 			.then (
 				(data) => {
-					console.log(data);
+					// console.log(data);
 					if (data == false) {
-
+					console.log('MESSAGE');
 						if (msg['recievedMessage']['from_id'] == this.reciever_id) {
 							let newMessages = {
 								'current_id': this.reciever_id,
@@ -45,6 +45,10 @@ export class MessengerComponent implements OnInit {
 								let notification = msg['recievedMessage']['from_login'] + ': ' + msg['recievedMessage']['message'];
 								Materialize.toast(notification, 7000, "cyan lighten-1");
 							}
+						}
+						if (msg['recievedMessage']['notification']) {
+							let notification = msg['recievedMessage']['from_login'] + ': ' + msg['recievedMessage']['notification'];
+							Materialize.toast(msg['recievedMessage']['notification'], 7000, "cyan lighten-1");
 						}
 					}
 				},

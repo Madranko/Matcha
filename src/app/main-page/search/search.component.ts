@@ -9,7 +9,8 @@ import { UserInfoService } from '../../profile/user-info/service/user-info.servi
 import { AuthorizationService } from '../../user/authorization/authorization.service';
 import { CookieService } from 'ngx-cookie-service';
 import { MatSidenav } from '@angular/material/sidenav';
-import { SearchParams } from './SearchParams'
+import { SearchParams } from './SearchParams';
+import { ChatService } from '../../chat-service/chat.service';
 
 @Component({
 	selector: 'app-search',
@@ -73,6 +74,7 @@ export class SearchComponent implements OnInit {
 	@ViewChild('tagInput') tagInput: ElementRef;
 
 	constructor(
+		private chatService: ChatService,
 		private cookieService: CookieService,
 		private userInfoService: UserInfoService,
 		private authorizationService: AuthorizationService
@@ -80,6 +82,36 @@ export class SearchComponent implements OnInit {
 		this.filteredTags = this.tagCtrl.valueChanges.pipe(
 			startWith(null),
 			map((tag: string | null) => tag ? this.filter(tag) : this.allTags.slice()));
+
+			chatService.messages.subscribe(msg => {
+				let id = {
+					'refreshToken': this.cookieService.get('RefreshToken'),
+					'id': msg['recievedMessage']['from_id']
+				}
+				this.userInfoService.sendRequest('ifBlocked', id)
+				.toPromise()
+				.then (
+					(data) => {
+						console.log(data);
+						if (data == false) {
+							if (msg['recievedMessage']['notification']) {
+								console.log('NOTIFICATION');
+								console.log(msg['recievedMessage']['notification']);
+								let notification = msg['recievedMessage']['from_login'] + ': ' + msg['recievedMessage']['notification'];
+								Materialize.toast(msg['recievedMessage']['notification'], 7000, "cyan lighten-1");
+							} else if (msg['recievedMessage']['message']) {
+								console.log('MESSAGE');
+								console.log(msg['recievedMessage']['message']);
+								let notification = msg['recievedMessage']['from_login'] + ': ' + msg['recievedMessage']['message'];
+								Materialize.toast(notification, 7000, "cyan lighten-1");
+							}
+						}
+					},
+					(error) => {
+						console.log(error);
+					}
+				)
+			});
 	}
 
 	ngOnInit() {

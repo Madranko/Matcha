@@ -65,10 +65,12 @@ export class MainPageComponent implements OnInit {
 					console.log(data);
 					if (data == false) {
 						if (msg['recievedMessage']['notification']) {
+							console.log('NOTIFICATION');
 							console.log(msg['recievedMessage']['notification']);
 							let notification = msg['recievedMessage']['from_login'] + ': ' + msg['recievedMessage']['notification'];
 							Materialize.toast(msg['recievedMessage']['notification'], 7000, "cyan lighten-1");
 						} else if (msg['recievedMessage']['message']) {
+							console.log('MESSAGE');
 							console.log(msg['recievedMessage']['message']);
 							let notification = msg['recievedMessage']['from_login'] + ': ' + msg['recievedMessage']['message'];
 							Materialize.toast(notification, 7000, "cyan lighten-1");

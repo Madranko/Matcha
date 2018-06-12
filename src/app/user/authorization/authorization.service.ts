@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { Authorization } from './authorization.model';
@@ -19,6 +19,7 @@ export class AuthorizationService {
 	patterns: Patterns;
 
 	constructor(
+		private router: Router,
 		private http: HttpClient,
 		private cookieService: CookieService
 	) { }
@@ -28,9 +29,9 @@ export class AuthorizationService {
 	}
 
 	setTokensInCookie(data): void {
-		this.cookieService.set('AccessToken', data['accessToken']);
-		this.cookieService.set('RefreshToken', data['refreshToken']);
-		this.cookieService.set('ExpireTime', data['expireTime']);
+		this.cookieService.set('AccessToken', data['accessToken'], 3, '/');
+		this.cookieService.set('RefreshToken', data['refreshToken'], 3, '/');
+		this.cookieService.set('ExpireTime', data['expireTime'], 3, '/');
 	}
 
 	isTokensExists() {
@@ -76,8 +77,6 @@ export class AuthorizationService {
 	}
 	deleteTokensFromCookie(): void {
 		this.cookieService.deleteAll('/');
-		this.cookieService.deleteAll('/main');
-		this.cookieService.deleteAll('/main/search');
 	}
 
 	deleteTokensAndLogout() {
@@ -87,11 +86,13 @@ export class AuthorizationService {
 		.then(
 			(data) => {
 				this.deleteTokensFromCookie();
-				window.open('/home', '_self');
+				this.router.navigate(['/home']);
+				// window.open('/home', '_self');
 			},
 			(error) => {
 				this.deleteTokensFromCookie();
-				window.open('/home', '_self');
+				this.router.navigate(['/home']);
+				// window.open('/home', '_self');
 			}
 		);
 	}
@@ -116,12 +117,12 @@ export class AuthorizationService {
 	openUserProfilePage(firstTimeLogin): void {
 		if (!this.error) {
 			if (firstTimeLogin === '0') {
-				console.log("First Login 0");
-				window.open('/main/profile', '_self');
+				this.router.navigate(['/main/profile']);
+				// window.open('/main/profile', '_self');
 			} else {
-				console.log("First Login 1");
-				window.open('/user-info', '_self');
-
+				// console.log("First Login 1");
+				this.router.navigate(['/user-info']);
+				// window.open('/user-info', '_self');
 			}
 		}
 	}
