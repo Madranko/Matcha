@@ -121,6 +121,7 @@ export class SearchComponent implements OnInit {
 	ngOnInit() {
 		this.getAllInterests();
 		this.getSearchParamsAndBrowseUsers();
+		// console.log(this.searchParams);
 	}
 
 	reason = '';
@@ -167,6 +168,7 @@ export class SearchComponent implements OnInit {
 				(data) => {
 					this.searchParams = data;
 					this.searchParams['tags'] = this.tags;
+					this.searchParams['rating'] = 0;
 					this.getUsersByParams(this.searchParams);
 				},
 				(error) => {
