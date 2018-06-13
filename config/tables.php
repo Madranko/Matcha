@@ -7,6 +7,7 @@ $pdo->query("CREATE TABLE IF NOT EXISTS `users` (
 	`first_name` VARCHAR(255) NOT NULL,
 	`last_name` VARCHAR(255) NOT NULL,
 	`refresh_token` VARCHAR(255),
+	`logout_time` VARCHAR(255),
 	`activation_link` VARCHAR(255) NOT NULL UNIQUE,
 	`is_activated` ENUM('0','1') NOT NULL DEFAULT '0',
 	`first_time_login` ENUM('0','1') NOT NULL DEFAULT '1')");

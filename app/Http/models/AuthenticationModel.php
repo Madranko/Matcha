@@ -150,6 +150,14 @@ class AuthenticationModel
 			return false;
 		}
 	}
+
+	public function setLogoutTime($id) {
+		date_default_timezone_set ("Europe/Kiev");
+		$time = date("H:i:s D F Y");
+		$statement = "UPDATE `users` SET `logout_time`='$time' WHERE `id`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$id]);
+	}
 }
 
 ?>

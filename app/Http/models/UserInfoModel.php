@@ -647,14 +647,20 @@ class UserInfoModel {
 	}
 
 	public function isOnline($id) {
-		$statement = "SELECT `refresh_token` FROM `users` WHERE `id`=?";
+		$statement = "SELECT `refresh_token`, `logout_time` FROM `users` WHERE `id`=?";
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$id]);
 		$fetch = $preparedStatement->fetch();
-		if ($fetch[0] != null) {
-			return "online";
+		if ($fetch['refresh_token'] != null) {
+			return [
+				'status' => "online",
+				'logout_time' => null
+			];
 		} else {
-			return "offline";
+			return [
+				'status' => "offline",
+				'logout_time' => $fetch['logout_time']
+			];
 		}
 		// return $fetch[0];
 	}
