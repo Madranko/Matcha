@@ -31,6 +31,7 @@ export class VisitPageComponent implements OnInit {
 	liked: boolean;
 	blocked: boolean;
 	status: string;
+	logoutTime: string;
 
 	constructor(
 		private chatService: ChatService,
@@ -60,9 +61,11 @@ export class VisitPageComponent implements OnInit {
 		.toPromise()
 		.then(
 			(data) => {
+				console.log(data);
 				this.saveData(data);
 			},
 			(error) => {
+				console.log(error);
 			}
 		);
 	}
@@ -93,6 +96,7 @@ export class VisitPageComponent implements OnInit {
 		this.liked = data['liked'];
 		this.blocked = data['blocked'];
 		this.status = data['status'];
+		this.logoutTime = data['lastLogin'];
 		if (data['galleryPhotos']) {
 			for (let i = 0; i < data['galleryPhotos'].length; i++) {
 				this.galleryPhotos[i] = "http://localhost:8100/" + data['galleryPhotos'][i];
