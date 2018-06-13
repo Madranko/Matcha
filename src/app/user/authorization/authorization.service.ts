@@ -87,12 +87,10 @@ export class AuthorizationService {
 			(data) => {
 				this.deleteTokensFromCookie();
 				this.router.navigate(['/home']);
-				// window.open('/home', '_self');
 			},
 			(error) => {
 				this.deleteTokensFromCookie();
 				this.router.navigate(['/home']);
-				// window.open('/home', '_self');
 			}
 		);
 	}
@@ -103,7 +101,7 @@ export class AuthorizationService {
 		.toPromise()
 		.then(
 			(data) => {
-				this.deleteTokensFromCookie();
+				// this.deleteTokensFromCookie();
 				this.setTokensInCookie(data);
 			},
 			(error) => {

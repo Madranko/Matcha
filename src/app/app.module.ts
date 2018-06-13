@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { Routes, RouterModule, Router, ActivatedRoute, CanActivate } from '@angular/router';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
 import { AppRoutingModule, routingComponents } from './/app-routing.module';

@@ -30,6 +30,7 @@ export class VisitPageComponent implements OnInit {
 	tags = [];
 	liked: boolean;
 	blocked: boolean;
+	status: string;
 
 	constructor(
 		private chatService: ChatService,
@@ -75,7 +76,6 @@ export class VisitPageComponent implements OnInit {
 		.toPromise()
 		.then(
 			(data) => {
-				;
 			},
 			(error) => {
 			}
@@ -92,6 +92,7 @@ export class VisitPageComponent implements OnInit {
 		this.tags = data['tags'];
 		this.liked = data['liked'];
 		this.blocked = data['blocked'];
+		this.status = data['status'];
 		if (data['galleryPhotos']) {
 			for (let i = 0; i < data['galleryPhotos'].length; i++) {
 				this.galleryPhotos[i] = "http://localhost:8100/" + data['galleryPhotos'][i];

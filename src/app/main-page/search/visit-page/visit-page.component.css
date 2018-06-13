@@ -129,3 +129,8 @@ mat-grid-tile {
 .warn-button {
 	margin-left: 10px;
 }
+
+.status {
+	margin-left: 5px;
+	color: rgb(204, 205, 206);
+}

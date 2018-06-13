@@ -22,7 +22,7 @@ class="drawer-container"
 			<mat-card class="chat-box  blue lighten-4">
 				<mat-card-header (click)="startChat(user['uid'])" class="chat-card">
 					<div mat-card-avatar class="photo-div"><img [src]="'http://localhost:8100/' + user['profile_photo']" class="connected-user-profile-picture"/></div>
-					<mat-card-title>{{ user['first_name'] }}  {{ user['last_name'] }}</mat-card-title>
+					<mat-card-title>{{ user['first_name'] }}  {{ user['last_name'] }}  ({{ user['refresh_token'] }})</mat-card-title>
 					<mat-card-subtitle>Start Chat</mat-card-subtitle>
 				</mat-card-header>
 			</mat-card>
