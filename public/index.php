@@ -19,11 +19,6 @@ $blade = new Blade('views', 'cache');
 
 include ROOT . '/app/Http/routes.php';
 
-// if (!isset($_SESSION['chat'])) {
-	// $_SESSION['chat'] = 1;
-	// include 'chat.php';
-// }
-
 $app->run();
 
 ?>

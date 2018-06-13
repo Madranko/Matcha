@@ -53,8 +53,8 @@ $app->group('/api', function () use ($app, $pdo) {
 
 $app->get('/', function (Request $request, Response $response, array $args) use ($blade) {
 	echo $blade->make('index', [
-		'name' => 'John Doe',
-		'value' => 'bla bla'
+		'authors' => 'Dmytro Polosukhin and Max Motov',
+		'xlogins' => 'dpolosuk, mmotov'
 	]);
 });
 
