@@ -119,6 +119,7 @@ class UserInfoController extends Controller {
 		$moreInfo = $this->userInfoModel->getMoreInfo($id);
 		$liked = $this->userInfoModel->isUserLiked($currentUid, $id);
 		$blocked = $this->userInfoModel->ifBlocked($currentUid, $id);
+		$isOnline = $this->userInfoModel->isOnline($id);
 		$fullInfo = [
 			'profilePhoto' => $pathToProfilePhoto = $this->userInfoModel->getProfilePhoto($id),
 			'birthdate' => $moreInfo['birthdate'],
@@ -129,7 +130,8 @@ class UserInfoController extends Controller {
 			'biography' => $biography = $this->userInfoModel->getUserData('biography', 'user_info', 'uid', $id),
 			'galleryPhotos' => $galleryPhotos = $this->userInfoModel->getAllUserPhotos($id),
 			'liked' => $liked,
-			'blocked' => $blocked
+			'blocked' => $blocked,
+			'status' => $isOnline
 		];
 		return json_encode($fullInfo);
 	}
@@ -244,13 +246,6 @@ class UserInfoController extends Controller {
 	public function findConnected($data) {
 		$currentId = JwtModel::getUidFromToken($data['refreshToken']);
 		$result = $this->userInfoModel->findConnected($currentId);
-		// $return = [
-		// 	'id' => $id,
-		// 	'login' => $this->userInfoModel->getUserData('login', 'users', 'id', $id),
-		// 	'firstName' => $this->userInfoModel->getUserData('first_name', 'users', 'id', $id),
-		// 	'lastName' => $this->userInfoModel->getUserData('last_name', 'users', 'id', $id),
-		// 	'profilePhoto' => $this->userInfoModel->getUserData('profile_photo', 'user_info', 'uid', $id),
-		// ];
 		return json_encode($result);
 	}
 

@@ -448,7 +448,8 @@ class UserInfoModel {
 			`me_liked`.`uid`,
 			`target_photo`.`profile_photo`,
 			`target_info`.`first_name`,
-			`target_info`.`last_name`
+			`target_info`.`last_name`,
+			`target_info`.`refresh_token`
 			FROM `likes` AS `i_liked`
 				JOIN `likes` AS `me_liked`
 					ON `i_liked`.`uid`=`me_liked`.`target_uid`
@@ -461,6 +462,13 @@ class UserInfoModel {
 		$preparedStatement = $this->pdo->prepare($statement);
 		$preparedStatement->execute([$currentId, $currentId]);
 		$fetch = $preparedStatement->fetchAll();
+		for ($i = 0; $i < count($fetch); $i++) {
+			if ($fetch[$i]['refresh_token'] != null) {
+				$fetch[$i]['refresh_token'] = "online";
+			} else {
+				$fetch[$i]['refresh_token'] = "offline";
+			}
+		}
 		return $fetch;
 	}
 
@@ -580,7 +588,7 @@ class UserInfoModel {
 			$statement = "INSERT INTO `report_list` (`uid`, `who_reported`) VALUE (?, ?)";
 			$preparedStatement = $this->pdo->prepare($statement);
 			$preparedStatement->execute([$reportedId, $currentId]);
-			if ($this->limitReports($reportedId) > 0) {
+			if ($this->limitReports($reportedId) > 1) {
 				$this->banUser($reportedId);
 			}
 		}
@@ -636,6 +644,19 @@ class UserInfoModel {
 		} else {
 			return false;
 		}
+	}
+
+	public function isOnline($id) {
+		$statement = "SELECT `refresh_token` FROM `users` WHERE `id`=?";
+		$preparedStatement = $this->pdo->prepare($statement);
+		$preparedStatement->execute([$id]);
+		$fetch = $preparedStatement->fetch();
+		if ($fetch[0] != null) {
+			return "online";
+		} else {
+			return "offline";
+		}
+		// return $fetch[0];
 	}
 }
 ?>
