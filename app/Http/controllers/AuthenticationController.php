@@ -47,6 +47,9 @@ class AuthenticationController extends Controller {
 					$firsTimeLogin = $this->authModel->getUserData("login", $login, "first_time_login");
 					$newTokens = JwtModel::refreshToken($uid, $firsTimeLogin);
 					$this->jwtModel->storeRefreshTokenInDb($newTokens['refreshToken']);
+					$statement = "UPDATE `users` SET `logout_time`=null WHERE `id`=?";
+					$preparedStatement = $this->pdo->prepare($statement);
+					$preparedStatement->execute([$uid]);
 					return json_encode($newTokens);
 				} else {
 					$this->authModel->sendLinkOnEmail("login", $data['login']);
@@ -108,7 +111,9 @@ class AuthenticationController extends Controller {
 
 	public function deleteRefreshTokenFromDb($data) {
 		$refreshToken = $data['refreshToken'];
+		$id = JwtModel::getUidFromToken($refreshToken);
 		$this->jwtModel->deleteRefreshTokenFromDb($refreshToken);
+		$this->authModel->setLogoutTime($id);
 	}
 }
 ?>

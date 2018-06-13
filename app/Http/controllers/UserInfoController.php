@@ -131,7 +131,8 @@ class UserInfoController extends Controller {
 			'galleryPhotos' => $galleryPhotos = $this->userInfoModel->getAllUserPhotos($id),
 			'liked' => $liked,
 			'blocked' => $blocked,
-			'status' => $isOnline
+			'status' => $isOnline['status'],
+			'lastLogin' => $isOnline['logout_time']
 		];
 		return json_encode($fullInfo);
 	}
