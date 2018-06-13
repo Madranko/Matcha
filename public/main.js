@@ -4308,10 +4308,11 @@ var ProfilePhotoComponent = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserInfoService", function() { return UserInfoService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _user_authorization_authorization_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../user/authorization/authorization.service */ "./src/app/user/authorization/authorization.service.ts");
-/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _user_authorization_authorization_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../user/authorization/authorization.service */ "./src/app/user/authorization/authorization.service.ts");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4326,8 +4327,10 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var UserInfoService = /** @class */ (function () {
-    function UserInfoService(authorizationService, http, cookieService) {
+    function UserInfoService(router, authorizationService, http, cookieService) {
+        this.router = router;
         this.authorizationService = authorizationService;
         this.http = http;
         this.cookieService = cookieService;
@@ -4366,7 +4369,8 @@ var UserInfoService = /** @class */ (function () {
             _this.error = '';
             _this.authorizationService.deleteTokensFromCookie();
             _this.authorizationService.setTokensInCookie(data);
-            window.open('/main', '_self');
+            _this.router.navigate(['/main']);
+            // window.open('/main', '_self');
         }, function (error) {
         });
     };
@@ -4376,7 +4380,7 @@ var UserInfoService = /** @class */ (function () {
             'refreshToken': this.cookieService.get('RefreshToken')
         };
         return this.http.post('http://localhost:8100/api/user-info/' + route, data)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(function (response) {
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["map"])(function (response) {
             var id = response['id'];
             var login = response['login'];
             var firstName = response['firstName'];
@@ -4395,9 +4399,10 @@ var UserInfoService = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
         }),
-        __metadata("design:paramtypes", [_user_authorization_authorization_service__WEBPACK_IMPORTED_MODULE_2__["AuthorizationService"],
-            _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"],
-            ngx_cookie_service__WEBPACK_IMPORTED_MODULE_3__["CookieService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
+            _user_authorization_authorization_service__WEBPACK_IMPORTED_MODULE_3__["AuthorizationService"],
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"],
+            ngx_cookie_service__WEBPACK_IMPORTED_MODULE_4__["CookieService"]])
     ], UserInfoService);
     return UserInfoService;
 }());
