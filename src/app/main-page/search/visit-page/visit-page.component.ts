@@ -61,11 +61,9 @@ export class VisitPageComponent implements OnInit {
 		.toPromise()
 		.then(
 			(data) => {
-				console.log(data);
 				this.saveData(data);
 			},
 			(error) => {
-				console.log(error);
 			}
 		);
 	}

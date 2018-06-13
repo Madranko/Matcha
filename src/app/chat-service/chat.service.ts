@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, asapScheduler, pipe, of, from, interval, merge, fromEvent } from 'rxjs';
 import { WebsocketService } from '../websocket.service';
-import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
 import { UserInfoService } from '../profile/user-info/service/user-info.service';
 
@@ -27,7 +26,7 @@ export class ChatService {
 		private wsService: WebsocketService
 	) {
 		this.messages = <Subject<Message>>wsService
-		.connect(environment.CHAT_URL)
+		.connect('ws://localhost:8200')
 		.pipe(
 			map((response: MessageEvent): Message => {
 				let recievedMessage = JSON.parse(response.data);

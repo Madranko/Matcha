@@ -53,6 +53,8 @@ import { MessengerComponent } from './main-page/chat/messenger/messenger.compone
 // import { MatSnackBar } from '@angular/material';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -110,7 +112,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 	providers: [
 		CookieService,
 		WebsocketService,
-		ChatService
+		ChatService,
+		{
+			provide: LocationStrategy,
+			useClass: HashLocationStrategy
+		}
 		// FormControl
 	],
 	bootstrap: [AppComponent]
