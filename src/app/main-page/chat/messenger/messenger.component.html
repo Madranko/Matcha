@@ -1,6 +1,5 @@
 <div class="messenger-container">
-	<div class="user-info-field">
-		<!-- <mat-icon class="user-info-field__mat-icon">assignment</mat-icon> -->
+	<div class="user-info-field container">
 		<mat-form-field class="input-field">
 			<textarea
 			maxlength="1000"
@@ -14,9 +13,7 @@
 			<mat-icon><i class="fas fa-check"></i></mat-icon>
 		</button>
 	</div>
-	<div class="all-messages">
-
-		<!-- <div class="send red"> -->
+	<div class="all-messages container">
 		<div class="message" *ngFor="let message of messages">
 			<div class="message-send card-panel cyan lighten-3" *ngIf="message['current_id'] == current_id">
 				{{ message['message'] }}
@@ -26,5 +23,4 @@
 			</div>
 		</div>
 	</div>
-
 </div>
