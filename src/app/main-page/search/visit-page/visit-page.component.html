@@ -8,11 +8,13 @@
 			</button>
 		</div>
 		<div class="short-info">
+			<h6 class="status" *ngIf="logoutTime">Last seen at {{ logoutTime }}</h6>
 			<div class="user-info-field">
 				<mat-icon class="user-info-field__mat-icon"><i class="fas fa-user"></i></mat-icon>
 				<h4>{{ shortInfo['firstName'] }} {{ shortInfo['lastName'] }}&nbsp;</h4>
 				<h5>({{ shortInfo['login'] }})</h5>
 				<h5 class="status">{{ status }}</h5>
+
 			</div>
 			<div class="user-info-field">
 				<mat-icon class="user-info-field__mat-icon"><i class="fas fa-map-marker-alt"></i></mat-icon>
