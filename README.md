@@ -7,9 +7,8 @@ A dating website
 ### Realization
 1. Registration and Signing-in
 2. User profile:</br>
-  ◦ The gender.
-  ◦ Sexual preferences.
-  ◦ A biography.
-  ◦ A list of interests with tags (ex: #vegan, #geek, #piercing etc...). These tags
-    must be reusable.
-  ◦ Pictures, max 5, including 1 as profile picture.
+  ◦ The gender.</br>
+  ◦ Sexual preferences.</br>
+  ◦ A biography.</br>
+  ◦ A list of interests with tags (ex: #vegan, #geek, #piercing etc...). These tags must be reusable.</br>
+  ◦ Pictures, max 5, including 1 as profile picture.</br>
