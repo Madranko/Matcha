@@ -44,4 +44,4 @@ A dating website
 ![auth](/readme/signup.gif)
 
 # Simple search and chat example
-![search] (http://g.recordit.co/H3lks83MmM.gif)
+![search](http://g.recordit.co/H3lks83MmM.gif)
