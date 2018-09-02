@@ -39,4 +39,6 @@ A dating website
      • The user received a “like”.</br>
      • The user’s profile has been checked.</br>
      • The user received a message.</br>
-     
+
+# SignIn/SignUp
+![User auth](http://g.recordit.co/PHXmtDux4l.gif)
