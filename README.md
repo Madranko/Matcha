@@ -6,7 +6,7 @@ A dating website
 3. HTML/CSS, materialize
 ### Realization
 1. Registration and Signing-in
-2. User profile
+2. User profile:</br>
   ◦ The gender.
   ◦ Sexual preferences.
   ◦ A biography.
