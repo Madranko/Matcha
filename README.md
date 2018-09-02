@@ -42,3 +42,6 @@ A dating website
 
 # SignIn/SignUp
 ![auth](/readme/signup.gif)
+
+# Simple search and chat example
+![search] (http://g.recordit.co/H3lks83MmM.gif)
