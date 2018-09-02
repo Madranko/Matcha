@@ -41,4 +41,4 @@ A dating website
      • The user received a message.</br>
 
 # SignIn/SignUp
-![User auth](http://g.recordit.co/PHXmtDux4l.gif)
+![User auth](http://recordit.co/VoFNCY4Q3J.gif)
