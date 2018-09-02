@@ -41,4 +41,4 @@ A dating website
      • The user received a message.</br>
 
 # SignIn/SignUp
-![User auth](https://media.giphy.com/media/939E79qM1i82tjIpqB/giphy.gif)
+![auth](https://media.giphy.com/media/939E79qM1i82tjIpqB/giphy.gif)
