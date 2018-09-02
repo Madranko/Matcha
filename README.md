@@ -41,4 +41,4 @@ A dating website
      • The user received a message.</br>
 
 # SignIn/SignUp
-![auth](/readme/singup.gif)
+![auth](/readme/signup.gif)
